@@ -1,6 +1,6 @@
 
 package HTML::Tree;
-$VERSION = $VERSION = 3.19_01;
+$VERSION = $VERSION = '3.19_01';
   # This is where the dist gets its version from.
 
 # Basically just a happy alias to HTML::TreeBuilder
