@@ -1,93 +1,62 @@
+#!perl -Tw
+use Test::More tests => 17;
 
+use strict;
 
-# -*-Perl-*-
-# Time-stamp: "2003-09-15 01:45:31 ADT"
-BEGIN { print "1..1\n"; }
-
-use HTML::Parse;
-
-print "#Using HTML::TreeBuilder version v$HTML::TreeBuilder::VERSION\n";
-print "#Using HTML::Element version v$HTML::Element::VERSION\n";
-print "#Using HTML::Parser version v", $HTML::Parser::VERSION || "?", "\n";
-print "#Using HTML::Entities version v", $HTML::Entities::VERSION || "?", "\n";
-print "#Using HTML::Tagset version v", $HTML::Tagset::VERSION || "?", "\n";
-print "# Running under perl version $] for $^O",
-  (chr(65) eq 'A') ? "\n" : " in a non-ASCII world\n";
-print "# Win32::BuildNumber ", &Win32::BuildNumber(), "\n"
-  if defined(&Win32::BuildNumber) and defined &Win32::BuildNumber();
-print "# MacPerl verison $MacPerl::Version\n"
-  if defined $MacPerl::Version;
-printf 
-  "# Current time local: %s\n# Current time GMT:   %s\n",
-  scalar(localtime($^T)), scalar(gmtime($^T));
-
+BEGIN {
+    use_ok( 'HTML::Parse' );
+}
 
 # This is a very simple test.  It basically just ensures that the
-# HTML::Parse module is parsed ok by perl.
+# HTML::Parse module is parsed ok by perl and that it will interact
+# nicely with the rest of our modules
 
-$HTML = <<'EOT';
+our $TestInput = "t/oldparse.html";
 
-<Title>Test page
-</title>
+my $HTML ;
+{
+	local $/ = undef ;
+	open("INFILE", "$TestInput") || die "$!" ;
+	$HTML=<INFILE> ;
+	close(INFILE) ;
+}
 
-<h1>Header</h1>
+my $own_builder = new HTML::TreeBuilder;
+isa_ok( $own_builder, 'HTML::TreeBuilder' );
 
-This is a link to
-<a href="http://www.sn.no/">Schibsted</a> <b>Nett</b> in Norway.
+my $obj_h = parse_html $HTML, $own_builder; 
+isa_ok( $obj_h, "HTML::TreeBuilder", "existing TreeBuilder handled OK." );
 
-<p>Sofie Amundsen var på vei hjem fra skolen.  Det første stykket
-hadde hun gått sammen med Jorunn.  De hadde snakket om roboter.
-Jorunn hadde ment at menneskets hjerne var som en komplisert
-datamaskin.  Sofie var ikke helt sikker på om hun var enig.  Et
-menneske m&aring;tte da være noe mer enn en maskin?
-
-
-<!-- This is
-
-a <strong>comment</strong>
-
-<!--
-
--->  <-- this one did not terminate the comment
-         because "--" on the previous line
-
-more comment
-
--->
-
-<p>
-<table>
-<tr><th colspan=2>Name
-<tr><td>Aas<td>Gisle
-<tr><td>Koster<td>Martijn
-</table>
-
-EOT
-
-
-$h = parse_html $HTML;
+my $h = parse_html $HTML;
+isa_ok( $h, "HTML::TreeBuilder" );
 
 # This ensures that the output from $h->dump goes to STDOUT
-
-$html = $h->as_HTML(undef, '  ');
-
-{
- my $h = $html;
- $h =~ s/^/\# /mg;
- print "# HTML: $h#\n";
-}
+my $html;
+ok ($html = $h->as_HTML(undef, '  '), "Get html as string." );
 
 # This is a very simple test just to ensure that we get something
 # sensible back.
-if( $html =~ /<BODY>/i && $html =~ /www\.sn\.no/
-	         && $html !~ /comment/ && $html =~ /Gisle/
-) {
-  print "ok 1\n\n";
-} else {
-  print "not ok 1\n\n";
-}
+like( $html, qr/<BODY>/i, "<BODY> found OK." );
+like( $html, qr/www\.sn\.no/, "found www.sn.no link" );
+unlike( $html, qr/comment/, "Didn't find comment" );
+like( $html, qr/Gisle/, "found Gisle" );
 
-$h->delete;
+my $bad_file = parse_htmlfile( "non-existent-file.html" );
+ok( !$bad_file, "Properly returned undef on missing file." );
+
+my $own_obj_parser2 = parse_htmlfile( "t/oldparse.html", $own_builder ); 
+isa_ok( $own_obj_parser2, "HTML::TreeBuilder" );
 
 
-exit;
+my $h2 = parse_htmlfile( "t/oldparse.html" );
+isa_ok( $h2, "HTML::TreeBuilder" );
+
+ok ($html = $h2->as_HTML(undef, '  '), "Get html as string." );
+
+# This is a very simple test just to ensure that we get something
+# sensible back.
+like( $html, qr/<BODY>/i, "parse_htmlfile: <BODY> found OK." );
+like( $html, qr/www\.sn\.no/, "parse_htmlfile: found www.sn.no link" );
+unlike( $html, qr/comment/, "parse_htmlfile: found comment" );
+like( $html, qr/Gisle/, "parse_htmlfile: found Gisle" );
+

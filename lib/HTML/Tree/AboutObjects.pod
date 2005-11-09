@@ -430,6 +430,8 @@ bunch of digits, and the number is effectively meaningless and useless
 in and of itself -- but in the appropriate context, it's understood to
 I<mean> the credit card account you're accessing.
 
+=back
+
 This is exactly the relationship between objects and object values, and
 from this analogy, several facts about object values are a bit more
 explicable:

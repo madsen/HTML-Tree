@@ -17,7 +17,10 @@ lib/HTML/TreeBuilder.pm
 t/00system.t
 t/building.t
 t/clonei.t
+t/construct_tree.t
+t/oldparse.html
 t/oldparse.t
 t/parse.t
 t/parsefile.t
 t/split.t
+META.yml

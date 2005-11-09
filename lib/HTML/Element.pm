@@ -83,7 +83,7 @@ Another way to represent the above tree is with indenting:
         "I like potatoes"
 
 Incidentally, diagramming with indenting works much better for very
-large trees, and is easier for a program to generate.  The $tree->dump
+large trees, and is easier for a program to generate.  The C<<$tree->dump>>
 method uses indentation just that way.
 
 However you diagram the tree, it's stored the same in memory -- it's a
@@ -126,7 +126,7 @@ While you could access the content of a tree by writing code that says
 child's I<third> child", you're more likely to have to scan the contents
 of a tree, looking for whatever nodes, or kinds of nodes, you want to
 do something with.  The most straightforward way to look over a tree
-is to "traverse" it; an HTML::Element method ($h->traverse) is
+is to "traverse" it; an HTML::Element method (C<<$h->traverse>>) is
 provided for this purpose; and several other HTML::Element methods are
 based on it.
 
@@ -250,11 +250,11 @@ for this element, the return value is undef.
 If setting a new value, the old value of that attribute is
 returned.
 
-If methods are provided for accessing an attribute (like $h->tag for
-"_tag", $h->content_list, etc. below), use those instead of calling
-attr $h->attr, whether for reading or setting.
+If methods are provided for accessing an attribute (like C<< $h->tag >> for
+"_tag", C<< $h->content_list >>, etc. below), use those instead of calling
+attr C<< $h->attr >>, whether for reading or setting.
 
-Note that setting an attribute to undef (as opposed to "", the empty
+Note that setting an attribute to C<undef> (as opposed to "", the empty
 string) actually deletes the attribute.
 
 =cut
