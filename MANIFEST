@@ -5,6 +5,7 @@ Makefile.PL
 README
 TODO
 htmltree
+
 lib/HTML/AsSubs.pm
 lib/HTML/Element.pm
 lib/HTML/Element/traverse.pm
@@ -14,13 +15,17 @@ lib/HTML/Tree/AboutObjects.pod
 lib/HTML/Tree/AboutTrees.pod
 lib/HTML/Tree/Scanning.pod
 lib/HTML/TreeBuilder.pm
+
 t/00system.t
+t/assubs.t
 t/building.t
 t/clonei.t
 t/construct_tree.t
+t/construct_tree.t
+t/oldparse.html
 t/oldparse.html
 t/oldparse.t
-t/parse.t
 t/parsefile.t
+t/parse.t
+t/pod.t
 t/split.t
-META.yml
