@@ -104,15 +104,28 @@ use vars qw(@TAGS);
            frame frameset noframe
 	  );
 
-my @code;
 for (@TAGS) {
-    push(@code, "sub $_ { _elem('$_', \@_); }\n");
-    push(@EXPORT, $_);
+	my $code;
+	$code = "sub $_ { _elem('$_', \@_); }\n" ;
+	push(@EXPORT, $_);
+
+=head1 Generated functions
+Here we use a loop and generate functions as strings.  Then eval to 'define' the function.  1 subroutine per tag.
+=cut
+	eval $code;
+	if ($@) {
+		die $@;
+	}
 }
-eval join('', @code);
-if ($@) {
-    die $@;
-}
+
+=head1 Private Functions
+=cut
+
+=head2 _elem()
+
+The _elem() function is wrapped by all the html 'tag' functions. It takes a tag-name, optional hashref of attributes and a list of content as parameters.
+
+=cut
 
 sub _elem
 {

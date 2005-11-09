@@ -1,5 +1,10 @@
 # Time-stamp: "2003-09-15 01:01:36 ADT"
 
+2005-11-09   Andy Lester
+
+   Release 3.19_01 -- No new functionality.  New tests, though!
+   Thanks to the Chicago Perl Mongers for their work.
+
 2003-09-15   Sean M. Burke <sburke@cpan.org>
 
    Release 3.18 -- bugfix to test, adding qr// to look_(down|up)

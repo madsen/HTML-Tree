@@ -1,16 +1,15 @@
+#!perl -Tw
 
-use Test;
-# Time-stamp: "2003-09-15 01:46:00 ADT"
-use HTML::TreeBuilder;
-BEGIN { plan tests => 4 }
+use Test::More tests => 2;
 use strict;
 
-BEGIN { ok 1 }
-use HTML::TreeBuilder;
-BEGIN { ok 1 }
-use HTML::Element;
-BEGIN { ok 1 }
+BEGIN {
+    use_ok( 'HTML::TreeBuilder' );
+}
 
+BEGIN {
+    use_ok( 'HTML::Element' );
+}
 
 print "#Using HTML::TreeBuilder version v$HTML::TreeBuilder::VERSION\n";
 print "#Using HTML::Element version v$HTML::Element::VERSION\n";
@@ -26,6 +25,4 @@ print "# MacPerl verison $MacPerl::Version\n"
 printf 
   "# Current time local: %s\n# Current time GMT:   %s\n",
   scalar(localtime($^T)), scalar(gmtime($^T));
-  
-ok 1;
 print "# byebye from ", __FILE__, "\n";

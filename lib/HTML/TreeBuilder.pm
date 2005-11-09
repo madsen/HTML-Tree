@@ -101,7 +101,7 @@ sub new_from_content { # from any number of scalars
   return $new;
 }
 
-# TODO: document?
+# TODO: document more fully?
 sub parse_content {  # from any number of scalars
   my $tree = shift;
   my $retval;
@@ -1567,6 +1567,11 @@ you call $root->parse(...).  So if you call
 $root->parse(...), then you I<must> call $root->eof()
 once you've finished feeding all the chunks to parse(...), and
 before you actually start doing anything else with the tree in C<$root>.
+
+=item C<< $root->parse_content(...) >>
+
+Basically a happly alias for C<< $root->parse(...); $root->eof >>.
+Takes the exact same arguments as C<< $root->parse() >>.
 
 =item $root->delete()
 

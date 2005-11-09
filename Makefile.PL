@@ -18,11 +18,14 @@ WriteMakefile(
 
 package MY;
 
+# This could probably be tossed in favor of the ExtUtils::MakeMaker default
 sub libscan
 { # Determine things that should *not* be installed
     my($self, $path) = @_;
     return '' if $path =~ m/~/;
+    return '' if $path =~ /(?:RCS|CVS|SCCS|\.svn)/;
     $path;
+
 }
 
 __END__

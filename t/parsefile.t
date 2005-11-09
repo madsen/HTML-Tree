@@ -1,7 +1,7 @@
-
+#!perl -Tw
 # -*-Perl-*-
 # Time-stamp: "2003-09-15 01:44:58 ADT"
-use Test;
+use Test::More;
 BEGIN { plan tests => 3 }
 use HTML::TreeBuilder;
 use strict;
@@ -53,8 +53,8 @@ print "# As HTML: $x#\n";
 }
 
 # Just make a few samples to check that we got what we expected
-ok /<head>/i;
-ok /<isindex>/i;
-ok /this is a simple/;
+like($_, qr/<head>/i, "Matches Head");
+like($_, qr/<isindex>/i, "Matches isindex");
+like($_, qr/this is a simple/, "Matches simple text");
 
 # /foo\s*a=b/ || $bad++; # too version-dependent
