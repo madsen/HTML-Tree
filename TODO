@@ -1,0 +1,31 @@
+                                      [ Time-stamp: "2003-09-15 01:01:12 ADT" ]
+
+		      TO-DO LIST FOR HTML::Tree
+
+* Make more and better tests!  Regression and otherwise.
+
+* Make a smarter as_text-like method -- i.e., a sort of dimwitted
+version of HTML::FormatText
+
+* Make as_HTML emit the DOCTYPE declaration before <html...>
+
+* Make as_XHTML that is basically as_XML with ignoreable whitespace?
+
+* Make TreeBuilder try to repair trees with <table><input...><tr>...</table>
+or <table><form...><tr>...</table> elements.  Very tricky.
+
+
+* Make as_* understand ~text items
+
+* Make extract_links do the right thing with forms with no action
+  param ?
+
+* Add 'are_element_identical' method ?
+
+* Add 'are_content_identical' method ?
+
+* Maybe reorganize the HTMLE::Element docs some time?
+
+
+
+========================================================================
