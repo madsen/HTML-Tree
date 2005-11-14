@@ -1,9 +1,36 @@
-
 package HTML::Tree;
-$VERSION = $VERSION = '3.19_01';
-  # This is where the dist gets its version from.
 
-# Basically just a happy alias to HTML::TreeBuilder
+=head1 NAME
+
+HTML::Tree - overview of HTML::TreeBuilder et al
+
+=head1 VERSION
+
+Version 3.19_01
+
+=cut
+
+use vars qw( $VERSION );
+$VERSION = '3.19_01';
+
+=head1 SYNOPSIS
+
+    use HTML::TreeBuilder;
+    my $tree = HTML::TreeBuilder->new();
+    $tree->parse_file($filename);
+ 
+        # Then do something with the tree, using HTML::Element
+        # methods -- for example:
+
+    $tree->dump
+
+        # Finally:
+
+    $tree->delete;
+
+=cut
+
+# HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
 use HTML::TreeBuilder ();
 
 sub new {
@@ -18,26 +45,6 @@ sub new_from_content {
   shift; unshift @_, 'HTML::TreeBuilder';
   goto &HTML::TreeBuilder::new_from_content;
 }
-
-1;  
-
-__END__
-
-=head1 NAME
-
-HTML::Tree - overview of HTML::TreeBuilder et al
-
-=head1 SYNOPSIS
-
-  use HTML::TreeBuilder;
-  my $tree = HTML::TreeBuilder->new();
-  $tree->parse_file($filename);
-   #
-   # Then do something with the tree, using HTML::Element
-   # methods -- for example $tree->dump
-   #
-   # Then:
-  $tree->delete;
 
 =head1 DESCRIPTION
 
@@ -77,21 +84,23 @@ data structures should read just the last article.  Readers without
 that background should read the first, then the second, and then the
 third.
 
+=cut
+
+
 =head1 SEE ALSO
 
 L<HTML::TreeBuilder>, L<HTML::Element>, L<HTML::Tagset>,
-L<HTML::Parser>
+L<HTML::Parser>, L<HTML::DOMbo>
 
-L<HTML::DOMbo>
-
-The book I<Perl & LWP> by me, Sean M. Burke, published by
+The book I<Perl & LWP> by Sean M. Burke published by
 O'Reilly and Associates, 2002.  ISBN: 0-596-00178-9
 
 It has several chapters to do with HTML processing in general,
 and HTML-Tree specifically.  There's more info at:
 
-  http://www.oreilly.com/catalog/perllwp/
-  http://www.amazon.com/exec/obidos/ASIN/0596001789
+    http://www.oreilly.com/catalog/perllwp/
+
+    http://www.amazon.com/exec/obidos/ASIN/0596001789
 
 =head1 COPYRIGHT
 
@@ -114,8 +123,9 @@ particular purpose.
 
 =head1 AUTHOR
 
-Original HTML-Tree author Gisle Aas E<lt>gisle@aas.noE<gt>; current
-maintainer Sean M. Burke, E<lt>sburke@cpan.orgE<gt>
+Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
+Currently maintained by Andy Lester.
 
 =cut
 
+1;  
