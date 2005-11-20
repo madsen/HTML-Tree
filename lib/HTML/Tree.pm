@@ -87,6 +87,34 @@ data structures should read just the last article.  Readers without
 that background should read the first, then the second, and then the
 third.
 
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc HTML::Tree
+
+    You can also look for information at:
+
+=over 4
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/HTML-Tree>
+
+=item * CPAN Ratings
+
+L<http://cpanratings.perl.org/d/HTML-Tree>
+
+=item * RT: CPAN's request tracker
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=HTML-Tree>
+
+=item * Search CPAN
+
+L<http://search.cpan.org/dist/HTML-Tree>
+
+=back
+
 =head1 SEE ALSO
 
 L<HTML::TreeBuilder>, L<HTML::Element>, L<HTML::Tagset>,
