@@ -342,7 +342,7 @@ That is, this is useful if you want to insert code into a tree that
 you plan to dump out with C<as_HTML>, where you want, for some reason,
 to suppress C<as_HTML>'s normal behavior of amp-quoting text segments.
 
-For expample, this:
+For example, this:
 
   my $literal = HTML::Element->new('~literal',
     'text' => 'x < 4 & y > 7'
@@ -3818,8 +3818,9 @@ merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
 
-Original author Gisle Aas E<lt>gisle@aas.noE<gt>; current maintainer
-Sean M. Burke, E<lt>sburke@cpan.orgE<gt>
+Currently maintained by Andy Lester C<< <andy at petdance.com> >>.
+
+Original authors: Gisle Aas and Sean Burke.
 
 =cut
 

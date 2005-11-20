@@ -18,7 +18,7 @@ $VERSION = '3.19_01';
     use HTML::TreeBuilder;
     my $tree = HTML::TreeBuilder->new();
     $tree->parse_file($filename);
- 
+
         # Then do something with the tree, using HTML::Element
         # methods -- for example:
 
@@ -84,9 +84,6 @@ data structures should read just the last article.  Readers without
 that background should read the first, then the second, and then the
 third.
 
-=cut
-
-
 =head1 SEE ALSO
 
 L<HTML::TreeBuilder>, L<HTML::Element>, L<HTML::Tagset>,
@@ -101,6 +98,16 @@ and HTML-Tree specifically.  There's more info at:
     http://www.oreilly.com/catalog/perllwp/
 
     http://www.amazon.com/exec/obidos/ASIN/0596001789
+
+=head1 SOURCE REPOSITORY
+
+HTML::Tree is maintained in Subversion hosted at perl.org.
+
+    http://svn.perl.org/modules/HTML-Tree
+
+Any patches sent should be diffed against
+
+    http://svn.perl.org/modules/HTML-Tree/trunk
 
 =head1 COPYRIGHT
 
