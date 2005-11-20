@@ -62,22 +62,25 @@ class HTML::Element.
 If you find that you do not properly understand the documentation
 for HTML::TreeBuilder and HTML::Element, it may be because you are
 unfamiliar with tree-shaped data structures, or with object-oriented
-modules in general.  I have written some articles for I<The Perl
-Journal> (C<www.tpj.com>) that seek to provide that background:
-my article "A User's View of Object-Oriented Modules" in TPJ17;
-my article "Trees" in TPJ18;
-and
-my article "Scanning HTML" in TPJ19.
+modules in general. Sean Burke has written some articles for
+I<The Perl Journal> (C<www.tpj.com>) that seek to provide that background.
 The full text of those articles is contained in this distribution, as:
 
-L<HTML::Tree::AboutObjects|HTML::Tree::AboutObjects>
--- article: "User's View of Object-Oriented Modules"
+=over 4
 
-L<HTML::Tree::AboutTrees|HTML::Tree::AboutTrees>
--- article: "Trees"
+=item L<HTML::Tree::AboutObjects|HTML::Tree::AboutObjects>
 
-L<HTML::Tree::Scanning|HTML::Tree::Scanning>
--- article: "Scanning HTML"
+"User's View of Object-Oriented Modules" from TPJ17.
+
+=item L<HTML::Tree::AboutTrees|HTML::Tree::AboutTrees>
+
+"Trees" from TPJ18
+
+=item L<HTML::Tree::Scanning|HTML::Tree::Scanning>
+
+"Scanning HTML" from TPJ19
+
+=back
 
 Readers already familiar with object-oriented modules and tree-shaped
 data structures should read just the last article.  Readers without
@@ -105,9 +108,11 @@ HTML::Tree is maintained in Subversion hosted at perl.org.
 
     http://svn.perl.org/modules/HTML-Tree
 
-Any patches sent should be diffed against
+The latest development work is always at:
 
     http://svn.perl.org/modules/HTML-Tree/trunk
+
+Any patches sent should be diffed against this repository.
 
 =head1 COPYRIGHT
 
@@ -131,8 +136,8 @@ particular purpose.
 =head1 AUTHOR
 
 Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
-Currently maintained by Andy Lester.
+Currently maintained by Andy Lester C<< <andy at petdance.com> >>.
 
 =cut
 
-1;  
+1;
