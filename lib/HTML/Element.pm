@@ -807,7 +807,7 @@ sub unshift_content {
         if (ref($_) eq 'ARRAY') {
             # magically call new_from_lol
             unshift @$content, $self->new_from_lol($_);
-	    $content->[0]->{'_parent'} = $self;
+            $content->[0]->{'_parent'} = $self;
         } elsif (ref $_) {  # insert an element
             $_->detach if $_->{'_parent'};
             $_->{'_parent'} = $self;
@@ -954,16 +954,14 @@ sub replace_with {
       # each of these are necessary
     }
   }
-  
-  #my $content_r = $self->{'_content'} || [];
   @$parent_content 
    = map { ( ref($_) and $_ eq $self) ? @replacers : $_ }
          @$parent_content
   ;
-  
+
   $self->{'_parent'} = undef unless $replacers_contains_self;
    # if replacers does contain self, then the parent attribute is fine as-is
-  
+
   return $self;
 }
 
@@ -1124,7 +1122,7 @@ sub clone {
 
   my $new = bless { %$it }, ref($it);     # COPY!!! HOOBOY!
   delete @$new{'_content', '_parent', '_pos', '_head', '_body'};
-  
+
   # clone any contents
   if($it->{'_content'} and @{$it->{'_content'}}) {
     $new->{'_content'} = [  ref($it)->clone_list( @{$it->{'_content'}} )  ];
@@ -1138,17 +1136,21 @@ sub clone {
 
 =head2 HTML::Element->clone_list(...nodes...)
 
-=head2 or: ref($h)->clone_list(...nodes...)
-
 Returns a list consisting of a copy of each node given.
 Text segments are simply copied; elements are cloned by
 calling $it->clone on each of them.
 
+Note that this must be called as a class method, not as an instance
+method.  C<clone_list> will croak if called as an instance method.
+You can also call it like so:
+
+    ref($h)->clone_list(...nodes...)
+
 =cut
 
 sub clone_list {
-  Carp::croak "I can be called only as a class method" if ref shift @_;
-  
+  Carp::croak "clone_list can be called only as a class method" if ref shift @_;
+
    # all that does is get me here
   return
     map
@@ -1264,13 +1266,13 @@ sub delete_ignorable_whitespace {
         next;
       }
       next unless $sibs->[$i] =~ m<^\s+$>s; # it's /all/ whitespace
-    
+
       print "Under $ptag whose canTighten ",
           "value is ", 0 + $HTML::Element::canTighten{$ptag}, ".\n"
        if $Debug > 3;
 
       # It's all whitespace...
-      
+
       if($i == 0) {
         if(@$sibs == 1) { # I'm an only child
           next unless $HTML::Element::canTighten{$ptag}; # parent
@@ -1297,7 +1299,7 @@ sub delete_ignorable_whitespace {
           unless
             ref $sibs->[$i - 1] or ref $sibs->[$i + 1];
          # if NEITHER sib is a node, quit
-         
+
         next if
           # bailout condition: if BOTH are INeligible nodes
           #  (as opposed to being text, or being eligible nodes)
@@ -1315,7 +1317,7 @@ sub delete_ignorable_whitespace {
      # end of the loop-over-children
   }
    # end of the while loop.
-  
+
   return;
 }
 
@@ -1341,8 +1343,8 @@ sub insert_element {
         $tag = $e->tag;
     } else { # just a tag name -- so make the element
         $e = ($self->{'_element_class'} || __PACKAGE__)->new($tag);
-	++($self->{'_element_count'}) if exists $self->{'_element_count'};
-	 # undocumented.  see TreeBuilder.
+        ++($self->{'_element_count'}) if exists $self->{'_element_count'};
+         # undocumented.  see TreeBuilder.
     }
 
     $e->{'_implicit'} = 1 if $implicit;
@@ -1469,17 +1471,17 @@ sub as_HTML {
   my $last_tag_tightenable = 0;
   my $this_tag_tightenable = 0;
   my $nonindentable_ancestors = 0;  # count of nonindentible tags over us.
-  
+
   my($tag, $node, $start, $depth); # per-iteration scratch
-  
+
   if(defined($indent) && length($indent)) {
     $self->traverse(
       sub {
         ($node, $start, $depth) = @_;
         if(ref $node) { # it's an element
-           
+
            $tag = $node->{'_tag'};
-           
+
            if($start) { # on the way in
              if(
                 ($this_tag_tightenable = $HTML::Element::canTighten{$tag})
@@ -1496,17 +1498,17 @@ sub as_HTML {
                push(@html, $node->starttag($entities));
              }
              $last_tag_tightenable = $this_tag_tightenable;
-             
+
              ++$nonindentable_ancestors
                if $tag eq 'pre' or $HTML::Tagset::isCDATA_Parent{$tag};             ;
-             
+
            } elsif (not($empty_element_map->{$tag} or $omissible_map->{$tag})) {
              # on the way out
              if($tag eq 'pre' or $HTML::Tagset::isCDATA_Parent{$tag}) {
                --$nonindentable_ancestors;
                $last_tag_tightenable = $HTML::Element::canTighten{$tag};
                push @html, $node->endtag;
-               
+
              } else { # general case
                if(
                   ($this_tag_tightenable = $HTML::Element::canTighten{$tag})
@@ -1527,7 +1529,7 @@ sub as_HTML {
              }
            }
         } else {  # it's a text segment
-        
+
           $last_tag_tightenable = 0;  # I guess this is right
           HTML::Entities::encode_entities($node, $entities)
             # That does magic things if $entities is undef.
@@ -1561,8 +1563,7 @@ sub as_HTML {
         }
         1; # keep traversing
       }
-    );
-    
+    ); # End of parms to traverse()
   } else { # no indenting -- much simpler code
     $self->traverse(
       sub {
@@ -1588,10 +1589,10 @@ sub as_HTML {
           }
          1; # keep traversing
         }
-    );
+    ); # End of parms to traverse()
   }
-  
-  join('', @html, "\n");
+
+  return join('', @html, "\n");
 }
 
 
@@ -1617,7 +1618,6 @@ sub as_text {
   # Yet another iteratively implemented traverser
   my($this,%options) = @_;
   my $skip_dels = $options{'skip_dels'} || 0;
-  #print "Skip dels: $skip_dels\n";
   my(@pile) = ($this);
   my $tag;
   my $text = '';
@@ -1644,7 +1644,7 @@ sub as_trimmed_text {
   $text =~ s/\s+/ /g;
   return $text;
 }
- 
+
 sub as_text_trimmed { shift->as_trimmed_text(@_) } # alias, because I forget
 
 =head2 $h->as_XML()
@@ -1663,7 +1663,7 @@ sub as_XML {
   #my $indent_on = defined($indent) && length($indent);
   my @xml = ();
   my $empty_element_map = $self->_empty_element_map;
-  
+
   my($tag, $node, $start); # per-iteration scratch
   $self->traverse(
     sub {
@@ -1692,7 +1692,7 @@ sub as_XML {
        1; # keep traversing
       }
   );
-  
+
   join('', @xml, "\n");
 }
 
@@ -1730,7 +1730,7 @@ Current example output for a given element:
 
 sub as_Lisp_form {
   my @out;
-  
+
   my $sub;
   my $depth = 0;
   my(@list, $val);
@@ -1738,36 +1738,19 @@ sub as_Lisp_form {
     my $self = $_[0];
     @list = ('_tag', $self->{'_tag'});
     @list = () unless defined $list[-1]; # unlikely
-    
+
     for (sort keys %$self) { # predictable ordering
       next if $_ eq '_content' or $_ eq '_tag' or $_ eq '_parent' or $_ eq '/';
        # Leave the other private attributes, I guess.
       push @list, $_, $val if defined($val = $self->{$_}); # and !ref $val;
     }
-    
+
     for (@list) {
-      #if(!length $_) {
-      #  $_ = '""';
-      #} elsif(
-      #  $_ eq '0'
-      #  or (
-      #     m/^-?\d+(\.\d+)?$/s
-      #     and $_ ne '-0' # the strange case that that RE lets thru
-      #  ) or (
-      #     m/^-?\.\d+$/s
-      #  )
-      #) {
-      #  # No-op -- don't bother quoting numbers.
-      #  # Note: DOES accept strings like "0123" and ".123" as numbers!
-      #  #  
-      #} else {
         # octal-escape it
         s<([^\x20\x21\x23\x27-\x5B\x5D-\x7E])>
          <sprintf('\\%03o',ord($1))>eg;
         $_ = qq{"$_"};
-      #}
     }
-    
     push @out, ('  ' x $depth) . '(' . join ' ', splice @list;
     if(@{$self->{'_content'} || $nillio}) {
       $out[-1] .= " \"_content\" (\n";
@@ -1794,7 +1777,7 @@ sub as_Lisp_form {
     }
     return;
   };
-  
+
   $sub->($_[0]);
   undef $sub;
   return join '', @out;
@@ -1828,15 +1811,13 @@ C<'&"E<gt>'> were specified for C<$entities>.)
 
 sub starttag {
     my($self, $entities) = @_;
-    
+
     my $name = $self->{'_tag'};
-    
+
     return        $self->{'text'}        if $name eq '~literal';
-    
     return "<!" . $self->{'text'} . ">"  if $name eq '~declaration';
-    
     return "<?" . $self->{'text'} . ">"  if $name eq '~pi';
-    
+
     if($name eq '~comment') {
       if(ref($self->{'text'} || '') eq 'ARRAY') {
         # Does this ever get used?  And is this right?
@@ -1849,7 +1830,7 @@ sub starttag {
         return "<!--" . $self->{'text'} . "-->"
       }
     }
-    
+
     my $tag = $html_uc ? "<\U$name" : "<\L$name";
     my $val;
     for (sort keys %$self) { # predictable ordering
@@ -1876,21 +1857,17 @@ sub starttag {
 }
 
 
-# TODO: document?
 sub starttag_XML {
     my($self) = @_;
      # and a third parameter to signal emptiness?
-    
+
     my $name = $self->{'_tag'};
-    
+
     return        $self->{'text'}        if $name eq '~literal';
-    
     return '<!' . $self->{'text'}. '>'   if $name eq '~declaration';
-    
     return "<?" . $self->{'text'} . "?>" if $name eq '~pi';
-    
+
     if($name eq '~comment') {
-      
       if(ref($self->{'text'} || '') eq 'ARRAY') {
         # Does this ever get used?  And is this right?
         $name = join(' ', @{$self->{'text'}});
@@ -1900,7 +1877,7 @@ sub starttag_XML {
       $name =~ s/--/-&#45;/g; # can't have double --'s in XML comments
       return "<!-- $name -->";
     }
-    
+
     my $tag = "<$name";
     my $val;
     for (sort keys %$self) { # predictable ordering
@@ -1965,10 +1942,10 @@ sub traverse {
 
   Carp::croak "traverse can be called only as an object method"
    unless ref $start;
-  
+
   Carp::croak('must provide a callback for traverse()!')
    unless defined $callback and ref $callback;
-  
+
   # Elementary type-checking:
   my($c_pre, $c_post);
   if(UNIVERSAL::isa($callback, 'CODE')) {
@@ -1985,26 +1962,24 @@ sub traverse {
     Carp::croak("$callback is not a known kind of reference")
      unless ref($callback);
   }
-  
+
   my $empty_element_map = $start->_empty_element_map;
-  
+
   my(@C) = [$start]; # a stack containing lists of children
   my(@I) = (-1); # initial value must be -1 for each list
     # a stack of indexes to current position in corresponding lists in @C
   # In each of these, 0 is the active point
-  
+
   # scratch:
   my(
     $rv,   # return value of callback
     $this, # current node
     $content_r, # child list of $this
   );
-  
-  
+
   # THE BIG LOOP
   while(@C) {
     # Move to next item in this frame
-    #print "Loop: \@C has ", scalar(@C), " frames: @C\n";
     if(!defined($I[0]) or ++$I[0] >= @{$C[0]}) {
       # We either went off the end of this list, or aborted the list
       # So call the post-order callback:
@@ -2029,7 +2004,7 @@ sub traverse {
            0,               # 1: startflag (0 for post-order call)
            @I - 1,          # 2: depth
         );
-        
+
         if(defined($rv) and ref($rv) eq $travsignal_package) {
           $rv = $$rv; #deref
           if($rv eq 'ABORT') {
@@ -2047,17 +2022,16 @@ sub traverse {
             # should never happen
           }
         }
-        
-      } else {
-        #print "Oomph.  Callback suppressed\n";
+      }
+      else {
         shift @I;
         shift @C;
       }
       next;
     }
-    
+
     $this = $C[0][ $I[0] ];
-    
+
     if($c_pre) {
       if(defined $this and ref $this) { # element
         $rv = $c_pre->(
@@ -2103,9 +2077,9 @@ sub traverse {
         } elsif($rv eq 'PRUNE_UP') {
           $I[0] = undef;
           next;
-          
+
           # equivalent of last'ing out of the current child list.
-          
+
         # Used to have PRUNE_UP_SOFTLY and ABORT_SOFTLY here, but the code
         # for these was seriously upsetting, served no particularly clear
         # purpose, and could not, I think, be easily implemented with a
@@ -2118,7 +2092,7 @@ sub traverse {
       # else fall thru to meaning same as \'OK'.
     }
     # end of pre-order calling
-    
+
     # Now queue up content list for the current element...
     if(ref $this
        and
@@ -2378,7 +2352,7 @@ sub address {
       return undef if @stack and not ref $here;
         # we hit a text node when we expected a non-terminal element node
     }
-    
+
     return $here;
   }
 }
@@ -2571,7 +2545,7 @@ sub find_by_attribute {
   my($self, $attribute, $value) = @_;
   Carp::croak "Attribute must be a defined value!" unless defined $attribute;
   $attribute =  $self->_fold_case($attribute);
-  
+
   my @matching;
   my $wantarray = wantarray;
   my $quit;
@@ -2739,12 +2713,12 @@ sub look_down {
             (defined($val = $this->{ $c->[0] }))
               ? (
                   !defined $c->[1]  # actual is def, critval is undef => fail
-		     # allow regex matching
-		    # allow regex matching
-		  or (
-		  $c->[2] eq 'Regexp'
-		    ? $val !~ $c->[1]
-		    : ( ref $val ne $c->[2]
+                     # allow regex matching
+                    # allow regex matching
+                  or (
+                  $c->[2] eq 'Regexp'
+                    ? $val !~ $c->[1]
+                    : ( ref $val ne $c->[2]
                    # have unequal ref values => fail
                   or lc($val) ne $c->[1]
                    # have unequal lc string values => fail
@@ -2819,10 +2793,10 @@ sub look_up {
             (defined($val = $this->{ $c->[0] }))
               ? (
                   !defined $c->[1]  # actual is def, critval is undef => fail
-		  or (
-		  $c->[2] eq 'Regexp'
-		    ? $val !~ $c->[1]
-		    : ( ref $val ne $c->[2]
+                  or (
+                  $c->[2] eq 'Regexp'
+                    ? $val !~ $c->[1]
+                    : ( ref $val ne $c->[2]
                    # have unequal ref values => fail
                   or lc($val) ne $c->[1]
                    # have unequal lc string values => fail
@@ -3043,10 +3017,10 @@ sub extract_links {
       [
         sub { # pre-order call only
           $self = $_[0];
-  
+
           $tag = $self->{'_tag'};
           return 1 if $wantType && !$wantType{$tag};  # if we're selective
-  
+
           if(defined(  $link_attrs = $HTML::Element::linkElements{$tag}  )) {
             # If this is a tag that has any link attributes,
             #  look over possibly present link attributes,
@@ -3084,12 +3058,11 @@ to the next 8th column -- the usual way of expanding them.
 
 sub simplify_pres {
   my $pre = 0;
- 
+
   my $sub;
   my $line;
   $sub = sub {
     ++$pre if $_[0]->{'_tag'} eq 'pre';
-    #print "Under $_[0]{'_tag'} tag...  ($pre)\n";
     foreach my $it (@{ $_[0]->{'_content'} || return }) {
       if(ref $it) {
         $sub->( $it );  # recurse!
@@ -3097,25 +3070,25 @@ sub simplify_pres {
         #$it =~ s/(?:(?:\cm\cj*)|(?:\cj))/\n/g;
 
         $it =
-	  join "\n",
-  	  map {;
-  	    $line = $_;
-  	    while($line =~
+          join "\n",
+          map {;
+            $line = $_;
+            while($line =~
              s/^([^\t]*)(\t+)/$1.(" " x ((length($2)<<3)-(length($1)&7)))/e
               # Sort of adapted from Text::Tabs -- yes, it's hardwired-in that
               # tabs are at every EIGHTH column.
             ){}
             $line;
-	  }
-	  split /(?:(?:\cm\cj*)|(?:\cj))/, $it, -1
-	;
+          }
+          split /(?:(?:\cm\cj*)|(?:\cj))/, $it, -1
+        ;
       }
     }
     --$pre if $_[0]->{'_tag'} eq 'pre';
     return;
   };
   $sub->( $_[0] );
-  
+
   undef $sub;
   return;
 
@@ -3137,7 +3110,7 @@ with C<$segment1 eq $segment2>.
 =cut
 
 sub same_as {
-  die "same_as() takes only one argument: \$h->same_as(\$i)" unless @_ == 2;
+  die 'same_as() takes only one argument: $h->same_as($i)' unless @_ == 2;
   my($h,$i) = @_[0,1];
   die "same_as() can be called only as an object method" unless ref $h;
 
@@ -3147,29 +3120,27 @@ sub same_as {
 
   return 1 if $h eq $i;
    # special (if rare) case: anything is the same as... itself!
-  
+
   # assumes that no content lists in/under $h or $i contain subsequent
   #  text segments, like: ['foo', ' bar']
-  
+
   # compare attributes now.
   #print "Comparing tags of $h and $i...\n";
 
   return 0 unless $h->{'_tag'} eq $i->{'_tag'};
     # only significant attribute whose name starts with "_"
-  
+
   #print "Comparing attributes of $h and $i...\n";
   # Compare attributes, but only the real ones.
   {
     # Bear in mind that the average element has very few attributes,
     #  and that element names are rather short.
     # (Values are a different story.)
-    
+
     # XXX I would think that /^[^_]/ would be faster, at least easier to read.
     my @keys_h = sort grep {length $_ and substr($_,0,1) ne '_'} keys %$h;
     my @keys_i = sort grep {length $_ and substr($_,0,1) ne '_'} keys %$i;
-    
-    #print '<', join(',', @keys_h), '> =?= <', join(',', @keys_i), ">\n";
-    
+
     return 0 unless @keys_h == @keys_i;
      # different number of real attributes?  they're different.
     for(my $x = 0; $x < @keys_h; ++$x) {
@@ -3180,14 +3151,14 @@ sub same_as {
        # People shouldn't be putting undef in attribute values, I think.
     }
   }
-  
+
   #print "Comparing children of $h and $i...\n";
   my $hcl = $h->{'_content'} || [];
   my $icl = $i->{'_content'} || [];
-  
+
   return 0 unless @$hcl == @$icl;
    # different numbers of children?  they're different.
-  
+
   if(@$hcl) {
     # compare each of the children:
     for(my $x = 0; $x < @$hcl; ++$x) {
@@ -3204,7 +3175,7 @@ sub same_as {
       }
     }
   }
-  
+
   return 1; # passed all the tests!
 }
 
@@ -3383,8 +3354,6 @@ sub new_from_lol {
     #print "Children: @children\n";
 
     if($class eq __PACKAGE__) {  # Special-case it, for speed:
-      #print "Special cased / [@attributes]\n";
-      
       %$node = (%$node, @attributes) if @attributes;
       #print join(' ', $node, ' ' , map("<$_>", %$node), "\n");
       if(@children) {
@@ -3500,7 +3469,7 @@ sub deobjectify_text {
       if(ref($c)) {
         if($c->{'_tag'} eq '~text') {
           $c = ($old_node = $c)->{'text'};
-	  if(ref($old_node) eq __PACKAGE__) { # common case
+          if(ref($old_node) eq __PACKAGE__) { # common case
             %$old_node = ();  # poof!
           } else {
             # play nice:
@@ -3525,7 +3494,7 @@ For every UL, OL, DIR, and MENU element at/under $h, this sets a
 OL, the "_bullet" attribute's value will be something like "4.", "d.",
 "D.", "IV.", or "iv.", depending on the OL element's "type" attribute.
 LI children of a UL, DIR, or MENU get their "_bullet" attribute set
-to "*".  
+to "*".
 There should be no other LIs (i.e., except as children of OL, UL, DIR,
 or MENU elements), and if there are, they are unaffected.
 
@@ -3613,26 +3582,26 @@ sub number_lists {
 
       # Immeditately iterate over all children
       foreach my $c (@{ $this->{'_content'} || next}) {
-	next unless ref $c;
-	unshift @stack, $c;
-	if($c->{'_tag'} eq 'li') {
-	  $counter = $1 if(($c->{'value'} || '') =~ m<^\s*(\d{1,7})\s*$>s);
-	  $c->{'_bullet'} = $numberer->($counter) . '.';
-	  ++$counter;
-	}
+        next unless ref $c;
+        unshift @stack, $c;
+        if($c->{'_tag'} eq 'li') {
+          $counter = $1 if(($c->{'value'} || '') =~ m<^\s*(\d{1,7})\s*$>s);
+          $c->{'_bullet'} = $numberer->($counter) . '.';
+          ++$counter;
+        }
       }
 
     } elsif($tag eq 'ul' or $tag eq 'dir' or $tag eq 'menu') {
       # Immeditately iterate over all children
       foreach my $c (@{ $this->{'_content'} || next}) {
-	next unless ref $c;
-	unshift @stack, $c;
-	$c->{'_bullet'} = '*' if $c->{'_tag'} eq 'li';
+        next unless ref $c;
+        unshift @stack, $c;
+        $c->{'_bullet'} = '*' if $c->{'_tag'} eq 'li';
       }
 
     } else {
       foreach my $c (@{ $this->{'_content'} || next}) {
-	unshift @stack, $c if ref $c;
+        unshift @stack, $c if ref $c;
       }
     }
   }
@@ -3673,7 +3642,7 @@ on the tree.
 sub has_insane_linkage {
   my @pile = ($_[0]);
   my($c, $i, $p, $this); # scratch
-  
+
   # Another iterative traverser; this time much simpler because
   #  only in pre-order:
   my %parent_of = ($_[0], 'TOP-OF-SCAN');
@@ -3695,7 +3664,7 @@ sub has_insane_linkage {
          if exists $parent_of{$c->[$i]};
         $parent_of{$c->[$i]} = ''.$this;
           # might as well just use the stringification of it.
-        
+
         return($c->[$i], "_parent attribute is wrong (not defined)")
          unless defined($p = $c->[$i]{'_parent'});
         return($c->[$i], "_parent attribute is wrong (nonref)")
@@ -3798,7 +3767,7 @@ contents only thru $obj->attr or more specific methods.
 
 * You should think twice before completely overriding any of the
 methods that HTML::Element provides.  (Overriding with a method that
-calls the superclass method is not so bad, tho.)
+calls the superclass method is not so bad, though.)
 
 =head1 SEE ALSO
 
@@ -3807,7 +3776,7 @@ and, for the morbidly curious, L<HTML::Element::traverse>.
 
 =head1 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas, 1999-2001 Sean M. Burke.
+Copyright 1995-1998 Gisle Aas, 1999-2001 Sean M. Burke, 2005 Andy Lester.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
