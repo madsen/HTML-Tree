@@ -88,7 +88,7 @@ Another way to represent the above tree is with indenting:
         "I like potatoes"
 
 Incidentally, diagramming with indenting works much better for very
-large trees, and is easier for a program to generate.  The C<<$tree->dump>>
+large trees, and is easier for a program to generate.  The C<< $tree->dump >>
 method uses indentation just that way.
 
 However you diagram the tree, it's stored the same in memory -- it's a
@@ -131,7 +131,7 @@ While you could access the content of a tree by writing code that says
 child's I<third> child", you're more likely to have to scan the contents
 of a tree, looking for whatever nodes, or kinds of nodes, you want to
 do something with.  The most straightforward way to look over a tree
-is to "traverse" it; an HTML::Element method (C<<$h->traverse>>) is
+is to "traverse" it; an HTML::Element method (C<< $h->traverse >>) is
 provided for this purpose; and several other HTML::Element methods are
 based on it.
 
@@ -534,17 +534,17 @@ sub implicit {
 Returns (and optionally sets) the "_pos" (for "current I<pos>ition")
 pointer of C<$h>.  This attribute is a pointer used during some
 parsing operations, whose value is whatever HTML::Element element
-at or under C<$h> is currently "open", where C<<$h->insert_element(NEW)>>
+at or under C<$h> is currently "open", where C<< $h->insert_element(NEW) >>
 will actually insert a new element.
 
 (This has nothing to do with the Perl function called "pos", for
 controlling where regular expression matching starts.)
 
-If you set C<<$h->pos($element)>>, be sure that C<$element> is
+If you set C<< $h->pos($element) >>, be sure that C<$element> is
 either C<$h>, or an element under C<$h>.
 
-If you've been modifying the tree under C<<$h>> and are no longer
-sure C<<$h->pos>> is valid, you can enforce validity with:
+If you've been modifying the tree under C<$h> and are no longer
+sure C<< $h->pos >> is valid, you can enforce validity with:
 
     $h->pos(undef) unless $h->pos->is_inside($h);
 
@@ -570,11 +570,11 @@ sub pos {
 Returns all this element's attributes and values, as key-value pairs.
 This will include any "internal" attributes (i.e., ones not present
 in the original element, and which will not be represented if/when you
-call C<<$h->as_HTML>>).  Internal attributes are distinguished by the fact
+call C<< $h->as_HTML >>).  Internal attributes are distinguished by the fact
 that the first character of their key (not value! key!) is an
 underscore ("_").
 
-Example output of C<<$h->all_attr()>> :
+Example output of C<< $h->all_attr() >> :
 C<'_parent', >I<[object_value]>C< , '_tag', 'em', 'lang', 'en-US',
 '_content', >I<[array-ref value]>.
 
@@ -582,7 +582,7 @@ C<'_parent', >I<[object_value]>C< , '_tag', 'em', 'lang', 'en-US',
 
 Like all_attr, but only returns the names of the attributes.
 
-Example output of C<<$h->all_attr()>> :
+Example output of C<< $h->all_attr() >> :
 C<'_parent', '_tag', 'lang', '_content', >.
 
 =cut
@@ -633,7 +633,7 @@ sub all_external_attr_names {
 =head2 $h->id() or $h->id($string)
 
 Returns (optionally sets to C<$string>) the "id" attribute.
-C<<$h->id(undef)>> deletes the "id" attribute.
+C<< $h->id(undef) >> deletes the "id" attribute.
 
 =cut
 
@@ -654,7 +654,7 @@ sub id {
 
 =head2 $h->idf() or $h->idf($string)
 
-Just like the C<id> method, except that if you call C<<$h->idf()>> and
+Just like the C<id> method, except that if you call C<< $h->idf() >> and
 no "id" attribute is defined for this element, then it's set to a
 likely-to-be-unique value, and returned.  (The "f" is for "force".)
 
@@ -700,7 +700,7 @@ by adding or changing nodes as parents or children of other nodes.
 Adds the specified items to the I<end> of the content list of the
 element C<$h>.  The items of content to be added should each be either a
 text segment (a string), an HTML::Element object, or an arrayref.
-Arrayrefs are fed thru C<<$h->new_from_lol(that_arrayref)>> to
+Arrayrefs are fed thru C<< $h->new_from_lol(that_arrayref) >> to
 convert them into elements, before being added to the content
 list of C<$h>.  This means you can say things concise things like:
 
@@ -922,7 +922,7 @@ Aside from that possible exception, the nodes to insert should not
 already be children of C<$h>'s parent.
 
 Also, note that this method does not destroy C<$h> -- use
-C<<$h->replace_with(...)->delete>> if you need that.
+C<< $h->replace_with(...)->delete >> if you need that.
 
 =cut
 
@@ -998,11 +998,11 @@ sub postinsert {
 
 =head2 $h->replace_with_content()
 
-This replaces C<C<$h>> in its parent's content list with its own content.
-The element C<C<$h>> (which by then has no parent or content of its own) is
-returned.  This causes a fatal error if C<C<$h>> has no parent.  Also, note
-that this does not destroy C<C<$h>> -- use C<<C<$h>->replace_with_content->delete>>
-if you need that.
+This replaces C<$h> in its parent's content list with its own content.
+The element C<$h> (which by then has no parent or content of its own) is
+returned.  This causes a fatal error if C<$h> has no parent.  Also, note
+that this does not destroy C<$h> -- use
+C<< $h->replace_with_content->delete >> if you need that.
 
 =cut
 
@@ -1033,8 +1033,8 @@ sub replace_with_content {
 
 =head2 $h->delete_content()
 
-Clears the content of C<$h>, calling C<<$h->delete>> for each content element.
-Compare with C<<$h->detach_content>>.
+Clears the content of C<$h>, calling C<< $h->delete >> for each content
+element.  Compare with C<< $h->detach_content >>.
 
 Returns C<$h>.
 
@@ -1075,7 +1075,7 @@ But this fails with HTML::Element trees, because a parent element
 always holds references to its children, and its children elements
 hold references to the parent, so no element ever looks like it's
 I<not> in use.  So, to destroy those elements, you need to call
-C<<$h->delete>> on the parent.
+C<< $h->delete >> on the parent.
 
 =cut
 
@@ -1325,11 +1325,11 @@ sub delete_ignorable_whitespace {
 =head2 $h->insert_element($element, $implicit)
 
 Inserts (via push_content) a new element under the element at
-C<<$h->pos()>>.  Then updates C<<$h->pos()>> to point to the inserted
+C<< $h->pos() >>.  Then updates C<< $h->pos() >> to point to the inserted
 element, unless $element is a prototypically empty element like
-"br", "hr", "img", etc.  The new C<<$h->pos()>> is returned.  This
+"br", "hr", "img", etc.  The new C<< $h->pos() >> is returned.  This
 method is useful only if your particular tree task involves setting
-C<<$h->pos()>>.
+C<< $h->pos() >>.
 
 =cut
 
@@ -2381,7 +2381,7 @@ sub depth {
 Returns the element that's the top of C<$h>'s tree.  If C<$h> is
 root, this just returns C<$h>.  (If you want to test whether C<$h>
 I<is> the root, instead of asking what its root is, just test
-C<<not($h->parent)>>.)
+C<< not($h->parent) >>.)
 
 =cut
 

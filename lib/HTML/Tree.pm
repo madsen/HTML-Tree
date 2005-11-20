@@ -142,6 +142,16 @@ The latest development work is always at:
 
 Any patches sent should be diffed against this repository.
 
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to Gisle Aas and Sean Burke for their original work.
+Thanks to Terrence Brannon for patches.
+
+=head1 AUTHOR
+
+Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
+Currently maintained by Andy Lester C<< <andy at petdance.com> >>.
+
 =head1 COPYRIGHT
 
 Copyright 1995-1998 Gisle Aas; copyright 1999-2002 Sean M. Burke.
@@ -160,11 +170,6 @@ The programs and documentation in this dist are distributed in
 the hope that they will be useful, but without any warranty; without
 even the implied warranty of merchantability or fitness for a
 particular purpose.
-
-=head1 AUTHOR
-
-Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
-Currently maintained by Andy Lester C<< <andy at petdance.com> >>.
 
 =cut
 
