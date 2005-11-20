@@ -22,6 +22,7 @@ t/building.t
 t/clonei.t
 t/construct_tree.t
 t/construct_tree.t
+t/doctype.t
 t/oldparse.html
 t/oldparse.html
 t/oldparse.t
