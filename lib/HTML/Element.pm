@@ -600,11 +600,11 @@ sub all_attr_names {
 }
 
 
-=head2 C<<$h->all_external_attr()>>
+=head2 $h->all_external_attr()
 
 Like C<all_attr>, except that internal attributes are not present.
 
-=head2 C<<$h->all_external_attr_names()>>
+=head2 $h->all_external_attr_names()
 
 Like C<all_external_attr_names>, except that internal attributes' names
 are not present.
