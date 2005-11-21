@@ -238,7 +238,7 @@ sub new {
     if ($tag eq 'html') {
         $self->{'_pos'} = undef;
     }
-    $self;
+    return $self;
 }
 
 
@@ -268,10 +268,12 @@ sub attr {
             my $old = $self->{$attr};
             $self->{$attr} = $_[0];
             return $old;
-        } else {  # delete, actually
+        }
+        else {  # delete, actually
             return delete $self->{$attr};
         }
-    } else {   # get
+    }
+    else {   # get
         return $self->{$attr};
     }
 }
@@ -377,10 +379,9 @@ C<~literal> pseudo-elements useful.
 sub tag {
     my $self = shift;
     if (@_) { # set
-    #print "SET\n";
         $self->{'_tag'} = $self->_fold_case($_[0]);
-    } else { # get
-    #print "GET\n";
+    }
+    else { # get
         $self->{'_tag'};
     }
 }
@@ -406,7 +407,8 @@ sub parent {
         Carp::croak "an element can't be made its own parent"
          if defined $_[0] and ref $_[0] and $self eq $_[0]; # sanity
         $self->{'_parent'} = $_[0];
-    } else {
+    }
+    else {
         $self->{'_parent'}; # get
     }
 }
@@ -440,28 +442,28 @@ a defined non-reference scalar value), or an HTML::Element object.
 Note that even if an arrayref is returned, it may be a reference to an
 empty array.
 
-While older code should feel free to continue to use $h->content,
-new code should use $h->content_list in almost all conceivable
+While older code should feel free to continue to use C<< $h->content >>,
+new code should use C<< $h->content_list >> in almost all conceivable
 cases.  It is my experience that in most cases this leads to simpler
 code anyway, since it means one can say:
 
-  @children = $h->content_list;
+    @children = $h->content_list;
 
 instead of the inelegant:
 
-  @children = @{$h->content || []};
+    @children = @{$h->content || []};
 
-If you do use $h->content (or $h->content_array_ref), you should not
+If you do use C<< $h->content >> (or C<< $h->content_array_ref >>), you should not
 use the reference returned by it (assuming it returned a reference,
 and not undef) to directly set or change the content of an element or
-text segment!  Instead use C<content_refs_list> or any of the other
+text segment!  Instead use L<content_refs_list> or any of the other
 methods under "Structure-Modifying Methods", below.
 
 =cut
 
 # a read-only method!  can't say $h->content( [] )!
 sub content {
-    shift->{'_content'};
+    return shift->{'_content'};
 }
 
 
@@ -477,13 +479,13 @@ return that.
 =cut
 
 sub content_array_ref {
-  shift->{'_content'} ||= [];
+    return shift->{'_content'} ||= [];
 }
 
 
 =head2 $h->content_refs_list
 
-This returns a list of scalar references to each element of $h's
+This returns a list of scalar references to each element of C<$h>'s
 content list.  This is useful in case you want to in-place edit any
 large text segments without having to get a copy of the current value
 of that segment value, modify that copy, then use the
@@ -503,14 +505,14 @@ You I<could> currently achieve the same affect with:
         $item =~ s/honour/honor/g;
     }
 
-...except that using the return value of $h->content or
-$h->content_array_ref to do that is deprecated, and just might stop
+...except that using the return value of C<< $h->content >> or
+C<< $h->content_array_ref >> to do that is deprecated, and just might stop
 working in the future.
 
 =cut
 
 sub content_refs_list {
-  \( @{ shift->{'_content'} || return() } );
+    return \( @{ shift->{'_content'} || return() } );
 }
 
 
@@ -525,7 +527,7 @@ HTML structure.
 =cut
 
 sub implicit {
-    shift->attr('_implicit', @_);
+    return shift->attr('_implicit', @_);
 }
 
 
@@ -554,14 +556,16 @@ sub pos {
     my $self = shift;
     my $pos = $self->{'_pos'};
     if (@_) {  # set
-        if(defined $_[0] and $_[0] ne $self) {
-          $self->{'_pos'} = $_[0]; # means that element
-        } else {
-          $self->{'_pos'} = undef; # means $self
+        my $parm = shift;
+        if(defined $parm and $parm ne $self) {
+            $self->{'_pos'} = $parm; # means that element
+        }
+        else {
+            $self->{'_pos'} = undef; # means $self
         }
     }
     return $pos if defined($pos);
-    $self;
+    return $self;
 }
 
 
@@ -596,7 +600,7 @@ sub all_attr {
 }
 
 sub all_attr_names {
-  return keys %{$_[0]};
+    return keys %{$_[0]};
 }
 
 
@@ -671,22 +675,26 @@ sub _gensym {
 }
 
 sub idf {
-  if(@_ == 1) {
-    my $x;
-    if(defined($x = $_[0]{'id'}) and length $x) {
-      return $x;
-    } else {
-      return $_[0]{'id'} = _gensym();
+    my $nparms = scalar @_;
+
+    if ($nparms == 1) {
+        my $x;
+        if (defined($x = $_[0]{'id'}) and length $x) {
+            return $x;
+        }
+        else {
+            return $_[0]{'id'} = _gensym();
+        }
     }
-  } elsif(@_ == 2) {
-    if(defined $_[1]) {
-      return $_[0]{'id'} = $_[1];
-    } else {
-      return delete $_[0]{'id'};
+    if ($nparms == 2) {
+        if (defined $_[1]) {
+            return $_[0]{'id'} = $_[1];
+        }
+        else {
+            return delete $_[0]{'id'};
+        }
     }
-  } else {
     Carp::croak '$node->idf can\'t take ' . scalar(@_) . ' parameters!';
-  }
 }
 
 
@@ -766,12 +774,14 @@ sub push_content {
         if (ref($_) eq 'ARRAY') {
             # magically call new_from_lol
             push @$content, $self->new_from_lol($_);
-	    $content->[-1]->{'_parent'} = $self;
-        } elsif(ref($_)) {  # insert an element
+            $content->[-1]->{'_parent'} = $self;
+        }
+        elsif (ref($_)) {  # insert an element
             $_->detach if $_->{'_parent'};
             $_->{'_parent'} = $self;
             push(@$content, $_);
-        } else {  # insert text segment
+        }
+        else {  # insert text segment
             if (@$content && !ref $content->[-1]) {
                 # last content element is also text segment -- append
                 $content->[-1] .= $_;
@@ -780,7 +790,7 @@ sub push_content {
             }
         }
     }
-    $self;
+    return $self;
 }
 
 
@@ -808,20 +818,23 @@ sub unshift_content {
             # magically call new_from_lol
             unshift @$content, $self->new_from_lol($_);
             $content->[0]->{'_parent'} = $self;
-        } elsif (ref $_) {  # insert an element
+        }
+        elsif (ref $_) {  # insert an element
             $_->detach if $_->{'_parent'};
             $_->{'_parent'} = $self;
             unshift(@$content, $_);
-        } else {  # insert text segment
+        }
+        else {  # insert text segment
             if (@$content && !ref $content->[0]) {
                 # last content element is also text segment -- prepend
                 $content->[0]  = $_ . $content->[0];
-            } else {
+            }
+            else {
                 unshift(@$content, $_);
             }
         }
     }
-    $self;
+    return $self;
 }
 
 # Cf.  splice ARRAY,OFFSET,LENGTH,LIST
@@ -845,31 +858,32 @@ a child of $h.
 
 sub splice_content {
     my($self, $offset, $length, @to_add) = @_;
-    Carp::croak
-      "splice_content requires at least one argument"
-      if @_ < 2;  # at least $h->splice_content($offset);
+    Carp::croak "splice_content requires at least one argument"
+        if @_ < 2;  # at least $h->splice_content($offset);
     return $self unless @_;
 
     my $content = ($self->{'_content'} ||= []);
     # prep the list
 
     my @out;
-    if(@_ > 2) {  # self, offset, length, ...
-      foreach my $n (@to_add) {
-        if(ref($n) eq 'ARRAY') {
-          $n = $self->new_from_lol($n);
-          $n->{'_parent'} = $self;
-        } elsif(ref($n)) {
-          $n->detach;
-          $n->{'_parent'} = $self;
+    if (@_ > 2) {  # self, offset, length, ...
+        foreach my $n (@to_add) {
+            if (ref($n) eq 'ARRAY') {
+                $n = $self->new_from_lol($n);
+                $n->{'_parent'} = $self;
+            }
+            elsif (ref($n)) {
+                $n->detach;
+                $n->{'_parent'} = $self;
+            }
         }
-      }
-      @out = splice @$content, $offset, $length, @to_add;
-    } else {  #  self, offset
-      @out = splice @$content, $offset;
+        @out = splice @$content, $offset, $length, @to_add;
+    }
+    else {  #  self, offset
+        @out = splice @$content, $offset;
     }
     foreach my $n (@out) {
-      $n->{'_parent'} = undef if ref $n;
+        $n->{'_parent'} = undef if ref $n;
     }
     return @out;
 }
@@ -886,14 +900,14 @@ its parent are explicitly destroyed.
 =cut
 
 sub detach {
-  my $self = $_[0];
-  return undef unless(my $parent = $self->{'_parent'});
-  $self->{'_parent'} = undef;
-  my $cohort = $parent->{'_content'} || return $parent;
-  @$cohort = grep { not( ref($_) and $_ eq $self) } @$cohort;
+    my $self = $_[0];
+    return undef unless(my $parent = $self->{'_parent'});
+    $self->{'_parent'} = undef;
+    my $cohort = $parent->{'_content'} || return $parent;
+    @$cohort = grep { not( ref($_) and $_ eq $self) } @$cohort;
     # filter $self out, if parent has any evident content
-  
-  return $parent;
+
+    return $parent;
 }
 
 
@@ -906,9 +920,11 @@ can just use $h->delete_content.
 =cut
 
 sub detach_content {
-  my $c = $_[0]->{'_content'} || return(); # in case of no content
-  for (@$c) { $_->{'_parent'} = undef if ref $_; }
-  return splice @$c;
+    my $c = $_[0]->{'_content'} || return(); # in case of no content
+    for (@$c) {
+        $_->{'_parent'} = undef if ref $_;
+    }
+    return splice @$c;
 }
 
 
@@ -927,42 +943,43 @@ C<< $h->replace_with(...)->delete >> if you need that.
 =cut
 
 sub replace_with {
-  my($self, @replacers) = @_;
-  Carp::croak "the target node has no parent"
-    unless my($parent) = $self->{'_parent'};
+    my ($self, @replacers) = @_;
+    Carp::croak "the target node has no parent"
+        unless my($parent) = $self->{'_parent'};
 
-  my $parent_content = $parent->{'_content'};
-  Carp::croak "the target node's parent has no content!?" 
-   unless $parent_content and @$parent_content;
-  
-  my $replacers_contains_self;
-  for(@replacers) {
-    if(!ref $_) {
-      # noop
-    } elsif($_ eq $self) {
-      # noop, but check that it's there just once.
-      Carp::croak 
-        "Replacement list contains several copies of target!"
-       if $replacers_contains_self++;
-    } elsif($_ eq $parent) {
-      Carp::croak "Can't replace an item with its parent!";
-    } elsif(ref($_) eq 'ARRAY') {
-      $_ = $self->new_from_lol($_);
-    } else {
-      $_->detach;
-      $_->{'_parent'} = $parent;
-      # each of these are necessary
-    }
-  }
-  @$parent_content 
-   = map { ( ref($_) and $_ eq $self) ? @replacers : $_ }
-         @$parent_content
-  ;
+    my $parent_content = $parent->{'_content'};
+    Carp::croak "the target node's parent has no content!?" 
+    unless $parent_content and @$parent_content;
 
-  $self->{'_parent'} = undef unless $replacers_contains_self;
-   # if replacers does contain self, then the parent attribute is fine as-is
+    my $replacers_contains_self;
+    for(@replacers) {
+        if (!ref $_) {
+            # noop
+        }
+        elsif($_ eq $self) {
+            # noop, but check that it's there just once.
+            Carp::croak 
+            "Replacement list contains several copies of target!"
+            if $replacers_contains_self++;
+        }
+        elsif($_ eq $parent) {
+            Carp::croak "Can't replace an item with its parent!";
+        }
+        elsif(ref($_) eq 'ARRAY') {
+            $_ = $self->new_from_lol($_);
+        }
+        else {
+            $_->detach;
+            $_->{'_parent'} = $parent;
+            # each of these are necessary
+        }
+    } # for @replacers
+    @$parent_content = map { ( ref($_) and $_ eq $self) ? @replacers : $_ } @$parent_content;
 
-  return $self;
+    $self->{'_parent'} = undef unless $replacers_contains_self;
+    # if replacers does contain self, then the parent attribute is fine as-is
+
+    return $self;
 }
 
 =head2 $h->preinsert($element_or_text...)
@@ -975,9 +992,9 @@ Returns C<$h>.
 =cut
 
 sub preinsert {
-  my $self = shift;
-  return $self unless @_;
-  return $self->replace_with(@_, $self);
+    my $self = shift;
+    return $self unless @_;
+    return $self->replace_with(@_, $self);
 }
 
 =head2 $h->postinsert($element_or_text...)
@@ -990,9 +1007,9 @@ C<$h>.
 =cut
 
 sub postinsert {
-  my $self = shift;
-  return $self unless @_;
-  return $self->replace_with($self, @_);
+    my $self = shift;
+    return $self unless @_;
+    return $self->replace_with($self, @_);
 }
 
 
