@@ -1820,8 +1820,8 @@ sub format {
 =head2 $h->starttag() or $h->starttag($entities)
 
 Returns a string representing the complete start tag for the element.
-I.e., leading "<", tag name, attributes, and trailing ">".  Attributes
-values that don't consist entirely of digits are surrounded with
+I.e., leading "<", tag name, attributes, and trailing ">".
+All values are surrounded with
 double-quotes, and appropriate characters are encoded.  If C<$entities>
 is omitted or undef, I<all> unsafe characters are encoded as HTML
 entities.  See L<HTML::Entities> for details.  If you specify some
@@ -1867,11 +1867,8 @@ sub starttag {
         ) {
             $tag .= $html_uc ? " \U$_" : " \L$_";
         } else { # non-boolean attribute
-            if ($val !~ m/^[0-9]+$/s) { # quote anything not purely numeric
-              # Might as well double-quote everything, for simplicity's sake
-              HTML::Entities::encode_entities($val, $entities);
-              $val = qq{"$val"};
-            }
+            HTML::Entities::encode_entities($val, $entities);
+            $val = qq{"$val"};
             $tag .= $html_uc ? qq{ \U$_\E=$val} : qq{ \L$_\E=$val};
         }
     }

@@ -18,9 +18,7 @@ my $html = $img->as_HTML;
 print $html, "\n";
 
 like( $html, qr/<img .+ \/>/,    "Tag is self-closed" );
-TODO: { local $TODO = "Still haven't written this";
 like( $html, qr/ height="540" /, "Height is quoted" );
 like( $html, qr/ border="0" /,   "Border is quoted" );
 like( $html, qr/ width="100" /,  "Width is quoted" );
-}
 like( $html, qr/ alt="A few bottles of Chech&#39;tluth later..." /, "Alt tag is quoted and escaped" );

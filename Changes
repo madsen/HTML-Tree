@@ -1,19 +1,21 @@
-# Time-stamp: "2003-09-15 01:01:36 ADT"
-
 NEXT
 
     [THINGS THAT MAY BREAK YOUR CODE]
     * The store_declarations() method has been removed.
     * Non-closing HTML tags like <IMG> are now rendered as <IMG />.
+    * All values in tags are now double-quoted.  Previously, all-numeric
+      values weren't quoted.
 
     [FIXES]
     * The DOCTYPE declaration now always gets put back at the top of
       the recreated document.  Thanks, Terrence Brannon.
     * Non-closing HTML tags like <IMG> are now rendered as <IMG />.
       Thanks to Ian Malpass.
+    * All values in tags are now double-quoted.
 
     [DOCUMENTATION]
     * Updated docs from Terrence Brannon.
+
 
 2005-11-09   Andy Lester
 
