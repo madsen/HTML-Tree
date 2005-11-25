@@ -1,4 +1,5 @@
 #!perl -Tw
+
 use Test::More tests => (3 + 7 * 8);
 #initial tests + number of tests in test_new_obj() * number of times called
 
@@ -9,10 +10,9 @@ BEGIN {
 }
 
 my $obj = new HTML::Tree;
-
 isa_ok($obj, "HTML::TreeBuilder");
 
-our $TestInput = "t/oldparse.html";
+my $TestInput = "t/oldparse.html";
 
 my $HTML ;
 {
@@ -101,14 +101,13 @@ is($HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly");
 
 
 sub test_new_obj {
-
     my $obj = shift ;
     my $test_description = shift;
 
     isa_ok($obj, "HTML::TreeBuilder", $test_description);
 
-    my $html;
-    ok ($html = $obj->as_HTML(undef, '  '), "Get html as string." );
+    my $html = $obj->as_HTML(undef, '  ');
+    ok( $html, "Get HTML as string." );
 
     # This is a very simple test just to ensure that we get something
     # sensible back.
@@ -126,5 +125,4 @@ ENDTEXT
 
     unlike( $html, qr/simple-comment/, "Simple comment not found" );
     like( $html, qr/Gisle/, "found Gisle" );
-
-}
+} # test_new_obj
