@@ -1,7 +1,4 @@
-
-require 5;
 package HTML::AsSubs;
-#Time-stamp: "2000-06-28 13:06:25 MDT"
 
 =head1 NAME
 
@@ -108,10 +105,6 @@ for (@TAGS) {
 	my $code;
 	$code = "sub $_ { _elem('$_', \@_); }\n" ;
 	push(@EXPORT, $_);
-
-=head1 Generated functions
-Here we use a loop and generate functions as strings.  Then eval to 'define' the function.  1 subroutine per tag.
-=cut
 	eval $code;
 	if ($@) {
 		die $@;
@@ -119,11 +112,12 @@ Here we use a loop and generate functions as strings.  Then eval to 'define' the
 }
 
 =head1 Private Functions
-=cut
 
 =head2 _elem()
 
-The _elem() function is wrapped by all the html 'tag' functions. It takes a tag-name, optional hashref of attributes and a list of content as parameters.
+The _elem() function is wrapped by all the html 'tag' functions. It
+takes a tag-name, optional hashref of attributes and a list of content
+as parameters.
 
 =cut
 
