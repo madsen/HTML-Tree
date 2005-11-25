@@ -1,9 +1,8 @@
 #!perl -Tw
-# -*-Perl-*-
-# Time-stamp: "2003-09-15 01:44:58 ADT"
-use Test::More;
-BEGIN { plan tests => 3 }
-use HTML::TreeBuilder;
+use Test::More tests=>5;
+BEGIN {
+    use_ok( 'HTML::TreeBuilder' );
+}
 use strict;
 
 print "#Using HTML::TreeBuilder version v$HTML::TreeBuilder::VERSION\n";
@@ -37,6 +36,9 @@ This is some text and this is a simple <a
 href="http://www.sn.no/libwww-perl/">link</a> back to the
 <b>libwww-perl</b> site.
 
+<!-- This tag isn't quoted properly, but should be when rendered -->
+<img src=sean-burke-naked-as-a-jaybird.jpg>
+
 <foo a=b
 
 EOT
@@ -54,7 +56,8 @@ print "# As HTML: $x#\n";
 
 # Just make a few samples to check that we got what we expected
 like($_, qr/<head>/i, "Matches Head");
-like($_, qr/<isindex>/i, "Matches isindex");
+like($_, qr/<isindex \/>/i, "Matches isindex");
+like($_, qr/<img src="sean-burke-naked-as-a-jaybird.jpg" \/>/, "Found the img tag");
 like($_, qr/this is a simple/, "Matches simple text");
 
 # /foo\s*a=b/ || $bad++; # too version-dependent

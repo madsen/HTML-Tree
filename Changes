@@ -4,10 +4,13 @@ NEXT
 
     [THINGS THAT MAY BREAK YOUR CODE]
     * The store_declarations() method has been removed.
+    * Non-closing HTML tags like <IMG> are now rendered as <IMG />.
 
     [FIXES]
     * The DOCTYPE declaration now always gets put back at the top of
       the recreated document.  Thanks, Terrence Brannon.
+    * Non-closing HTML tags like <IMG> are now rendered as <IMG />.
+      Thanks to Ian Malpass.
 
     [DOCUMENTATION]
     * Updated docs from Terrence Brannon.

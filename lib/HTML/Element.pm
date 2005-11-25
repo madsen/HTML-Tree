@@ -1875,7 +1875,11 @@ sub starttag {
             $tag .= $html_uc ? qq{ \U$_\E=$val} : qq{ \L$_\E=$val};
         }
     }
-    "$tag>";
+    if ( scalar $self->content_list == 0 && $self->_empty_element_map->{ $self->tag } ) {
+        return $tag . " />";
+    } else {
+        return $tag . ">";
+    }
 }
 
 
