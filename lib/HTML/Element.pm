@@ -1609,6 +1609,11 @@ sub as_HTML {
     ); # End of parms to traverse()
   }
 
+  if (defined $self->{_decl}) {
+    unshift @html, sprintf "<!%s>\n", $self->{_decl}->{text} ;
+  }
+
+
   return join('', @html, "\n");
 }
 

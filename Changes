@@ -2,6 +2,13 @@
 
 NEXT
 
+    [THINGS THAT MAY BREAK YOUR CODE]
+    * The store_declarations() method has been removed.
+
+    [FIXES]
+    * The DOCTYPE declaration now always gets put back at the top of
+      the recreated document.  Thanks, Terrence Brannon.
+
     [DOCUMENTATION]
     * Updated docs from Terrence Brannon.
 

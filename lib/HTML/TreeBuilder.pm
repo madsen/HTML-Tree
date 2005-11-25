@@ -155,7 +155,6 @@ sub new { # constructor!
   $self->{'_no_space_compacting'}= 0;
   $self->{'_store_comments'}     = 0;
   $self->{'_store_pis'}          = 0;
-  $self->{'_store_declarations'} = 0;
   $self->{'_p_strict'} = 0;
   
   # Parse attributes passed in as arguments
@@ -199,7 +198,6 @@ sub ignore_unknown { shift->_elem('_ignore_unknown', @_); }
 sub ignore_text    { shift->_elem('_ignore_text',    @_); }
 sub ignore_ignorable_whitespace  { shift->_elem('_tighten',    @_); }
 sub store_comments { shift->_elem('_store_comments', @_); }
-sub store_declarations { shift->_elem('_store_declarations', @_); }
 sub store_pis      { shift->_elem('_store_pis', @_); }
 sub warn           { shift->_elem('_warn',           @_); }
 
@@ -1167,24 +1165,17 @@ sub comment {
   return $e;
 }
 
-#==========================================================================
-# TODO: currently this puts declarations in just the wrong place.
-#  How to correct? look at pos->_content, and go to insert at end, 
-#  but back up before any head elements?  Do that just if implicit
-#  mode is on?
-
 sub declaration {
   return if $_[0]{'_stunted'};
   # Accept a "here's a markup declaration" signal from HTML::Parser.
 
-  return unless $_[0]->{'_store_declarations'};
   my($self, $text) = @_;
   my $pos = $self->{'_pos'} || $self;
-  
+
   if(DEBUG) {
     my @lineage_tags = $pos->lineage_tag_names;
     my $indent = '  ' x (1 + @lineage_tags);
-    
+
     my $nugget = (length($text) <= 25) ? $text : (substr($text,0,25) . '...');
     $nugget =~ s<([\x00-\x1F])>
                  <'\\x'.(unpack("H2",$1))>eg;
@@ -1196,14 +1187,8 @@ sub declaration {
   (my $e = (
     $self->{'_element_class'} || 'HTML::Element'
    )->new('~declaration'))->{'text'} = $text;
-  $pos->push_content($e);
-  ++($self->{'_element_count'});
 
-  &{  $self->{'_tweak_~declaration'}
-      || $self->{'_tweak_*'}
-      || return $e
-   }(map $_, $e,   '~declaration', $self);
-  
+  $self->{_decl} = $e;
   return $e;
 }
 
@@ -1737,16 +1722,6 @@ parsing.
 
 This determines whether TreeBuilder will normally store comments found
 while parsing content into C<$root>.  Currently, this is off by default.
-
-=item $root->store_declarations(value)
-
-This determines whether TreeBuilder will normally store markup
-declarations found while parsing content into C<$root>.  Currently,
-this is off by default.
-
-It is somewhat of a known bug (to be fixed one of these days, if
-anyone needs it?) that declarations in the preamble (before the "html"
-start-tag) end up actually I<under> the "html" element.
 
 =item $root->store_pis(value)
 

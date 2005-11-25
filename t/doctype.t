@@ -21,15 +21,12 @@ blah blah
 EOHTML
 
 my $tree = HTML::TreeBuilder->new;
-$tree->store_declarations(1);
+
 
 $tree->parse($html);
 $tree->eof;
 
 my $text = $tree->as_HTML(undef, " ");
 my @lines = split( "\n", $text );
-TODO: {
-    local $TODO = "Haven't fixed this yet.";
 
-    like( $lines[0], qr/DOCTYPE/, "DOCTYPE is in the first line" );
-}
+like( $lines[0], qr/DOCTYPE/, "DOCTYPE is in the first line" );
