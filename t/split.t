@@ -1,7 +1,5 @@
 #!perl -Tw
-# -*-Perl-*-
-# Time-stamp: "2003-09-15 01:48:48 ADT"
-#
+
 # Testing of the incremental parsing.  Try to split a HTML document at
 # every possible position and make sure that the result is the same as
 # when parsing everything in one chunk.
@@ -25,16 +23,16 @@ Text <b>bold</b>
 some &#101;ntities (&aring)
 EOT
 
-$notests = length($HTML); # A test for each char in the test doc
-$notests *= 2;				 #  done twice
-$notests += 3;				 #  plus more for the the rest of the tests
+$notests = length($HTML);   # A test for each char in the test doc
+$notests *= 3;              #  done twice
+$notests += 4;              #  plus more for the the rest of the tests
 }
 use strict;
 
 use Test::More tests=>$notests; # Tests 
 
 BEGIN {
-	use_ok( 'HTML::TreeBuilder');
+    use_ok( 'HTML::TreeBuilder');
 }
 
 my $h = new HTML::TreeBuilder;
@@ -50,37 +48,39 @@ for my $pos (0 .. length($HTML) - 1) {
     is ($first.$last, $HTML, "File split okay");
     my $h1;
     eval {
-		$h1 = new HTML::TreeBuilder;
-		$h1->parse($first);
-		$h1->parse($last);
-		$h1->eof;
+        $h1 = new HTML::TreeBuilder;
+        isa_ok( $h1, 'HTML::TreeBuilder' );
+        $h1->parse($first);
+        $h1->parse($last);
+        $h1->eof;
     };
     if ($@) {
-		print "Died when splitting at position $pos:\n";
-		my $before = 10;
-		$before = $pos if $pos < $before;
-		print "«", substr($HTML, $pos - $before, $before);
-		print "»\n«";
-		print substr($HTML, $pos, 10);
-		print "»\n";
-		print "not ok $pos\n";
-		$h1->delete;
-		next;
+        print "Died when splitting at position $pos:\n";
+        my $before = 10;
+        $before = $pos if $pos < $before;
+        print "«", substr($HTML, $pos - $before, $before);
+        print "»\n«";
+        print substr($HTML, $pos, 10);
+        print "»\n";
+        print "not ok $pos\n";
+        $h1->delete;
+        next;
     }
     my $new_html = $h1->as_HTML;
     my $before = 10;
-	$before = $pos if $pos < $before;
+    $before = $pos if $pos < $before;
     is($new_html, $html, "Still Parsing as the same after split at $pos") or 
-    	diag("Something is different when splitting at position $pos:\n", 
-    	     "«", substr($HTML, $pos - $before, $before), "»\n«",
-    	     substr($HTML, $pos, 10), "»\n", "\n$html$new_html\n",
-    	     );
-	$h1->delete;
-}
+        diag("Something is different when splitting at position $pos:\n", 
+             "«", substr($HTML, $pos - $before, $before), "»\n«",
+             substr($HTML, $pos, 10), "»\n", "\n$html$new_html\n",
+             );
+    $h1->delete;
+} # for
 
 # Also try what happens when we feed the document one-char at a time
 # print "#\n#\nNow parsing document once char at a time...\n";
 my $perChar = new HTML::TreeBuilder;
+isa_ok( $perChar, 'HTML::TreeBuilder' );
 while ($HTML =~ /(.)/sg) {
     $perChar->parse($1);
 }

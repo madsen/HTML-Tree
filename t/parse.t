@@ -1,6 +1,4 @@
 #!perl -Tw
-# -*-Perl-*-
-# Time-stamp: "2003-09-15 01:45:14 ADT"
 
 use strict;
 use Test;
