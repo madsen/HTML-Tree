@@ -30,3 +30,4 @@ t/parsefile.t
 t/parse.t
 t/pod.t
 t/split.t
+t/tag-rendering.t
