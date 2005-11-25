@@ -54,7 +54,7 @@ FIRST_BLOCK: {
     is( $div->as_text()," 1  2  3 ", "Dump element in text format");
     is( $div->as_trimmed_text(),"1 2 3", "Dump element in trimmed text format");
     is( $div->as_text_trimmed(),"1 2 3", "Dump element in trimmed text format");
-    is( $div->as_Lisp_form(),"(\"_tag\" \"div\" \"foo\" \"bar\" \"_content\" (\n  \" 1  2  3 \"))\n", "Dump element as Lisp form");
+    is( $div->as_Lisp_form(), qq{("_tag" "div" "foo" "bar" "_content" (\n  " 1  2  3 "))\n}, "Dump element as Lisp form");
 
     is( $div->address, '0.1.2' );
     is( $div, $t1->address('0.1.2'), 'using address to get the node' );
