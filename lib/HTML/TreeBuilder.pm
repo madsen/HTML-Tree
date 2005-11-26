@@ -154,6 +154,7 @@ sub new { # constructor!
   $self->{'_warn'}               = 0;
   $self->{'_no_space_compacting'}= 0;
   $self->{'_store_comments'}     = 0;
+  $self->{'_store_declarations'} = 1;
   $self->{'_store_pis'}          = 0;
   $self->{'_p_strict'} = 0;
   
@@ -198,6 +199,7 @@ sub ignore_unknown { shift->_elem('_ignore_unknown', @_); }
 sub ignore_text    { shift->_elem('_ignore_text',    @_); }
 sub ignore_ignorable_whitespace  { shift->_elem('_tighten',    @_); }
 sub store_comments { shift->_elem('_store_comments', @_); }
+sub store_declarations { shift->_elem('_store_declarations', @_); }
 sub store_pis      { shift->_elem('_store_pis', @_); }
 sub warn           { shift->_elem('_warn',           @_); }
 
@@ -1722,6 +1724,12 @@ parsing.
 
 This determines whether TreeBuilder will normally store comments found
 while parsing content into C<$root>.  Currently, this is off by default.
+
+=item $root->store_declarations(value)
+
+This determines whether TreeBuilder will normally store markup
+declarations found while parsing content into C<$root>.  This is on
+by default.
 
 =item $root->store_pis(value)
 

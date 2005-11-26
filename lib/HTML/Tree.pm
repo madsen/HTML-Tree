@@ -6,12 +6,12 @@ HTML::Tree - overview of HTML::TreeBuilder et al
 
 =head1 VERSION
 
-Version 3.19_02
+Version 3.19_03
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.19_02';
+$VERSION = '3.19_03';
 
 =head1 SYNOPSIS
 
@@ -145,7 +145,10 @@ Any patches sent should be diffed against this repository.
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Gisle Aas and Sean Burke for their original work.
-Thanks to Terrence Brannon for patches.
+Thanks to Chicago Perl Mongers (http://chicago.pm.org) for their
+patches submitted to HTML::Tree as part of the Phalanx project
+(http://qa.perl.org/phalanx).  Thanks to Terrence Brannon for additional
+patches.
 
 =head1 AUTHOR
 
