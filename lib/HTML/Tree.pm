@@ -145,7 +145,10 @@ Any patches sent should be diffed against this repository.
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Gisle Aas and Sean Burke for their original work.
-Thanks to Terrence Brannon for patches.
+Thanks to Chicago Perl Mongers (http://chicago.pm.org) for their
+patches submitted to HTML::Tree as part of the Phalanx project
+(http://qa.perl.org/phalanx).  Thanks to Terrence Brannon for additional
+patches.
 
 =head1 AUTHOR
 
