@@ -1,7 +1,7 @@
 #!perl -Tw
 
 use strict;
-use Test::More tests => 2;
+use Test::More tests => 5;
 
 BEGIN {
     use_ok( "HTML::TreeBuilder" );
@@ -20,13 +20,29 @@ blah blah
 </html>
 EOHTML
 
-my $tree = HTML::TreeBuilder->new;
+WITH_DECLARATION: { # Check default state
+    my $tree = HTML::TreeBuilder->new;
+    isa_ok( $tree, "HTML::TreeBuilder" );
+
+    $tree->parse( $html );
+    $tree->eof;
+
+    my @lines = split( "\n", $tree->as_HTML(undef, " ") );
+
+    like( $lines[0], qr/DOCTYPE/, "DOCTYPE is in the first line" );
+}
 
 
-$tree->parse($html);
-$tree->eof;
+WITHOUT_DECLARATION: {
+    my $tree = HTML::TreeBuilder->new;
+    isa_ok( $tree, "HTML::TreeBuilder" );
 
-my $text = $tree->as_HTML(undef, " ");
-my @lines = split( "\n", $text );
+    $tree->store_declarations(0);
 
-like( $lines[0], qr/DOCTYPE/, "DOCTYPE is in the first line" );
+    $tree->parse( $html );
+    $tree->eof;
+
+    my @lines = split( "\n", $tree->as_HTML(undef, " ") );
+
+    unlike( $lines[0], qr/DOCTYPE/, "DOCTYPE is NOT in the first line" );
+}
