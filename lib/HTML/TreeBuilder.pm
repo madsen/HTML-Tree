@@ -1599,7 +1599,7 @@ tree for a file consisting of just this:
   <li>I like pie!
 
 Then you would get that with C<< @nodes = $root->guts(); >>.
-It so happens that in this case, @notes will contain just one
+It so happens that in this case, C<@nodes> will contain just one
 element object, representing the "li" node (with "I like pie!" being
 its text child node).  However, consider if you were parsing this:
 
