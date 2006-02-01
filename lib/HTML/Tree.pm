@@ -6,12 +6,12 @@ HTML::Tree - overview of HTML::TreeBuilder et al
 
 =head1 VERSION
 
-Version 3.19_03
+Version 3.19_04
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.19_03';
+$VERSION = '3.19_04';
 
 =head1 SYNOPSIS
 
