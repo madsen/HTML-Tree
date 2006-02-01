@@ -293,7 +293,7 @@ So, to extract the text from the "h1" elements of an HTML document:
     return $heading;
   }
 
-This uses some unfamiliar methods that need explaning.  The
+This uses some unfamiliar methods that need explaining.  The
 C<parse_file> method that we've seen before, builds a tree based on
 source from the file given.  The C<delete> method is for marking a
 tree's contents as available for garbage collection, when you're done

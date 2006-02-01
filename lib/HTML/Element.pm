@@ -913,7 +913,7 @@ sub detach {
 
 =head2 $h->detach_content()
 
-This unlinks $h all of $h's children from $h, and returns them.
+This unlinks all of $h's children from $h, and returns them.
 Note that these are not explicitly destroyed; for that, you
 can just use $h->delete_content.
 
@@ -1866,15 +1866,25 @@ sub starttag {
               : $HTML::Element::boolean_attr{$name} eq $_)
         ) {
             $tag .= $html_uc ? " \U$_" : " \L$_";
-        } else { # non-boolean attribute
-            HTML::Entities::encode_entities($val, $entities);
-            $val = qq{"$val"};
-            $tag .= $html_uc ? qq{ \U$_\E=$val} : qq{ \L$_\E=$val};
         }
-    }
+        else { # non-boolean attribute
+
+          if (ref $val eq 'HTML::Element' and
+                  $val->{_tag} eq '~literal') {
+            $val = $val->{text};
+          }
+          else {
+            HTML::Entities::encode_entities($val, $entities);
+          }
+
+          $val = qq{"$val"};
+          $tag .= $html_uc ? qq{ \U$_\E=$val} : qq{ \L$_\E=$val};
+        }
+    } # for keys
     if ( scalar $self->content_list == 0 && $self->_empty_element_map->{ $self->tag } ) {
         return $tag . " />";
-    } else {
+    }
+    else {
         return $tag . ">";
     }
 }

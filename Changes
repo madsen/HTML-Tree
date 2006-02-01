@@ -1,7 +1,13 @@
-
 TODO
     Must have all versions in sync.
     Add the info section to the docs.
+
+NEXT
+
+    * Modified starttag() so that it could render a literal HTML::Element
+      correctly. Added a test case for this in tag-rendering.t
+      Thanks to Terrence Brannon.
+
 
 3.19_03 Fri Nov 25 22:20:51 CST 2005
     [THINGS THAT MAY BREAK YOUR CODE]
