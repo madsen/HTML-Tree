@@ -94,8 +94,9 @@ modify it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-Gisle Aas E<lt>gisle@aas.noE<gt>.  Current maintainer
-Sean M. Burke E<lt>sburke@cpan.orgE<gt>
+Gisle Aas E<lt>gisle@aas.noE<gt>, then 
+Sean M. Burke E<lt>sburke@cpan.orgE<gt>, now maintained by
+Andy Lester C<andy at petdance.com>.
 
 =cut
 

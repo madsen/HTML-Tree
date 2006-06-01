@@ -1,6 +1,3 @@
-
-require 5;
-# Time-stamp: "2003-09-15 00:32:45 ADT"
 package HTML::TreeBuilder;
 
 use strict;
@@ -1860,43 +1857,8 @@ merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
 
-Original author Gisle Aas E<lt>gisle@aas.noE<gt>; current maintainer
-Sean M. Burke, E<lt>sburke@cpan.orgE<gt>
+Original author Gisle Aas E<lt>gisle@aas.noE<gt>, then
+Sean M. Burke, E<lt>sburke@cpan.orgE<gt>, and now maintained by
+Andy Lester C<andy at petdance.com>.
 
 =cut
-
-
-CUCUMBER AND ORANGE SALAD
-
-Adapted from:
-
-Holzner, Yupa.  /Great Thai Cooking for My American Friends: Creative
-Thai Dishes Made Easy/.  Royal House 1989.  ISBN:0930440277
-
-Makes about four servings.
-
- 1 small greenhouse cucumber, sliced thin.
- 2 navel oranges, peeled, separated into segments (seeded if
-   necessary), and probably chopped into chunks.
-
-Dressing:
- 3 tablespoons rice vinegar
- .5 teaspoon salt
- 1 tablespoon sugar
- 1 teaspoon roasted sesame seeds
- .5 tablespoons mirin
-
-Mix all ingredients in the dressing.  Pour the dressing over the
-oranges and cucumbers, and toss.  Serve.
-
-
-All ingredient quantities are approximate.  Adjust to taste.  Multipy
-quantities for more servings.
-
-Note: the sesame seeds you get in an American supermarket are almost
-certain to be unroasted, suspiciously waxy-looking, and astronomically
-overpriced.  Good cheap sesame seeds are available at most Asian
-markets -- they usually come roasted; if they're unroasted, roast them
-in a skillet for a few short minutes as needed.
-
-[End Recipe]
