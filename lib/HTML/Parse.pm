@@ -1,7 +1,4 @@
-
-require 5;
 package HTML::Parse;
-  # Time-stamp: "2000-05-18 23:40:06 MDT"
 
 =head1 NAME
 
@@ -94,9 +91,9 @@ modify it under the same terms as Perl itself.
 
 =head1 AUTHOR
 
-Gisle Aas E<lt>gisle@aas.noE<gt>, then 
-Sean M. Burke E<lt>sburke@cpan.orgE<gt>, now maintained by
-Andy Lester C<andy at petdance.com>.
+Maintained by Andy Lester C<andy at petdance.com>.  Originally by
+Gisle Aas E<lt>gisle@aas.noE<gt> and
+Sean M. Burke E<lt>sburke@cpan.orgE<gt>.
 
 =cut
 
