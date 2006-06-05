@@ -1833,7 +1833,9 @@ When a document parses in a way different from how you think it
 should, I ask that you report this to me as a bug.  The first thing
 you should do is copy the document, trim out as much of it as you can
 while still producing the bug in question, and I<then> email me that
-mini-document I<and> the code you're using to parse it, at C<sburke@cpan.org>.
+mini-document I<and> the code you're using to parse it, to the HTML::Tree
+bug queue at C<bug-html-tree at rt.cpan.org>.
+
 Include a note as to how it 
 parses (presumably including its $tree->dump output), and then a
 I<careful and clear> explanation of where you think the parser is

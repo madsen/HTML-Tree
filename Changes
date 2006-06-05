@@ -1,5 +1,9 @@
 Changelog for HTML-Tree
 
+3.20    Sun Jun  4 22:24:38 CDT 2006
+    No code changes.  Just making sure all notes go to Andy Lester,
+    not Sean Burke.
+
 3.19_04 Wed Feb  1 09:57:35 PST 2006
     [FIXES]
     * Modified starttag() so that it could render a literal HTML::Element
