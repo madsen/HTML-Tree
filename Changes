@@ -3,7 +3,8 @@ Changelog for HTML-Tree
 NEXT RELEASE
     [FIXES]
     * Updated HTML::Parser requirement to 3.46 to fix a bug in
-      tag-rendering.t, noted in RT 20816.  Thanks to Gordon Lack.
+      tag-rendering.t, noted in RT 20816 and 19796.  Thanks to 
+      Gordon Lack and Ricardo Signes
     * Fixed HTML::TreeBuilder to not remove &nbsp; where it shouldn't,
       using patch supplied in RT 17481.  Thanks to Chris Madsen.
 
