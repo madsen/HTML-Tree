@@ -687,7 +687,7 @@ sub warning {
          ($sibs = ( $par = $self->{'_pos'} || $self )->{'_content'})
          and @$sibs  # parent already has content
          and !ref($sibs->[-1])  # and the last one there is a text node
-         and $sibs->[-1] !~ m<\S>s  # and it's all whitespace
+         and $sibs->[-1] !~ m<[^\n\r\f\t ]>s  # and it's all whitespace
 
          and (  # one of these has to be eligible...
                $HTML::TreeBuilder::canTighten{$tag}
@@ -1021,8 +1021,8 @@ sub warning {
         $pos->push_content($text);
     } else {
         # return unless $text =~ /\S/;  # This is sometimes wrong
-        
-        if (!$self->{'_implicit_tags'} || $text !~ /\S/) {
+
+        if (!$self->{'_implicit_tags'} || $text !~ /[^\n\r\f\t ]/) {
             # don't change anything
         } elsif ($ptag eq 'head' or $ptag eq 'noframes') {
             if($self->{'_implicit_body_p_tag'}) {
@@ -1100,8 +1100,9 @@ sub warning {
         #print "POS is now $pos, ", $pos->{'_tag'}, "\n";
         
         return if $ignore_text;
-        $text =~ s/\s+/ /g unless $no_space_compacting ;  # canonical space
-        
+        $text =~ s/[\n\r\f\t ]+/ /g  # canonical space
+            unless $no_space_compacting ;
+
         print
           $indent, " (Attaching text node ($nugget) under ",
           # was: $self->{'_pos'} ? $self->{'_pos'}{'_tag'} : $self->{'_tag'},
