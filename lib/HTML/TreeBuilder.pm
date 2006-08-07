@@ -4,7 +4,7 @@ use strict;
 use integer; # vroom vroom!
 use Carp ();
 use vars qw(@ISA $VERSION $DEBUG);
-$VERSION = '3.13';
+$VERSION = '3.21';
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
@@ -1850,7 +1850,9 @@ L<HTML::DOMbo>
 
 =head1 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas; copyright 1999-2002 Sean M. Burke.
+Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
+2006 Pete Krawczyk.
+
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
@@ -1860,8 +1862,8 @@ merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
 
-Original author Gisle Aas E<lt>gisle@aas.noE<gt>, then
-Sean M. Burke, E<lt>sburke@cpan.orgE<gt>, and now maintained by
-Andy Lester C<andy at petdance.com>.
+Currently maintained by Pete Krawczyk C<< <petek@cpan.org> >>
+
+Original authors: Gisle Aas, Sean Burke and Andy Lester.
 
 =cut

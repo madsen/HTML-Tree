@@ -84,16 +84,21 @@ L<HTML::Parser>, L<HTML::TreeBuilder>, L<HTML::Element>
 
 =head1 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas. All rights reserved.
+Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
+2006 Pete Krawczyk.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+This program is distributed in the hope that it will be useful, but
+without any warranty; without even the implied warranty of
+merchantability or fitness for a particular purpose.
+
 =head1 AUTHOR
 
-Maintained by Andy Lester C<andy at petdance.com>.  Originally by
-Gisle Aas E<lt>gisle@aas.noE<gt> and
-Sean M. Burke E<lt>sburke@cpan.orgE<gt>.
+Currently maintained by Pete Krawczyk C<< <petek@cpan.org> >>
+
+Original authors: Gisle Aas, Sean Burke and Andy Lester.
 
 =cut
 

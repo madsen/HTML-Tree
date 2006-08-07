@@ -1,4 +1,4 @@
-# Time-stamp: "2002-07-30 00:44:56 MDT"
+# Time-stamp: "2006-08-06 19:00:00 CDT"
 
 HTML-Tree
 ---------
@@ -8,8 +8,7 @@ creating, and extracting information from HTML syntax trees; there is
 also relevent documentation.  These modules used to be part of the
 libwww-perl distribution, but are now unbundled in order to facilitate
 a separate development track.  Bug reports and discussions about these
-modules can still be sent to the <libwww@perl.org> mailing list, or to
-<sburke@cpan.org>.
+modules can be sent to the RT queue at <bug-html-tree@rt.cpan.org>.
 
 The modules and documentation present in this collection are:
 
@@ -67,7 +66,7 @@ Or see also "perldoc perlmodinstall"
 
 SUBLIMINAL MESSAGE: BUY THE BOOK!
 
-The book /Perl & LWP/ by me, Sean M. Burke, is published by
+The book /Perl & LWP/ by Sean M. Burke is published by
 O'Reilly and Associates, 2002.  ISBN: 0-596-00178-9
 
 It has several chapters to do with HTML processing in general,
@@ -80,10 +79,10 @@ and HTML-Tree specifically.  There's more info at:
 
 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas; copyright 1999-2002 Sean M. Burke.
-(Except the articles contained in HTML::Tree::AboutObjects,
-HTML::Tree::AboutTrees, and HTML::Tree::Scanning, which are all
-copyright 2000 The Perl Journal.)
+Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke; 
+2005 Andy Lester; 2006 Pete Krawczyk.  (Except the articles
+contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
+HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
 
 Except for those three TPJ articles, the whole HTML-Tree distribution,
 of which this file is a part, is free software; you can redistribute

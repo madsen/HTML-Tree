@@ -8,7 +8,7 @@ WriteMakefile(
         'HTML::Parser' => 3.46,
         'HTML::Tagset' => 3.02,
     },
-    AUTHOR => 'Andy Lester <andy@petdance.com>',
+    AUTHOR => 'Pete Krawczyk <petek@cpan.org>',
     ABSTRACT => 'build and scan parse-trees of HTML',
 
     dist            => { COMPRESS => 'gzip -9f', SUFFIX => 'gz' },

@@ -8,6 +8,9 @@ NEXT RELEASE
     * Fixed HTML::TreeBuilder to not remove &nbsp; where it shouldn't,
       using patch supplied in RT 17481.  Thanks to Chris Madsen.
 
+    [DOCUMENTATION]
+    * HTML-Tree has a new maintainer: Pete Krawczyk <petek@cpan.org>
+
 3.20    Sun Jun  4 22:24:38 CDT 2006
     No code changes.  Just making sure all notes go to Andy Lester,
     not Sean Burke.

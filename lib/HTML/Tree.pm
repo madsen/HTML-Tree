@@ -6,12 +6,12 @@ HTML::Tree - overview of HTML::TreeBuilder et al
 
 =head1 VERSION
 
-Version 3.20
+Version 3.21
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.20';
+$VERSION = '3.21';
 
 =head1 SYNOPSIS
 
@@ -144,23 +144,27 @@ Any patches sent should be diffed against this repository.
 
 =head1 ACKNOWLEDGEMENTS
 
-Thanks to Gisle Aas and Sean Burke for their original work.
+Thanks to Gisle Aas, Sean Burke and Andy Lester for their original work.
+
 Thanks to Chicago Perl Mongers (http://chicago.pm.org) for their
 patches submitted to HTML::Tree as part of the Phalanx project
-(http://qa.perl.org/phalanx).  Thanks to Terrence Brannon for additional
-patches.
+(http://qa.perl.org/phalanx).
+
+Thanks to the following people for additional patches and documentation:
+Terrence Brannon, Gordon Lack, Chris Madsen and Ricardo Signes.
 
 =head1 AUTHOR
 
 Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
-Currently maintained by Andy Lester C<< <andy at petdance.com> >>.
+and Andy Lester.  Currently maintained by Pete Krawczyk
+C<< <petek@cpan.org> >>.
 
 =head1 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas; copyright 1999-2002 Sean M. Burke.
-(Except the articles contained in HTML::Tree::AboutObjects,
-HTML::Tree::AboutTrees, and HTML::Tree::Scanning, which are all
-copyright 2000 The Perl Journal.)
+Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke; 
+2005 Andy Lester; 2006 Pete Krawczyk.  (Except the articles
+contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
+HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
 
 Except for those three TPJ articles, the whole HTML-Tree distribution,
 of which this file is a part, is free software; you can redistribute
@@ -169,10 +173,9 @@ it and/or modify it under the same terms as Perl itself.
 Those three TPJ articles may be distributed under the same terms as
 Perl itself.
 
-The programs and documentation in this dist are distributed in
-the hope that they will be useful, but without any warranty; without
-even the implied warranty of merchantability or fitness for a
-particular purpose.
+The programs in this library are distributed in the hope that they
+will be useful, but without any warranty; without even the implied
+warranty of merchantability or fitness for a particular purpose.
 
 =cut
 
