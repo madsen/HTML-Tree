@@ -1,5 +1,5 @@
 #!/usr/local/bin/perl
-# Time-stamp: "2000-10-02 14:48:15 MDT" sburke@cpan.org
+# Time-stamp: "2000-10-02 14:48:15 MDT"
 #
 # Parse the given HTML file(s) and dump the parse tree
 # Usage:
