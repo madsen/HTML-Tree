@@ -1,6 +1,6 @@
 Changelog for HTML-Tree
 
-NEXT RELEASE
+3.21	Sun Aug  6 19:10:00 CDT 2006
     [FIXES]
     * Updated HTML::Parser requirement to 3.46 to fix a bug in
       tag-rendering.t, noted in RT 20816 and 19796.  Thanks to 
