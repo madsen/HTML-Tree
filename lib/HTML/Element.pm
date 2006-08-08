@@ -6,12 +6,12 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.21
+Version 3.21_01
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.21';
+$VERSION = '3.21_01';
 
 =head1 SYNOPSIS
 
@@ -586,7 +586,7 @@ C<'_parent', >I<[object_value]>C< , '_tag', 'em', 'lang', 'en-US',
 
 Like all_attr, but only returns the names of the attributes.
 
-Example output of C<< $h->all_attr() >> :
+Example output of C<< $h->all_attr_names() >> :
 C<'_parent', '_tag', 'lang', '_content', >.
 
 =cut
