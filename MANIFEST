@@ -27,6 +27,7 @@ t/oldparse.html
 t/oldparse.t
 t/parsefile.t
 t/parse.t
+t/pod-coverage.t
 t/pod.t
 t/split.t
 t/tag-rendering.t
