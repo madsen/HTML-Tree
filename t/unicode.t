@@ -15,6 +15,7 @@ BEGIN {
   }
 
   plan tests => 11;
+  binmode STDOUT, ":utf8";
 } # end BEGIN
 
 use Encode;
@@ -54,7 +55,7 @@ ok same('<p>&nbsp;&nbsp;&mdash;&nbsp;&nbsp;</p>',
 
 ok same('<p>&nbsp;&nbsp;XXmdashXX&nbsp;&nbsp;</p>',
         "<p>\xA0\xA0\x{2014}\xA0\xA0</p>",
-        0, sub { $_[0] =~ s/XXmdashXX/&#8212;/ });
+        0, sub { $_[0] =~ s/XXmdashXX/\x{2014}/ });
 
 ok same('<p>&nbsp;<b>bold</b>&nbsp;&nbsp;</p>',
         decode('latin1', "<p>\xA0<b>bold</b>\xA0\xA0</p>"));
@@ -103,7 +104,7 @@ sub same {
     ) {
       $_ = $line;
       s/\n/\n# /g;
-      print "# ", $_, "\n";
+      print "# $_\n";
     }
   }
 

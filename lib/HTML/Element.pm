@@ -6,12 +6,12 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.21_01
+Version 3.21_02
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.21_01';
+$VERSION = '3.21_02';
 
 =head1 SYNOPSIS
 
@@ -1721,8 +1721,14 @@ sub as_XML {
 
 sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
   foreach my $x (@_) {
-    $x =~ s<([^\x20\x21\x23\x27-\x3b\x3d\x3F-\x5B\x5D-\x7E])>
-           <'&#'.(ord($1)).';'>seg;
+    $x =~ s/(  			# Escape...
+		< |		# Less than, or
+		> |     	# Greater than, or
+		" |     	# Double quote, or
+		&(?!    	# An ampersand that isn't followed by...
+		  (\#\d+; | 	# A hash mark, digits and semicolon, or
+		   [a-z]+; ))   # Lowercase letters and a semicolon
+	     )/'&#'.ord($1).";"/sgex;  # And replace them with their XML digit counterpart 
   }
   return;
 }
