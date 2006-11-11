@@ -1720,10 +1720,12 @@ sub as_XML {
 
 
 sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
+  # Five recognized escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#dt-escape
   foreach my $x (@_) {
     $x =~ s/(  			# Escape...
 		< |		# Less than, or
 		> |     	# Greater than, or
+		' |     	# Single quote, or 
 		" |     	# Double quote, or
 		&(?!    	# An ampersand that isn't followed by...
 		  (\#\d+; | 	# A hash mark, digits and semicolon, or

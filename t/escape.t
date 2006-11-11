@@ -5,18 +5,25 @@
 #  & => &#38; (aka &amp;)
 #  < => &#60; (aka &lt;)
 #  > => &#62; (aka &gt;)
+#  ' => &#39; (aka &apos;)
 #  " => &#34; (aka &quot;)
 #
 # Further tests that already-escaped things are not further escaped.
+#
+# Escapes are defined in the XML spec:
+#    http://www.w3.org/TR/2006/REC-xml11-20060816/#dt-escape
+
 
 BEGIN {
 	%translations = (
 		'x > 3'   => 'x &#62; 3',
 		'x < 3'   => 'x &#60; 3',
 		'< 3 >'   => '&#60; 3 &#62;',
-		"he's"    => "he's",
+		"he's"    => "he&#39;s",
+		"he’s"    => "he’s", # MS "smart" quotes don't get escaped (single)
 		'"his"'   => '&#34;his&#34;',
-		'“his”'   => '“his”', # MS "smart" quotes don't get escaped
+		'‘his’'   => '‘his’', # MS "smart" quotes don't get escaped (single)
+		'“his”'   => '“his”', # MS "smart" quotes don't get escaped (double)
 		'1&2'     => '1&#38;2',
 		'1&#38;2' => '1&#38;2',
 		'1&amp;2' => '1&amp;2',
