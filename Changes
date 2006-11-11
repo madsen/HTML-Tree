@@ -1,9 +1,19 @@
 Changelog for HTML-Tree
 
-3.21_01 NEXT RELEASE
+3.21_02 NEXT RELEASE
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * HTML::Element::as_XML now only escapes five characters, instead
+      of escaping everything but alphanumerics and spaces.  This is
+      more in line with the XML spec, and will no longer escape wide
+      characters as two (or more) entities.  Resolves RT 14260.  Thanks
+      to Carl Franks and somewhere [at] confuzzled.lu for assistance.
+
     [DOCUMENTATION]
     * Fixed description of HTML::Element::all_attr_names.  Thanks
       to dsteinbrunner [at] pobox.com for catching it.
+    * Fixed example code in HTML::Element::push_content.  Thanks
+      to dsteinbrunner [at] pobox.com for catching it. (RT 21293)
+    
 
 3.21	Sun Aug  6 19:10:00 CDT 2006
     [FIXES]
