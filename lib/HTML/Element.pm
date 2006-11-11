@@ -715,8 +715,7 @@ list of C<$h>.  This means you can say things concise things like:
   $body->push_content(
     ['br'],
     ['ul',
-      map ['li', $_]
-      qw(Peaches Apples Pears Mangos)
+      map ['li', $_], qw(Peaches Apples Pears Mangos)
     ]
   );
 
