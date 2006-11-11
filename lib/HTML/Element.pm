@@ -1719,7 +1719,8 @@ sub as_XML {
 
 
 sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
-  # Five recognized escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#dt-escape
+  # Five required escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax
+  # We allow & if it's part of a valid escape already: http://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
   foreach my $x (@_) {
     $x =~ s/(  			# Escape...
 		< |		# Less than, or
@@ -1727,9 +1728,10 @@ sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
 		' |     	# Single quote, or 
 		" |     	# Double quote, or
 		&(?!    	# An ampersand that isn't followed by...
-		  (\#\d+; | 	# A hash mark, digits and semicolon, or
-		   [a-z0-9]+; ))  # alphanums (not underscore, hence not \w) and a semicolon
-	     )/'&#'.ord($1).";"/sigex;  # And replace them with their XML digit counterpart 
+		  (\#\d+; | 		# A hash mark, digits and semicolon, or
+		   \#x[\da-f]+; | 	# A hash mark, "x", hex digits and semicolon, or
+		   [A-Za-z0-9]+; ))	# alphanums (not underscore, hence not \w) and a semicolon
+	     )/'&#'.ord($1).";"/sgex;  # And replace them with their XML digit counterpart 
   }
   return;
 }

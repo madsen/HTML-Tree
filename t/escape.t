@@ -35,6 +35,8 @@ BEGIN {
 		'&OElig;' => '&OElig;',
 		'&sup2;'  => '&sup2;',
 		'&no_go;' => '&#38;no_go;',
+
+		'This &#x17f;oftware has &#383;ome bugs' => 'This &#x17f;oftware has &#383;ome bugs', # RT 18568
 	);
 
 	$tests = keys(%translations) + 1;
@@ -52,3 +54,4 @@ foreach my $orig (keys %translations) {
 	HTML::Element::_xml_escape($new);
 	is($new,$translations{$orig},"Properly escaped: $orig");
 }
+
