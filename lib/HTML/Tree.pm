@@ -4,14 +4,13 @@ package HTML::Tree;
 
 HTML::Tree - overview of HTML::TreeBuilder et al
 
-=head1 VERSION
-
-Version 3.21_02
-
 =cut
 
+# HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
+use HTML::TreeBuilder ();
+
 use vars qw( $VERSION );
-$VERSION = '3.21_02';
+$VERSION = $HTML::TreeBuilder::VERSION;
 
 =head1 SYNOPSIS
 
@@ -29,9 +28,6 @@ $VERSION = '3.21_02';
     $tree->delete;
 
 =cut
-
-# HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
-use HTML::TreeBuilder ();
 
 sub new {
   shift; unshift @_, 'HTML::TreeBuilder';

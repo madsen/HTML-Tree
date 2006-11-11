@@ -31,6 +31,10 @@ BEGIN {
 		'1&#38 2' => '1&#38;#38 2',
 		'abc'     => 'abc',
 		'número'  => 'número',
+		'&dArr;'  => '&dArr;',
+		'&OElig;' => '&OElig;',
+		'&sup2;'  => '&sup2;',
+		'&no_go;' => '&#38;no_go;',
 	);
 
 	$tests = keys(%translations) + 1;
