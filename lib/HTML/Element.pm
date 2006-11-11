@@ -1729,8 +1729,8 @@ sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
 		" |     	# Double quote, or
 		&(?!    	# An ampersand that isn't followed by...
 		  (\#\d+; | 	# A hash mark, digits and semicolon, or
-		   [a-z]+; ))   # Lowercase letters and a semicolon
-	     )/'&#'.ord($1).";"/sgex;  # And replace them with their XML digit counterpart 
+		   [a-z0-9]+; ))  # alphanums (not underscore, hence not \w) and a semicolon
+	     )/'&#'.ord($1).";"/sigex;  # And replace them with their XML digit counterpart 
   }
   return;
 }
