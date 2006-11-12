@@ -1,6 +1,6 @@
 Changelog for HTML-Tree
 
-3.21_02 NEXT RELEASE
+3.22 	Sat Nov 11 21:23:22 CST 2006
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * HTML::Element::as_XML now only escapes five characters, instead
       of escaping everything but alphanumerics and spaces.  This is
