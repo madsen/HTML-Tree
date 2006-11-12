@@ -71,5 +71,4 @@ RT_18570: {
 	my $escape = 'This &sim; is a twiddle';
 	my $html = $root->parse($escape)->eof->elementify();
 	is($html->as_HTML(),"<html><head></head><body>$escape</body></html>\n");
-	diag $escape;
 }
