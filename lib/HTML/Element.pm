@@ -6,12 +6,12 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.21_02
+Version 3.22
 
 =cut
 
 use vars qw( $VERSION );
-$VERSION = '3.21_02';
+$VERSION = '3.22';
 
 =head1 SYNOPSIS
 
