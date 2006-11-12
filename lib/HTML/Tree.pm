@@ -6,7 +6,7 @@ HTML::Tree - overview of HTML::TreeBuilder et al
 
 =head1 VERSION
 
-3.22
+3.23
 
 =cut
 
@@ -14,7 +14,7 @@ HTML::Tree - overview of HTML::TreeBuilder et al
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = 3.22;
+$VERSION = 3.23;
 
 =head1 SYNOPSIS
 

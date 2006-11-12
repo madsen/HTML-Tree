@@ -4,7 +4,7 @@ use strict;
 use integer; # vroom vroom!
 use Carp ();
 use vars qw(@ISA $VERSION $DEBUG);
-$VERSION = '3.22';
+$VERSION = '3.23';
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
