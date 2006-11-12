@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 8;
+use Test::More tests => 11;
 
 BEGIN {
 	use_ok('HTML::TreeBuilder');
@@ -71,4 +71,12 @@ RT_18570: {
 	my $escape = 'This &sim; is a twiddle';
 	my $html = $root->parse($escape)->eof->elementify();
 	is($html->as_HTML(),"<html><head></head><body>$escape</body></html>\n");
+}
+
+RT_18571: {
+	my $root = HTML::TreeBuilder->new();
+	my $html = $root->parse('<b>$self->escape</b>')->eof->elementify();
+	is($html->as_HTML(),"<html><head></head><body><b>\$self-&gt;escape</b></body></html>\n");
+	is($html->as_HTML(''),"<html><head></head><body><b>\$self->escape</b></body></html>\n");
+	is($html->as_HTML("\0"),"<html><head></head><body><b>\$self->escape</b></body></html>\n"); # 3.22 compatability
 }

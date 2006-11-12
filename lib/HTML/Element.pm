@@ -1453,13 +1453,9 @@ sub dump {
 Returns a string representing in HTML the element and its
 descendants.  The optional argument C<$entities> specifies a string of
 the entities to encode.  For compatibility with previous versions,
-specify C<'E<lt>E<gt>&'> here.  If empty or undef, I<all> unsafe
+specify C<'E<lt>E<gt>&'> here.  If omitted or undef, I<all> unsafe
 characters are encoded as HTML entities.  See L<HTML::Entities> for
-details.  
-
-L<HTML::Entities> currently has no explicit way to have no entity
-encoding.  One suggested workaround is to use C<"\0"> as the entity
-list.
+details.  If passed an empty string, no entities are encoded.
 
 If $indent_char is specified and defined, the HTML to be output is
 intented, using the string you specify (which you probably should
@@ -1482,8 +1478,6 @@ sub as_HTML {
   my($self, $entities, $indent, $omissible_map) = @_;
   #my $indent_on = defined($indent) && length($indent);
   my @html = ();
-
-  undef($entities) unless defined($entities) and length($entities);
 
   $omissible_map ||= \%HTML::Element::optionalEndTag;
   my $empty_element_map = $self->_empty_element_map;
@@ -1553,11 +1547,15 @@ sub as_HTML {
           $last_tag_tightenable = 0;  # I guess this is right
           HTML::Entities::encode_entities($node, $entities)
             # That does magic things if $entities is undef.
-           unless $HTML::Tagset::isCDATA_Parent{ $_[3]{'_tag'} };
-            # To keep from amp-escaping children of script et al.
-            # That doesn't deal with descendants; but then, CDATA
-            #  parents shouldn't /have/ descendants other than a
-            #  text children (or comments?)
+           unless ( 
+		(defined($entities) && !length($entities))
+                # If there's no entity to encode, don't call it
+		|| $HTML::Tagset::isCDATA_Parent{ $_[3]{'_tag'} }
+                # To keep from amp-escaping children of script et al.
+                # That doesn't deal with descendants; but then, CDATA
+                #  parents shouldn't /have/ descendants other than a
+                #  text children (or comments?)
+		);
           if($nonindentable_ancestors) {
             push @html, $node; # say no go
           } else {
@@ -1600,11 +1598,15 @@ sub as_HTML {
             # simple text content
             HTML::Entities::encode_entities($node, $entities)
               # That does magic things if $entities is undef.
-             unless $HTML::Tagset::isCDATA_Parent{ $_[3]{'_tag'} };
-              # To keep from amp-escaping children of script et al.
-              # That doesn't deal with descendants; but then, CDATA
-              #  parents shouldn't /have/ descendants other than a
-              #  text children (or comments?)
+             unless ( 
+		  (defined($entities) && !length($entities))
+                  # If there's no entity to encode, don't call it
+		  || $HTML::Tagset::isCDATA_Parent{ $_[3]{'_tag'} }
+                  # To keep from amp-escaping children of script et al.
+                  # That doesn't deal with descendants; but then, CDATA
+                  #  parents shouldn't /have/ descendants other than a
+                  #  text children (or comments?)
+		  );
             push(@html, $node);
           }
          1; # keep traversing
@@ -1840,7 +1842,8 @@ is omitted or undef, I<all> unsafe characters are encoded as HTML
 entities.  See L<HTML::Entities> for details.  If you specify some
 value for C<$entities>, remember to include the double-quote character in
 it.  (Previous versions of this module would basically behave as if
-C<'&"E<gt>'> were specified for C<$entities>.)
+C<'&"E<gt>'> were specified for C<$entities>.)  If C<$entities> is
+an empty string, no entity is escaped.
 
 =cut
 
@@ -1887,7 +1890,7 @@ sub starttag {
             $val = $val->{text};
           }
           else {
-            HTML::Entities::encode_entities($val, $entities);
+            HTML::Entities::encode_entities($val, $entities) unless (defined($entities) && !length($entities));
           }
 
           $val = qq{"$val"};

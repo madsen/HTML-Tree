@@ -1,5 +1,12 @@
 Changelog for HTML-Tree
 
+3.23    Sun Nov 12 11:09:31 CST 2006
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * Mark-Jason Dominus points out that the fix for as_html was not
+      proper, and broken behavior should never be codified.  Fixed
+      as_html so an empty string doesn't encode entites, instead of
+      blaming the behavior on HTML::Entities.  (RT 18571)
+
 3.22 	Sat Nov 11 21:23:22 CST 2006
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * HTML::Element::as_XML now only escapes five characters, instead
