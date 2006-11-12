@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 
 WriteMakefile(
     NAME            => 'HTML-Tree',
-    VERSION_FROM    => 'lib/HTML/TreeBuilder.pm',
+    VERSION_FROM    => 'lib/HTML/Tree.pm',
     PREREQ_PM       => {
         'HTML::Parser' => 3.46,
         'HTML::Tagset' => 3.02,

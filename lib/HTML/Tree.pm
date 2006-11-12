@@ -4,13 +4,17 @@ package HTML::Tree;
 
 HTML::Tree - overview of HTML::TreeBuilder et al
 
+=head1 VERSION
+
+3.22
+
 =cut
 
 # HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = $HTML::TreeBuilder::VERSION;
+$VERSION = 3.22;
 
 =head1 SYNOPSIS
 
