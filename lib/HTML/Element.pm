@@ -2766,7 +2766,7 @@ sub look_down {
                     ? $val !~ $c->[1]
                     : ( ref $val ne $c->[2]
                    # have unequal ref values => fail
-                  or lc($val) ne $c->[1]
+                  or lc($val) ne lc($c->[1])
                    # have unequal lc string values => fail
                   ))
                 )

@@ -8,6 +8,11 @@ Changelog for HTML-Tree
       characters as two (or more) entities.  Resolves RT 14260.  Thanks
       to Carl Franks and somewhere [at] confuzzled.lu for assistance.
 
+    [FIXES]
+    * A string comparison was commented to use lc() on both sides, but
+      didn't.  This caused HTML::Element::look_down to not properly find
+      elements in certain cases.  Thanks to Andrew Suhachov. (RT 21114)
+
     [TESTS]
     * Added several new tests and enhanced others.  Thanks to Rocco
       Caputo for t/attributes.t, and several others for providing
