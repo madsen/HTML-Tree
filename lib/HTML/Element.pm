@@ -1453,9 +1453,13 @@ sub dump {
 Returns a string representing in HTML the element and its
 descendants.  The optional argument C<$entities> specifies a string of
 the entities to encode.  For compatibility with previous versions,
-specify C<'E<lt>E<gt>&'> here.  If omitted or undef, I<all> unsafe
+specify C<'E<lt>E<gt>&'> here.  If empty or undef, I<all> unsafe
 characters are encoded as HTML entities.  See L<HTML::Entities> for
-details.
+details.  
+
+L<HTML::Entities> currently has no explicit way to have no entity
+encoding.  One suggested workaround is to use C<"\0"> as the entity
+list.
 
 If $indent_char is specified and defined, the HTML to be output is
 intented, using the string you specify (which you probably should
@@ -3833,6 +3837,8 @@ merchantability or fitness for a particular purpose.
 Currently maintained by Pete Krawczyk C<< <petek@cpan.org> >>
 
 Original authors: Gisle Aas, Sean Burke and Andy Lester.
+
+Thanks to Mark-Jason Dominus for a POD suggestion.
 
 =cut
 
