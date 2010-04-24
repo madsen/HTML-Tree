@@ -1380,7 +1380,7 @@ sub insert_element {
         $e = $tag;
         $tag = $e->tag;
     } else { # just a tag name -- so make the element
-        $e = ($self->{'_element_class'} || __PACKAGE__)->new($tag);
+        $e = $self->element_class->new($tag);
         ++($self->{'_element_count'}) if exists $self->{'_element_count'};
          # undocumented.  see TreeBuilder.
     }
@@ -3521,8 +3521,7 @@ sub objectify_text {
       if(ref($c)) {
         unshift @stack, $c;  # visit it later.
       } else {
-        $c = ( $this->{'_element_class'} || __PACKAGE__
-             )->new('~text', 'text' => $c, '_parent' => $this);
+        $c = $this->element_class->new('~text', 'text' => $c, '_parent' => $this);
       }
     }
   }
@@ -3821,6 +3820,19 @@ sub _valid_name {
     return(0) unless($attr =~ /^$START_CHAR$NAME_CHAR+$/);
 
     return(1);
+}
+
+=head2 $h->element_class
+
+This method returns the class which will be used for new elements.  It
+defaults to HTML::Element, but can be overridden by subclassing or esoteric
+means best left to those will will read the source and then not complain when
+those esoteric means change.  (Just subclass.)
+
+=cut
+
+sub element_class {
+  $_[0]->{_element_class} || __PACKAGE__
 }
 
 1;

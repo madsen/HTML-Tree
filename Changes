@@ -15,13 +15,18 @@ Changelog for HTML-Tree
       re-encoding encoded tags (RT 55835)
     * Added ignore_entities option to disable entity decoding when
       parsing source. (RT 24947)
-    * Fix replace_with not setting parent for an array of content. (RT 28204)
+    * Fix replace_with not setting parent for an array of content. (RT 28204 45495)
     * Removed newline being appended to as_HTML output. (RT 41739)
     * Fix invalid parent for subsclasses. (RT 36247)
     * Fixed #! line in tests (RT 41945)
     * Switched to Module::Build
     * Fixed Perl::Critic errors
     * Added lots of use strict and use warnings
+
+    [ENHANCEMENTS]
+    * (Ricardo Signes RT 26282) The secret hack to allow elements to be created from classes other than
+      HTML::Element has been cleaned up and documented for the benefit of
+      TreeBuilder subclasses.  q.v., HTML::TreeBuilder->element_class
 
    [TESTS]
     * Added test for optionally empty tags, like A.

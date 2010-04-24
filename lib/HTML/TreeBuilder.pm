@@ -124,7 +124,9 @@ sub new { # constructor!
   my $class = shift;
   $class = ref($class) || $class;
 
-  my $self = HTML::Element->new('html');  # Initialize HTML::Element part
+  # Initialize HTML::Element part
+  my $self = $class->element_class->new('html');
+
   {
     # A hack for certain strange versions of Parser:
     my $other_self = HTML::Parser->new();
@@ -148,7 +150,6 @@ sub new { # constructor!
 
   $self->{'_implicit'} = 1;  # to delete, once we find a real open-"html" tag
 
-  $self->{'_element_class'}      = 'HTML::Element';
   $self->{'_ignore_unknown'}     = 1;
   $self->{'_ignore_text'}        = 0;
   $self->{'_warn'}               = 0;
@@ -272,8 +273,7 @@ sub warning {
       # Looks bad, but is fine for round-tripping.
     }
     
-    my $e =
-     ($self->{'_element_class'} || 'HTML::Element')->new($tag, %$attr);
+    my $e = $self->element_class->new($tag, %$attr);
      # Make a new element object.
      # (Only rarely do we end up just throwing it away later in this call.)
      
@@ -1156,9 +1156,7 @@ sub comment {
       ".\n";
   }
 
-  (my $e = (
-    $self->{'_element_class'} || 'HTML::Element'
-   )->new('~comment'))->{'text'} = $text;
+  (my $e = $self->element_class->new('~comment'))->{'text'} = $text;
   $pos->push_content($e);
   ++($self->{'_element_count'});
 
@@ -1189,9 +1187,7 @@ sub declaration {
       join('/', reverse($pos->{'_tag'}, @lineage_tags)) || 'Root',
       ".\n";
   }
-  (my $e = (
-    $self->{'_element_class'} || 'HTML::Element'
-   )->new('~declaration'))->{'text'} = $text;
+  (my $e = $self->element_class->new('~declaration'))->{'text'} = $text;
 
   $self->{_decl} = $e;
   return $e;
@@ -1219,9 +1215,7 @@ sub process {
       join('/', reverse($pos->{'_tag'}, @lineage_tags)) || 'Root',
       ".\n";
   }
-  (my $e = (
-    $self->{'_element_class'} || 'HTML::Element'
-   )->new('~pi'))->{'text'} = $text;
+  (my $e = $self->element_class->new('~pi'))->{'text'} = $text;
   $pos->push_content($e);
   ++($self->{'_element_count'});
 
@@ -1388,7 +1382,7 @@ sub tighten_up { # legacy
 sub elementify {
   # Rebless this object down into the normal element class.
   my $self = $_[0];
-  my $to_class = ($self->{'_element_class'} || 'HTML::Element');
+  my $to_class = $self->element_class;
   delete @{$self}{ grep {;
     length $_ and substr($_,0,1) eq '_'
    # The private attributes that we'll retain:
@@ -1397,6 +1391,11 @@ sub elementify {
     and $_ ne '_element_class'
   } keys %$self };
   bless $self, $to_class;   # Returns the same object we were fed
+}
+
+sub element_class {
+  return 'HTML::Element' if not ref $_[0];
+  return $_[0]->{_element_class} || 'HTML::Element';
 }
 
 #--------------------------------------------------------------------------
@@ -1759,6 +1758,13 @@ This determines whether syntax errors during parsing should generate
 warnings, emitted via Perl's C<warn> function.
 
 This is off (false) by default.
+
+=item $h->element_class
+
+This method returns the class which will be used for new elements.  It
+defaults to HTML::Element, but can be overridden by subclassing or esoteric
+means best left to those will will read the source and then not complain when
+those esoteric means change.  (Just subclass.)
 
 =item DEBUG
 
