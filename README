@@ -55,10 +55,10 @@ INSTALLATION
 
 Just follow the usual procedure:
 
-   perl Makefile.PL
-   make
-   make test
-   make install
+   perl Build.PL
+   ./Build
+   ./Build test
+   ./Build install
 
 Or see also "perldoc perlmodinstall"
 
