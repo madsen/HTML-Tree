@@ -18,6 +18,7 @@ my $HTML ;
 {
 	local $/ = undef ;
 	open("INFILE", "$TestInput") || die "$!" ;
+    binmode INFILE;
 	$HTML=<INFILE> ;
 	close(INFILE) ;
 }

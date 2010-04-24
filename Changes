@@ -22,6 +22,7 @@ Changelog for HTML-Tree
     * Switched to Module::Build
     * Fixed Perl::Critic errors
     * Added lots of use strict and use warnings
+    * Fix PERL_UNICODE breaking tests. (RT 28404)
 
     [ENHANCEMENTS]
     * (Ricardo Signes RT 26282) The secret hack to allow elements to be created from classes other than

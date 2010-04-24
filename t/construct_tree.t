@@ -19,6 +19,7 @@ my $HTML ;
 {
     local $/ = undef ;
     open(INFILE, $TestInput) || die "Can't open $TestInput: $!";
+    binmode INFILE;
     $HTML=<INFILE> ;
     close(INFILE) ;
 }
@@ -45,6 +46,7 @@ is($HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly");
 # Filehandle Test
 {
     open(INFILE, $TestInput) || die "Can't open $TestInput: $!";
+    binmode INFILE;
     my $file_obj    = HTML::Tree->new_from_file( *INFILE );
     test_new_obj($file_obj, "new_from_file Filehandle" ) ;
     close(INFILE);
