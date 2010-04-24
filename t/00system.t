@@ -1,13 +1,11 @@
-#!perl -Tw
+#!/usr/bin/perl -T
 
-use Test::More tests => 2;
+use warnings;
 use strict;
+use Test::More tests => 2;
 
 BEGIN {
     use_ok( 'HTML::TreeBuilder' );
-}
-
-BEGIN {
     use_ok( 'HTML::Element' );
 }
 

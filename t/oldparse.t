@@ -1,7 +1,8 @@
-#!perl -Tw
-use Test::More tests => 17;
+#!/usr/bin/perl -T
 
+use warnings;
 use strict;
+use Test::More tests => 17;
 
 BEGIN {
     use_ok( 'HTML::Parse' );

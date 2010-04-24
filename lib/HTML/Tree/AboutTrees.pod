@@ -37,7 +37,7 @@ But I've noticed that many programmers, especially those who started out
 with more restrictive languages, seem at home with complex but uniform
 data structures -- N-dimensional arrays, or more struct-like things like
 hashes-of-arrays(-of-hashes(-of-hashes), etc.) -- but they're often uneasy
-with buliding more freeform, less tabular structures, like
+with building more freeform, less tabular structures, like
 tree-shaped data structures.
 
 But trees are easy to build and manage in Perl, as I'll demonstrate
@@ -181,7 +181,7 @@ kind of" or "is a part of", or "could result from", or whatever the real
 relationship is.  So we get to borrow a lot of kinship words for
 describing trees -- B and C are "children" (or "daughters") of A; A is
 the "parent" (or "mother") of B and C.  Node C is a "sibling" (or
-"sister") of node C; and so on, with terms like "descedants" (a node's
+"sister") of node C; and so on, with terms like "descendants" (a node's
 children, children's children, etc.), and "generation" (all the
 nodes at the same "level" in the tree, i.e., are either all
 grandchildren of the top node, or all great-grand-children, etc.), and
@@ -281,7 +281,7 @@ in order, and what the tree means makes the order important.
 
 Q: Wait -- "root"?  What's a root?
 
-A: Besides kinship terms like "mother" and "daugher", the jargon for
+A: Besides kinship terms like "mother" and "daughter", the jargon for
 tree parts also has terms from real-life tree parts:  the part that
 everything else grows from is called the root; and nodes that don't
 have nodes attached to them (i.e., childless nodes) are called
@@ -570,7 +570,7 @@ against a human opponent at a strategic board game (as opposed to a
 board game where there's an element of chance).  For most such games, a
 "game tree" is an essential part of the program (as I will argue,
 below), and this will be our test case for implementing a tree
-structure from stratch.
+structure from scratch.
 
 For sake of simplicity, our game is not chess or backgammon, but instead
 a much simpler game called Alak.  Alak was invented by the mathematician
@@ -580,7 +580,7 @@ of Alak are simple:
 =over
 
 Footnote: Actually, I'm describing only my
-interpetation of the rules Dewdney describes in I<Planiverse>.  Many
+interpretation of the rules Dewdney describes in I<Planiverse>.  Many
 other interpretations are possible.
 
 =back
@@ -670,8 +670,8 @@ right or left:
 For the computer to decide which of these is the best move to make, it
 needs to quantify the benefit of these moves as a number -- call that
 the "payoff".  The payoff of a move can be figured as just the number
-of x pieces removed by the most recent move, minus the nubmer of o
-pieces removed by the mots recent move.  (It so happens that the rules
+of x pieces removed by the most recent move, minus the number of o
+pieces removed by the most recent move.  (It so happens that the rules
 of the game mean that no move can delete both o's and x's, but the
 formula still applies.)  Since none of these moves removed any pieces,
 all these moves have the same immediate payoff: 0.
@@ -1118,7 +1118,7 @@ In the code for C<Games::Alak>, C<figure_successors> does all these things,
 in a rather straightforward way.  I won't walk you through the details
 of the C<figure_successors> code I've written, since the code has
 nothing much to do with trees, and is all just implementation of the Alak
-rules for what can move where, with what result.  Espicially interested
+rules for what can move where, with what result.  Especially interested
 readers can puzzle over that part of code in the source listing in the
 archive from CPAN, but others can just assume that it works as described
 above.

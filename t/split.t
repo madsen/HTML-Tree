@@ -1,4 +1,7 @@
-#!perl -Tw
+#!/usr/bin/perl -T
+
+use warnings;
+use strict;
 
 # Testing of the incremental parsing.  Try to split a HTML document at
 # every possible position and make sure that the result is the same as
@@ -27,7 +30,6 @@ $notests = length($HTML);   # A test for each char in the test doc
 $notests *= 3;              #  done twice
 $notests += 4;              #  plus more for the the rest of the tests
 }
-use strict;
 
 use Test::More tests=>$notests; # Tests 
 

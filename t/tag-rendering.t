@@ -1,7 +1,8 @@
-#!perl -w
+#!/usr/bin/perl -T
 
-use Test::More tests => 8;
+use warnings;
 use strict;
+use Test::More tests => 11;
 
 BEGIN {
     use_ok( "HTML::Element" );
@@ -38,3 +39,19 @@ like(
   "Literal text is preserved" 
  );
 like( $html, qr/ alt="A few bottles of Chech&#39;tluth later..." /, "Alt tag is quoted and escaped" );
+
+# _empty_element_map anchor test (RT 49932)
+my $a = HTML::Element->new('a', href => 'example.com');
+my $xml = $a->as_XML();
+like( $xml, qr{<a href="example.com"></a>}, "A tag not in _empty_element_map" );
+
+my $empty_element_map = $a->_empty_element_map;
+$empty_element_map->{'a'}  = 1;
+
+$xml = $a->as_XML();
+like( $xml, qr{<a href="example.com" />},   "A tag in _empty_element_map, no content" );
+
+$a->push_content("Extra content");
+$xml = $a->as_XML();
+like( $xml, qr{<a href="example.com">Extra content</a>}, "A tag in _empty_element_map, with content" );
+

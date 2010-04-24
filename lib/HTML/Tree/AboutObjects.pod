@@ -562,7 +562,7 @@ these will be unproblematic for objects of most classes, but it may run
 into limitations with others.  For example, a Business::US_Amort
 object can be turned into a string with Data::Dumper, and that string
 written to a file.  When it's restored later, its attributes will be
-accessable as normal.  But in the unlikely case that the loan object was
+accessible as normal.  But in the unlikely case that the loan object was
 saved in mid-calculation, the calculation may not be resumable.  This is
 because of the way that that I<particular> class does its calculations,
 but similar limitations may occur with objects from other classses.

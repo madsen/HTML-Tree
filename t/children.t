@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -T
 
 # RT 21114 test case.  Thanks Andrew Suhachov for finding it.
 

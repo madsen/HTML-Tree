@@ -1,3 +1,4 @@
+Build.PL
 Changes
 htmltree
 lib/HTML/AsSubs.pm
@@ -9,7 +10,6 @@ lib/HTML/Tree/AboutObjects.pod
 lib/HTML/Tree/AboutTrees.pod
 lib/HTML/Tree/Scanning.pod
 lib/HTML/TreeBuilder.pm
-Makefile.PL
 MANIFEST
 README
 t/00system.t
@@ -24,10 +24,15 @@ t/doctype.t
 t/escape.t
 t/oldparse.html
 t/oldparse.t
+t/parents.t
 t/parse.t
 t/parsefile.t
 t/pod.t
 t/split.t
+t/subclass.t
 t/tag-rendering.t
 t/unicode.t
+t/zz_perlcritic.t
+t/zz_pod-coverage.t
+t/zz_pod.t
 TODO

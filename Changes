@@ -1,5 +1,39 @@
 Changelog for HTML-Tree
 
+3.24_1 Fri Apr 16 11:09:31 AET 2010
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * Changes to entity encoding from ord values to XML entities
+      may break tests expecting &#00; style encoding.
+    * Attribute names are now validated and invalid names will cause a
+      parse error.
+
+    [FIXES]
+    * Optionally empty tags with content now have close tag. (RT 49932 41806)
+    * Added attribute name validation. (RT 23439) 
+    * Added span to @TAGS in AsSubs. (RT 55848)
+    * Changed tag encoding to human readable form, e.g. &gt;, and stopped
+      re-encoding encoded tags (RT 55835)
+    * Added ignore_entities option to disable entity decoding when
+      parsing source. (RT 24947)
+    * Fix replace_with not setting parent for an array of content. (RT 28204)
+    * Removed newline being appended to as_HTML output. (RT 41739)
+    * Fix invalid parent for subsclasses. (RT 36247)
+    * Fixed #! line in tests (RT 41945)
+    * Switched to Module::Build
+    * Fixed Perl::Critic errors
+    * Added lots of use strict and use warnings
+
+   [TESTS]
+    * Added test for optionally empty tags, like A.
+    * Added test for invalid attribute name.
+    * Added more tests for entity parsing.
+    * Add parent test from Christopher J. Madsen. (RT 28204)
+    * Add subclass test. (RT 36247)
+
+    [DOCUMENTATION]
+    * Docs spelling patch from Ansgar Burchardt <ansgar@43-1.org> (RT 55836)
+    * Added definition of white space to as_trimmed_text. (RT 26436)
+
 3.23    Sun Nov 12 11:09:31 CST 2006
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * Mark-Jason Dominus points out that the fix for as_html was not

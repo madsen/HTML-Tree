@@ -1,6 +1,8 @@
-#!perl -Tw
+#!/usr/bin/perl -T
 
-use strict ;
+use warnings;
+use strict;
+
 use Test::More;
 
 use HTML::AsSubs;
@@ -14,8 +16,8 @@ map  {
 	my $h = eval "HTML::AsSubs::$_(\"$_\")";
 
 	my $string = ($HTML::Tagset::optionalEndTag{$_} || $HTML::Tagset::emptyElement{$_})
-		? "<$_>$_\n"
-		: "<$_>$_<\/$_>\n" ;
+		? "<$_>$_"
+		: "<$_>$_<\/$_>" ;
 
 	is ($h->as_HTML ,"$string", "Test of tag: $_") ;
 		
@@ -24,21 +26,21 @@ map  {
 
 ### verify passing href to <a> tag.
 {
-	my $string="<a href=\"http://cpan.org\">test</a>\n" ;
+	my $string="<a href=\"http://cpan.org\">test</a>" ;
 	my $h = HTML::AsSubs::a({ href => "http://cpan.org" }, "test");
 	is ($h->as_HTML, "$string", "Test of tag properties") ;
 }
 
 ### Improve coverage by passing undef as first parm to _elem via wrapper function.
 {
-	my $string="<a>test</a>\n" ;
+	my $string="<a>test</a>" ;
 	my $h = HTML::AsSubs::a( undef, "test");
 	is ($h->as_HTML, "$string", "undef test") ;
 }
 
 ### Improve coverage by passing no parameters to _elem via wrapper function.
 {
-	my $string="<a></a>\n" ;
+	my $string="<a></a>" ;
 	my $h = HTML::AsSubs::a();
 	is ($h->as_HTML, "$string", "empty tag test") ;
 }

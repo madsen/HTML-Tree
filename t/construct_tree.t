@@ -1,9 +1,10 @@
-#!perl -Tw
+#!/usr/bin/perl -T
+
+use warnings;
+use strict;
 
 use Test::More tests => (3 + 7 * 8);
 #initial tests + number of tests in test_new_obj() * number of times called
-
-use strict;
 
 BEGIN {
     use_ok( 'HTML::Tree' );

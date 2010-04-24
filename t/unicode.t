@@ -1,7 +1,6 @@
-#!perl -w
-# -*-Perl-*-
-# Time-stamp: "2003-09-15 01:45:14 ADT"
+#!/usr/bin/perl -T
 
+use warnings;
 use strict;
 use Test::More;
 my $DEBUG = 2;

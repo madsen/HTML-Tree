@@ -1,9 +1,11 @@
-#!perl -Tw
+#!/usr/bin/perl -T
+
+use warnings;
+use strict;
 
 #Test that we can build and compare trees
 
 use Test::More tests=>39;
-use strict;
 
 BEGIN {
     use_ok( "HTML::Element", 1.53 );

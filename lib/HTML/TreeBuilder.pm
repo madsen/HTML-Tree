@@ -1,10 +1,11 @@
 package HTML::TreeBuilder;
 
+use warnings;
 use strict;
 use integer; # vroom vroom!
 use Carp ();
 use vars qw(@ISA $VERSION $DEBUG);
-$VERSION = '3.23';
+$VERSION = '3.24';
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
@@ -26,7 +27,8 @@ BEGIN {
   #      $HTML::TreeBuilder::DEBUG = 4}  use HTML::TreeBuilder'
   # and see for yourself (substituting whatever value you want for $DEBUG
   # there).
-
+## BUGBUG why is this so ugly? why not just a normal sub?
+## no critic
   if(defined &DEBUG) {
     # Already been defined!  Do nothing.
   } elsif($] < 5.00404) {
@@ -40,6 +42,7 @@ BEGIN {
     warn "Non-numeric value \"$DEBUG\" in \$HTML::Element::DEBUG";
     eval 'sub DEBUG () { $DEBUG }'; # I guess.
   }
+## use critic
 }
 
 #---------------------------------------------------------------------------
@@ -153,7 +156,8 @@ sub new { # constructor!
   $self->{'_store_comments'}     = 0;
   $self->{'_store_declarations'} = 1;
   $self->{'_store_pis'}          = 0;
-  $self->{'_p_strict'} = 0;
+  $self->{'_p_strict'}           = 0;
+  $self->{'_ignore_entities'}    = 0;
   
   # Parse attributes passed in as arguments
   if(@_) {
@@ -199,6 +203,7 @@ sub store_comments { shift->_elem('_store_comments', @_); }
 sub store_declarations { shift->_elem('_store_declarations', @_); }
 sub store_pis      { shift->_elem('_store_pis', @_); }
 sub warn           { shift->_elem('_warn',           @_); }
+sub ignore_entities { shift->_elem('_ignore_entities',    @_); }
 
 
 #==========================================================================
@@ -986,12 +991,12 @@ sub warning {
     
     my $ignore_text = $self->{'_ignore_text'};
     my $no_space_compacting = $self->{'_no_space_compacting'};
-    
+    my $ignore_entities = $self->{'_ignore_entities'};
     my $pos = $self->{'_pos'} || $self;
     
     HTML::Entities::decode($text)
      unless $ignore_text || $is_cdata
-      || $HTML::Tagset::isCDATA_Parent{$pos->{'_tag'}};
+      || $HTML::Tagset::isCDATA_Parent{$pos->{'_tag'}} || $ignore_entities;
     
     #my($indent, $nugget);
     if(DEBUG) {
@@ -1373,7 +1378,7 @@ sub delete {
   $_[0]->detach if $_[0]->{'_parent'} and $_[0]->{'_parent'}{'_content'};
    # An 'html' element having a parent is quite unlikely.
 
-  return undef;
+  return;
 }
 
 sub tighten_up { # legacy
@@ -1424,7 +1429,7 @@ sub guts {
   #  but I don't think it needs to.
   
   return @out if wantarray;  # one simple normal case.
-  return undef unless @out;
+  return unless @out;
   return $out[0] if @out == 1 and ref($out[0]);
   my $x = HTML::Element->new('div', '_implicit' => 1);
   $x->push_content(@out);
@@ -1654,6 +1659,14 @@ behaved.)  But if implicit_body_p_tag is false, nothing is implicated
 -- the PCDATA or phrasal element is simply placed under
 "E<lt>bodyE<gt>".  Default is false.
 
+=item $root->ignore_entities(value)
+
+This attribute controls whether entities are decoded during the initial
+parse of the source. Enable this if you don't want entities decoded to
+their character value. e.g. '&amp;' is decoded to '&' by default, but
+will be unchanged if this is enabled.
+Default is false (entities will be decoded.)
+
 =item $root->ignore_unknown(value)
 
 This attribute controls whether unknown tags should be represented as
@@ -1695,7 +1708,7 @@ If set to true (and it defaults to false), TreeBuilder will take a
 narrower than normal view of what can be under a "p" element; if it sees
 a non-phrasal element about to be inserted under a "p", it will close that
 "p".  Otherwise it will close p elements only for other "p"'s, headings,
-and "form" (altho the latter may be removed in future versions).
+and "form" (although the latter may be removed in future versions).
 
 For example, when going thru this snippet of code,
 
@@ -1707,7 +1720,7 @@ under the "p" element.  However, with C<p_strict> set to true, it will
 close the "p" first.
 
 In theory, there should be strictness options like this for other/all
-elements besides just "p"; but I treat this as a specal case simply
+elements besides just "p"; but I treat this as a special case simply
 because of the fact that "p" occurs so frequently and its end-tag is
 omitted so often; and also because application of strictness rules
 at parse-time across all elements often makes tiny errors in HTML
@@ -1746,6 +1759,66 @@ This determines whether syntax errors during parsing should generate
 warnings, emitted via Perl's C<warn> function.
 
 This is off (false) by default.
+
+=item DEBUG
+
+Are we in Debug mode?
+
+=item comment
+
+Accept a "here's a comment" signal from HTML::Parser.
+
+=item declaration
+
+Accept a "here's a markup declaration" signal from HTML::Parser.
+
+=item done
+
+TODO: document
+
+=item end
+
+Either: Acccept an end-tag signal from HTML::Parser
+Or: Method for closing currently open elements in some fairly complex
+way, as used by other methods in this class.
+
+TODO: Why is this hidden?
+
+=item process
+
+Accept a "here's a PI" signal from HTML::Parser.
+
+=item start
+
+Accept a signal from HTML::Parser for start-tags.
+
+TODO: Why is this hidden?
+
+=item stunt
+
+TODO: document
+
+=item stunted
+
+TODO: document
+
+=item text
+
+Accept a "here's a text token" signal from HTML::Parser.
+
+TODO: Why is this hidden?
+
+=item tighten_up
+
+Legacy
+
+Redirects to HTML::Element:: delete_ignorable_whitespace
+
+=item warning
+
+Wrapper for CORE::warn
+
+TODO: why not just use carp?
 
 =back
 
@@ -1851,7 +1924,7 @@ L<HTML::DOMbo>
 =head1 COPYRIGHT
 
 Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
-2006 Pete Krawczyk.
+2006 Pete Krawczyk, 2010 Jeff Fearn.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

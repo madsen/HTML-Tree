@@ -1,11 +1,13 @@
-#!perl -Tw
+#!/usr/bin/perl -T
 
+use warnings;
 use strict;
-use Test;
+use Test::More;
 my $DEBUG = 2;
-BEGIN { plan tests => 40 }
+BEGIN { plan tests => 44 }
 
 use HTML::TreeBuilder;
+use HTML::Element;
 
 print "#Using HTML::TreeBuilder version v$HTML::TreeBuilder::VERSION\n";
 print "#Using HTML::Element version v$HTML::Element::VERSION\n";
@@ -164,4 +166,19 @@ sub same {
   return $rv;
 }
 
+# By default HTML::Parser will convert the &amp; to &
+my $tree = HTML::TreeBuilder->new_from_content('&amp;foo; &bar;');
+# No escaping of XML since custom entities are fine.
+like($tree->as_XML(), qr{<html><head></head><body>&foo; &bar;</body></html>}, "");
+# HTML gets escaped on output
+like($tree->as_HTML(), qr{<html><head></head><body>&amp;foo; &amp;bar;</body></html>}, "");
+ 
+# Using &semi; makes it work like you expect
+my $tree2 = HTML::TreeBuilder->new_from_content("<p>&amp;foo&semi; &bar;</p>");
+like($tree2->as_XML(), qr{<html><head></head><body><p>&amp;foo&semi; &bar;</p></body></html>}, "");
+
+# ignoring entities when parsing source makes it work like you expect XML to
+my $tree3 = HTML::TreeBuilder->new(ignore_entities => 1);
+$tree3->parse("<p>&amp;foo; &bar; &#39; &l</p>");
+like($tree3->as_XML(), qr{<html><head></head><body><p>&amp;foo; &bar; &#39; &amp;l</p></body></html>}, "");
 

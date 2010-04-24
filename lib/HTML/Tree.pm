@@ -2,19 +2,23 @@ package HTML::Tree;
 
 =head1 NAME
 
-HTML::Tree - overview of HTML::TreeBuilder et al
+HTML::Tree - build and scan parse-trees of HTML
 
 =head1 VERSION
 
-3.23
+3.24
 
 =cut
 
 # HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
+
+use warnings;
+use strict;
+
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = 3.23;
+$VERSION = '3.24_1';
 
 =head1 SYNOPSIS
 
@@ -86,6 +90,24 @@ Readers already familiar with object-oriented modules and tree-shaped
 data structures should read just the last article.  Readers without
 that background should read the first, then the second, and then the
 third.
+
+=head2 new
+
+Redirects to HTML::TreeBuilder::new
+
+=cut
+
+=head2 new_from_file
+
+Redirects to HTML::TreeBuilder::new_from_file
+
+=cut
+
+=head2 new_from_content
+
+Redirects to HTML::TreeBuilder::new_from_content
+
+=cut
 
 =head1 SUPPORT
 

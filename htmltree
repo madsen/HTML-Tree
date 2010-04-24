@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/perl
 # Time-stamp: "2000-10-02 14:48:15 MDT"
 #
 # Parse the given HTML file(s) and dump the parse tree
@@ -8,6 +8,7 @@
 #    -w  turns on $tree->warn(1) for the new tree
 
 require 5;
+use warnings;
 use strict;
 
 my $warn;

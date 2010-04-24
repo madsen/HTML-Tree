@@ -6,12 +6,20 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.23
+Version 3.24
 
 =cut
 
+use strict;
+use Carp ();
+use HTML::Entities ();
+use HTML::Tagset ();
+use integer; # vroom vroom!
+
 use vars qw( $VERSION );
-$VERSION = '3.23';
+$VERSION = '3.24';
+
+use vars qw($html_uc $Debug $ID_COUNTER %list_type_to_sub);
 
 =head1 SYNOPSIS
 
@@ -141,16 +149,13 @@ Donald Knuth's I<The Art of Computer Programming, Volume 1>.)
 
 =cut
 
-
-use strict;
-use Carp ();
-use HTML::Entities ();
-use HTML::Tagset ();
-use integer; # vroom vroom!
-
-use vars qw($html_uc $Debug $ID_COUNTER %list_type_to_sub);
-
 $Debug = 0 unless defined $Debug;
+
+=head2 Version
+
+Why is this a sub?
+
+=cut
 sub Version { $VERSION; }
 
 my $nillio = [];
@@ -172,15 +177,29 @@ my(
      ABORT  PRUNE   PRUNE_SOFTLY   OK   PRUNE_UP
    )
 ;
-sub ABORT           () {$ABORT}
-sub PRUNE           () {$PRUNE}
-sub PRUNE_SOFTLY    () {$PRUNE_SOFTLY}
-sub OK              () {$OK}
-sub PRUNE_UP        () {$PRUNE_UP}
+
+=head2 ABORT OK PRUNE PRUNE_SOFTLY PRUNE_UP
+
+Constants for signalling back to the traverser
+
+=cut
+
+sub ABORT           {$ABORT}
+sub PRUNE           {$PRUNE}
+sub PRUNE_SOFTLY    {$PRUNE_SOFTLY}
+sub OK              {$OK}
+sub PRUNE_UP        {$PRUNE_UP}
 
 $html_uc = 0;
 # set to 1 if you want tag and attribute names from starttag and endtag
 #  to be uc'd
+
+# regexs for XML names
+# http://www.w3.org/TR/2006/REC-xml11-20060816/NT-NameStartChar
+my $START_CHAR = qr/(?:\:|[A-Z]|_|[a-z]|[\x{C0}-\x{D6}]|[\x{D8}-\x{F6}]|[\x{F8}-\x{2FF}]|[\x{370}-\x{37D}]|[\x{37F}-\x{1FFF}]|[\x{200C}-\x{200D}]|[\x{2070}-\x{218F}]|[\x{2C00}-\x{2FEF}]|[\x{3001}-\x{D7FF}]|[\x{F900}-\x{FDCF}]|[\x{FDF0}-\x{FFFD}]|[\x{10000}-\x{EFFFF}])/;
+
+# http://www.w3.org/TR/2006/REC-xml11-20060816/#NT-NameChar
+my $NAME_CHAR = qr/(?:$START_CHAR|-|\.|[0-9]|\x{B7}|[\x{0300}-\x{036F}]|[\x{203F}-\x{2040}])/;
 
 # Elements that does not have corresponding end tags (i.e. are empty)
 
@@ -232,6 +251,8 @@ sub new {
     my $self  = bless { _tag => scalar($class->_fold_case($tag)) }, $class;
     my($attr, $val);
     while (($attr, $val) = splice(@_, 0, 2)) {
+		# '/' means you've hit the end of a short '/>' tag
+        Carp::croak("$tag has an invalid attribute name '$attr' ' $val'") unless($attr eq '/' || $self->_valid_name($attr));
         $val = $attr unless defined $val;
         $self->{$class->_fold_case($attr)} = $val;
     }
@@ -900,7 +921,7 @@ its parent are explicitly destroyed.
 
 sub detach {
     my $self = $_[0];
-    return undef unless(my $parent = $self->{'_parent'});
+    return unless(my $parent = $self->{'_parent'});
     $self->{'_parent'} = undef;
     my $cohort = $parent->{'_content'} || return $parent;
     @$cohort = grep { not( ref($_) and $_ eq $self) } @$cohort;
@@ -966,6 +987,7 @@ sub replace_with {
         }
         elsif(ref($_) eq 'ARRAY') {
             $_ = $self->new_from_lol($_);
+            $_->{'_parent'} = $parent;
         }
         else {
             $_->detach;
@@ -1076,7 +1098,7 @@ sub delete_content {
 
 
 
-=head2 $h->delete()
+=head2 $h->delete() destroy destroy_content
 
 Detaches this element from its parent (if it has one) and explicitly
 destroys the element and all its descendants.  The return value is
@@ -1108,7 +1130,7 @@ sub delete {
      # not the typical case
 
     %$self = (); # null out the whole object on the way out
-    return undef;
+    return;
 }
 
 
@@ -1618,8 +1640,7 @@ sub as_HTML {
     unshift @html, sprintf "<!%s>\n", $self->{_decl}->{text} ;
   }
 
-
-  return join('', @html, "\n");
+  return join('', @html);
 }
 
 
@@ -1634,10 +1655,13 @@ Text under 'script' or 'style' elements is never included in what's
 returned.  If C<skip_dels> is true, then text content under "del"
 nodes is not included in what's returned.
 
-=head2 $h->as_trimmed_text(...)
+=head2 $h->as_trimmed_text(...) as_text_trimmed
 
 This is just like as_text(...) except that leading and trailing
 whitespace is deleted, and any internal whitespace is collapsed.
+
+This will not remove hard spaces, unicode spaces, or any other
+non ASCII white space.
 
 =cut
 
@@ -1728,16 +1752,17 @@ sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
   # Five required escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax
   # We allow & if it's part of a valid escape already: http://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
   foreach my $x (@_) {
-    $x =~ s/(  			# Escape...
-		< |		# Less than, or
-		> |     	# Greater than, or
-		' |     	# Single quote, or 
-		" |     	# Double quote, or
-		&(?!    	# An ampersand that isn't followed by...
-		  (\#\d+; | 		# A hash mark, digits and semicolon, or
-		   \#x[\da-f]+; | 	# A hash mark, "x", hex digits and semicolon, or
-		   [A-Za-z0-9]+; ))	# alphanums (not underscore, hence not \w) and a semicolon
-	     )/'&#'.ord($1).";"/sgex;  # And replace them with their XML digit counterpart 
+    $x =~ s/&(?!                          # An ampersand that isn't followed by...
+		        (\#\d+; |                 # A hash mark, digits and semicolon, or
+		        \#x[\da-f]+; |            # A hash mark, "x", hex digits and semicolon, or
+		        $START_CHAR$NAME_CHAR+; ) # A valid unicode entity name and semicolon
+            )/&amp;/gx;                   # Needs to be escaped to amp
+
+    # simple character escapes
+    $x =~ s/</&lt;/g;
+    $x =~ s/>/&gt;/g;
+    $x =~ s/"/&quot;/g;
+    $x =~ s/'/&apos;/g;
   }
   return;
 }
@@ -1819,6 +1844,14 @@ sub as_Lisp_form {
   undef $sub;
   return join '', @out;
 }
+
+=head2 format
+
+Formats text output. Defaults to HTML::FormatText.
+
+Takes a second argument that is a reference to a formatter.
+
+=cut
 
 
 sub format {
@@ -1905,6 +1938,11 @@ sub starttag {
     }
 }
 
+=head2 starttag_XML
+
+Returns a string representing the complete start tag for the element.
+
+=cut
 
 sub starttag_XML {
     my($self) = @_;
@@ -1942,7 +1980,7 @@ sub starttag_XML {
 
 
 
-=head2 $h->endtag()
+=head2 $h->endtag() || endtag_XML
 
 Returns a string representing the complete end tag for this element.
 I.e., "</", tag name, and ">".
@@ -2041,7 +2079,7 @@ sub traverse {
          and ref($this) # sanity
          and not(
                  $this->{'_empty_element'}
-                 || $empty_element_map->{$this->{'_tag'} || ''}
+                 || ($empty_element_map->{$this->{'_tag'} || ''} && !@{$this->{'_content'}}) # RT #49932
                 ) # things that don't get post-order callbacks
       ) {
         shift @I;
@@ -2177,7 +2215,7 @@ the tag names listed.
 
 sub is_inside {
   my $self = shift;
-  return undef unless @_; # if no items specified, I guess this is right.
+  return unless @_; # if no items specified, I guess this is right.
 
   my $current = $self;
       # the loop starts by looking at the given element
@@ -2236,12 +2274,12 @@ $h->pindex returns undef.
 sub pindex {
   my $self = shift;
 
-  my $parent = $self->{'_parent'} || return undef;
-  my $pc =  $parent->{'_content'} || return undef;
+  my $parent = $self->{'_parent'} || return;
+  my $pc =  $parent->{'_content'} || return;
   for(my $i = 0; $i < @$pc; ++$i) {
     return $i  if  ref $pc->[$i] and $pc->[$i] eq $self;
   }
-  return undef; # we shouldn't ever get here
+  return; # we shouldn't ever get here
 }
 
 #--------------------------------------------------------------------------
@@ -2387,18 +2425,18 @@ sub address {
       $here = $_[0];
       shift @stack;
     } else { # absolute addressing
-      return undef unless 0 == shift @stack; # to pop the initial 0-for-root
+      return unless 0 == shift @stack; # to pop the initial 0-for-root
       $here = $_[0]->root;
     }
 
     while(@stack) {
-      return undef
+      return
        unless
          $here->{'_content'}
          and @{$here->{'_content'}} > $stack[0];
             # make sure the index isn't too high
       $here = $here->{'_content'}[ shift @stack ];
-      return undef if @stack and not ref $here;
+      return if @stack and not ref $here;
         # we hit a text node when we expected a non-terminal element node
     }
 
@@ -2617,7 +2655,7 @@ sub find_by_attribute {
   if($wantarray) {
     return @matching;
   } else {
-    return undef unless @matching;
+    return unless @matching;
     return $matching[0];
   }
 }
@@ -2946,7 +2984,7 @@ sub attr_get_i {
           return $x->{$attribute} if exists $x->{$attribute}; # found
         }
       }
-      return undef; # never found
+      return; # never found
     }
   } else {
     # Single-attribute search.  Simpler, most common, so optimize
@@ -2964,7 +3002,7 @@ sub attr_get_i {
       foreach my $x ($self, $self->lineage) {
         return $x->{$attribute} if exists $x->{$attribute}; # found
       }
-      return undef; # never found
+      return; # never found
     }
   }
 }
@@ -3042,7 +3080,7 @@ only "a" and "img" elements, you could code it like this:
   for (@{  $e->extract_links('a', 'img')  }) {
       my($link, $element, $attr, $tag) = @$_;
       print
-        "Hey, there's a $tag that links to "
+        "Hey, there's a $tag that links to ",
         $link, ", in its $attr attribute, at ",
         $element->address(), ".\n";
   }
@@ -3412,7 +3450,8 @@ sub new_from_lol {
     } else {  # Do it the clean way...
       #print "Done neatly\n";
       while(@attributes) { $node->attr(splice @attributes,0,2) }
-      $node->push_content(@children) if @children;
+      $node->push_content(
+           map {$_->{'_parent'} = $node if ref $_; $_} @children) if @children;
     }
 
     return $node;
@@ -3532,7 +3571,7 @@ sub deobjectify_text {
     }
   }
 
-  return undef;
+  return;
 }
 
 
@@ -3558,7 +3597,7 @@ or MENU elements), and if there are, they are unaffected.
   no integer;
 
   sub _int2latin {
-    return undef unless defined $_[0];
+    return unless defined $_[0];
     return '0' if $_[0] < 1 and $_[0] > -1;
     return '-' . _i2l( abs int $_[0] ) if $_[0] <= -1; # tolerate negatives
     return       _i2l(     int $_[0] );
@@ -3566,7 +3605,7 @@ or MENU elements), and if there are, they are unaffected.
 
   sub _int2LATIN {
     # just the above plus uc
-    return undef unless defined $_[0];
+    return unless defined $_[0];
     return '0' if $_[0] < 1 and $_[0] > -1;
     return '-' . uc(_i2l( abs int $_[0] )) if $_[0] <= -1;  # tolerate negs
     return       uc(_i2l(     int $_[0] ));
@@ -3740,9 +3779,11 @@ sub _asserts_fail {  # to be run on trusted documents only
       $id = ($this->{'id'} ||= $this->address); # don't use '0' as an ID, okay?
       unless(ref($assert)) {
         package main;
+## no critic
         $assert = $this->{'assert'} = (
           $assert =~ m/\bsub\b/ ? eval($assert) : eval("sub {  $assert\n}")
         );
+## use critic
         if($@) {
           push @errors, [$this, "assertion at $id broke in eval: $@"];
           $assert = $this->{'assert'} = sub {};
@@ -3767,6 +3808,19 @@ sub _asserts_fail {  # to be run on trusted documents only
     push @pile, grep ref($_), @{$this->{'_content'} || next};
   }
   return @errors;
+}
+
+## _valid_name
+#  validate XML style attribute names
+#  http://www.w3.org/TR/2006/REC-xml11-20060816/#NT-Name
+
+sub _valid_name {
+    my $self = shift;
+    my $attr = shift or Carp::croak("sub valid_name requires an attribute name");
+
+    return(0) unless($attr =~ /^$START_CHAR$NAME_CHAR+$/);
+
+    return(1);
 }
 
 1;
@@ -3826,7 +3880,7 @@ and, for the morbidly curious, L<HTML::Element::traverse>.
 =head1 COPYRIGHT
 
 Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
-2006 Pete Krawczyk.
+2006 Pete Krawczyk, 2010 Jeff Fearn.
 
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
