@@ -178,7 +178,7 @@ my $tree2 = HTML::TreeBuilder->new_from_content("<p>&amp;foo&semi; &bar;</p>");
 like($tree2->as_XML(), qr{<html><head></head><body><p>&amp;foo&semi; &bar;</p></body></html>}, "");
 
 # ignoring entities when parsing source makes it work like you expect XML to
-my $tree3 = HTML::TreeBuilder->new(ignore_entities => 1);
+my $tree3 = HTML::TreeBuilder->new(no_expand_entities => 1);
 $tree3->parse("<p>&amp;foo; &bar; &#39; &l</p>");
 like($tree3->as_XML(), qr{<html><head></head><body><p>&amp;foo; &bar; &#39; &amp;l</p></body></html>}, "");
 

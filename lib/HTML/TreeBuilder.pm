@@ -158,7 +158,7 @@ sub new { # constructor!
   $self->{'_store_declarations'} = 1;
   $self->{'_store_pis'}          = 0;
   $self->{'_p_strict'}           = 0;
-  $self->{'_ignore_entities'}    = 0;
+  $self->{'_no_expand_entities'} = 0;
   
   # Parse attributes passed in as arguments
   if(@_) {
@@ -204,7 +204,7 @@ sub store_comments { shift->_elem('_store_comments', @_); }
 sub store_declarations { shift->_elem('_store_declarations', @_); }
 sub store_pis      { shift->_elem('_store_pis', @_); }
 sub warn           { shift->_elem('_warn',           @_); }
-sub ignore_entities { shift->_elem('_ignore_entities',    @_); }
+sub no_expand_entities { shift->_elem('_no_expand_entities',    @_); }
 
 
 #==========================================================================
@@ -991,12 +991,12 @@ sub warning {
     
     my $ignore_text = $self->{'_ignore_text'};
     my $no_space_compacting = $self->{'_no_space_compacting'};
-    my $ignore_entities = $self->{'_ignore_entities'};
+    my $no_expand_entities = $self->{'_no_expand_entities'};
     my $pos = $self->{'_pos'} || $self;
     
     HTML::Entities::decode($text)
      unless $ignore_text || $is_cdata
-      || $HTML::Tagset::isCDATA_Parent{$pos->{'_tag'}} || $ignore_entities;
+      || $HTML::Tagset::isCDATA_Parent{$pos->{'_tag'}} || $no_expand_entities;
     
     #my($indent, $nugget);
     if(DEBUG) {
@@ -1658,7 +1658,7 @@ behaved.)  But if implicit_body_p_tag is false, nothing is implicated
 -- the PCDATA or phrasal element is simply placed under
 "E<lt>bodyE<gt>".  Default is false.
 
-=item $root->ignore_entities(value)
+=item $root->no_expand_entities(value)
 
 This attribute controls whether entities are decoded during the initial
 parse of the source. Enable this if you don't want entities decoded to

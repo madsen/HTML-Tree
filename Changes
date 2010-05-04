@@ -13,7 +13,7 @@ Changelog for HTML-Tree
     * Added span to @TAGS in AsSubs. (RT 55848)
     * Changed tag encoding to human readable form, e.g. &gt;, and stopped
       re-encoding encoded tags (RT 55835)
-    * Added ignore_entities option to disable entity decoding when
+    * Added no_expand_entities option to disable entity decoding when
       parsing source. (RT 24947)
     * Fix replace_with not setting parent for an array of content. (RT 28204 45495)
     * Removed newline being appended to as_HTML output. (RT 41739)

@@ -1752,11 +1752,17 @@ sub _xml_escape {  # DESTRUCTIVE (a.k.a. "in-place")
   # Five required escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax
   # We allow & if it's part of a valid escape already: http://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
   foreach my $x (@_) {
-    $x =~ s/&(?!                          # An ampersand that isn't followed by...
+## TODO add a switch to change behaviour.
+# In strings with no encoded entities all & should be encoded.
+    if(1) {
+      $x =~ s/&(?!                        # An ampersand that isn't followed by...
 		        (\#\d+; |                 # A hash mark, digits and semicolon, or
 		        \#x[\da-f]+; |            # A hash mark, "x", hex digits and semicolon, or
 		        $START_CHAR$NAME_CHAR+; ) # A valid unicode entity name and semicolon
-            )/&amp;/gx;                   # Needs to be escaped to amp
+           )/&amp;/gx;                    # Needs to be escaped to amp
+    } else {
+      $x =~ s/&/&amp;/g;
+    }
 
     # simple character escapes
     $x =~ s/</&lt;/g;
