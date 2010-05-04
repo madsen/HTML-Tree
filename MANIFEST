@@ -27,7 +27,6 @@ t/oldparse.t
 t/parents.t
 t/parse.t
 t/parsefile.t
-t/pod.t
 t/split.t
 t/subclass.t
 t/tag-rendering.t
@@ -36,3 +35,4 @@ t/zz_perlcritic.t
 t/zz_pod-coverage.t
 t/zz_pod.t
 TODO
+META.yml
