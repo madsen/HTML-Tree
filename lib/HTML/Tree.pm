@@ -38,16 +38,21 @@ $VERSION = '3.24_1';
 =cut
 
 sub new {
-  shift; unshift @_, 'HTML::TreeBuilder';
-  goto &HTML::TreeBuilder::new;
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new;
 }
+
 sub new_from_file {
-  shift; unshift @_, 'HTML::TreeBuilder';
-  goto &HTML::TreeBuilder::new_from_file;
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new_from_file;
 }
+
 sub new_from_content {
-  shift; unshift @_, 'HTML::TreeBuilder';
-  goto &HTML::TreeBuilder::new_from_content;
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new_from_content;
 }
 
 =head1 DESCRIPTION

@@ -106,12 +106,11 @@ use warnings;
 use strict;
 
 use vars qw(@ISA $VERSION @EXPORT
-            $IMPLICIT_TAGS $IGNORE_UNKNOWN $IGNORE_TEXT $WARN
-           );
-
+    $IMPLICIT_TAGS $IGNORE_UNKNOWN $IGNORE_TEXT $WARN
+);
 
 require Exporter;
-@ISA = qw(Exporter);
+@ISA    = qw(Exporter);
 @EXPORT = qw(parse_html parse_htmlfile);
 
 # Backwards compatability
@@ -127,25 +126,23 @@ $VERSION = '2.71';
 sub parse_html {
     my $p = $_[1];
     $p = _new_tree_maker() unless $p;
-    $p->parse($_[0]);
+    $p->parse( $_[0] );
 }
 
-
 sub parse_htmlfile {
-    my($file, $p) = @_;
-    my($HTML);
-    open($HTML, "<", $file) or return;
+    my ( $file, $p ) = @_;
+    my ($HTML);
+    open( $HTML, "<", $file ) or return;
     $p = _new_tree_maker() unless $p;
     $p->parse_file($HTML);
 }
 
-sub _new_tree_maker
-{
+sub _new_tree_maker {
     my $p = HTML::TreeBuilder->new(
-      implicit_tags  => $IMPLICIT_TAGS,
-      ignore_unknown => $IGNORE_UNKNOWN,
-      ignore_text    => $IGNORE_TEXT,
-      'warn'         => $WARN,
+        implicit_tags  => $IMPLICIT_TAGS,
+        ignore_unknown => $IGNORE_UNKNOWN,
+        ignore_text    => $IGNORE_TEXT,
+        'warn'         => $WARN,
     );
     $p->strict_comment(1);
     $p;

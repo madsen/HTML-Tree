@@ -3,25 +3,26 @@
 use warnings;
 use strict;
 
-use Test::More tests => (3 + 7 * 8);
+use Test::More tests => ( 3 + 7 * 8 );
+
 #initial tests + number of tests in test_new_obj() * number of times called
 
 BEGIN {
-    use_ok( 'HTML::Tree' );
+    use_ok('HTML::Tree');
 }
 
 my $obj = new HTML::Tree;
-isa_ok($obj, "HTML::TreeBuilder");
+isa_ok( $obj, "HTML::TreeBuilder" );
 
 my $TestInput = "t/oldparse.html";
 
-my $HTML ;
+my $HTML;
 {
-    local $/ = undef ;
-    open(INFILE, $TestInput) || die "Can't open $TestInput: $!";
+    local $/ = undef;
+    open( INFILE, $TestInput ) || die "Can't open $TestInput: $!";
     binmode INFILE;
-    $HTML=<INFILE> ;
-    close(INFILE) ;
+    $HTML = <INFILE>;
+    close(INFILE);
 }
 
 # setup some parts of the HTML for the list tests.
@@ -35,46 +36,43 @@ my $HTML ;
 # The above commented-out code is also an option.
 
 my $split_at = 4;
-die "$TestInput does not have at least " . ($split_at + 1) . " characters!"
+die "$TestInput does not have at least " . ( $split_at + 1 ) . " characters!"
     if length($HTML) <= $split_at;
 my $HTMLPart1 = substr( $HTML, 0, 4 );
 my $HTMLPart2 = substr( $HTML, 4 );
 
-is($HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly"); 
-
+is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
 
 # Filehandle Test
 {
-    open(INFILE, $TestInput) || die "Can't open $TestInput: $!";
+    open( INFILE, $TestInput ) || die "Can't open $TestInput: $!";
     binmode INFILE;
-    my $file_obj    = HTML::Tree->new_from_file( *INFILE );
-    test_new_obj($file_obj, "new_from_file Filehandle" ) ;
+    my $file_obj = HTML::Tree->new_from_file(*INFILE);
+    test_new_obj( $file_obj, "new_from_file Filehandle" );
     close(INFILE);
 }
-
 
 # Scalar Tests
 {
     my $content_obj = HTML::Tree->new_from_content($HTML);
-    test_new_obj($content_obj, "new_from_content Scalar") ;
+    test_new_obj( $content_obj, "new_from_content Scalar" );
 }
 
 {
-    my $file_obj    = HTML::Tree->new_from_file( $TestInput);
-    test_new_obj($file_obj, "new_from_file Scalar" ) ;
+    my $file_obj = HTML::Tree->new_from_file($TestInput);
+    test_new_obj( $file_obj, "new_from_file Scalar" );
 }
 
 {
     my $parse_content_obj = HTML::Tree->new;
-    $parse_content_obj->parse_content( $HTML);
-    test_new_obj($parse_content_obj, "new(); parse_content Scalar" );
+    $parse_content_obj->parse_content($HTML);
+    test_new_obj( $parse_content_obj, "new(); parse_content Scalar" );
 }
-
 
 # Scalar REF Tests
 {
     my $content_obj = HTML::Tree->new_from_content($HTML);
-    test_new_obj($content_obj, "new_from_content Scalar REF") ;
+    test_new_obj( $content_obj, "new_from_content Scalar REF" );
 }
 
 # None for new_from_file
@@ -82,15 +80,14 @@ is($HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly");
 
 {
     my $parse_content_obj = HTML::Tree->new;
-    $parse_content_obj->parse_content( $HTML);
-    test_new_obj($parse_content_obj, "new(); parse_content Scalar REF" );
+    $parse_content_obj->parse_content($HTML);
+    test_new_obj( $parse_content_obj, "new(); parse_content Scalar REF" );
 }
-
 
 # List Tests (Scalar and Scalar REF)
 {
-    my $content_obj = HTML::Tree->new_from_content(\$HTMLPart1, $HTMLPart2);
-    test_new_obj($content_obj, "new_from_content List") ;
+    my $content_obj = HTML::Tree->new_from_content( \$HTMLPart1, $HTMLPart2 );
+    test_new_obj( $content_obj, "new_from_content List" );
 }
 
 # None for new_from_file.
@@ -99,25 +96,24 @@ is($HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly");
 {
     my $parse_content_obj = HTML::Tree->new;
     $parse_content_obj->parse_content( \$HTMLPart1, $HTMLPart2 );
-    test_new_obj($parse_content_obj, "new(); parse_content List");
+    test_new_obj( $parse_content_obj, "new(); parse_content List" );
 }
 
-
 sub test_new_obj {
-    my $obj = shift ;
+    my $obj              = shift;
     my $test_description = shift;
 
-    isa_ok($obj, "HTML::TreeBuilder", $test_description);
+    isa_ok( $obj, "HTML::TreeBuilder", $test_description );
 
-    my $html = $obj->as_HTML(undef, '  ');
+    my $html = $obj->as_HTML( undef, '  ' );
     ok( $html, "Get HTML as string." );
 
     # This is a very simple test just to ensure that we get something
     # sensible back.
-    like( $html, qr/<BODY>/i, "<BODY> found OK." );
+    like( $html, qr/<BODY>/i,     "<BODY> found OK." );
     like( $html, qr/www\.sn\.no/, "found www.sn.no link" );
 
-    TODO: {
+TODO: {
         local $TODO = <<ENDTEXT;
 HTML::Parser doesn't handle nested comments correctly.
 See: http://phalanx.kwiki.org/index.cgi?HTMLTreeNestedComments
@@ -128,4 +124,4 @@ ENDTEXT
 
     unlike( $html, qr/simple-comment/, "Simple comment not found" );
     like( $html, qr/Gisle/, "found Gisle" );
-} # test_new_obj
+}    # test_new_obj

@@ -28,6 +28,7 @@ Changelog for HTML-Tree
     * (Ricardo Signes RT 26282) The secret hack to allow elements to be created from classes other than
       HTML::Element has been cleaned up and documented for the benefit of
       TreeBuilder subclasses.  q.v., HTML::TreeBuilder->element_class
+    * Added HTML::Element::encoded_content to control encoding of entities on output.
 
    [TESTS]
     * Added test for optionally empty tags, like A.
