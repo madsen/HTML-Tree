@@ -83,5 +83,5 @@ $HTML::Element::encoded_content = 0;
 $test_str  = $test_orig;
 my $test_expected = '&amp;amp;foo; &amp;bar;';
 HTML::Element::_xml_escape($test_str);
-is( $test_str, $test_orig, "Default encode" );
+is( $test_str, $test_expected, "Default encode" );
 
