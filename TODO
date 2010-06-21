@@ -2,40 +2,9 @@ TO-DO LIST FOR HTML::Tree
 
 * Make more and better tests!  Regression and otherwise.
 
-	'./Build testcover' for the coverage details
+    './Build testcover' for the coverage details
 
-* Make a smarter as_text-like method -- i.e., a sort of dimwitted
-version of HTML::FormatText
-
-	DROP people can just use HTML::FormatText
- 
 * Make as_HTML emit the DOCTYPE declaration before <html...>
-
-* Make as_XHTML that is basically as_XML with ignoreable whitespace?
-
-	DROP
-
-* Make TreeBuilder try to repair trees with <table><input...><tr>...</table>
-or <table><form...><tr>...</table> elements.  Very tricky.
-
-	DROP
-
-* Make as_* understand ~text items
-
-	WHY?
-
-* Make extract_links do the right thing with forms with no action
-  param ?
-
-	WHAT?
-
-* Add 'are_element_identical' method ?
-
-	DROP
-
-* Add 'are_content_identical' method ?
-
-	DROP
 
 * Maybe reorganize the HTMLE::Element docs some time?
 
@@ -61,25 +30,9 @@ print(STDERR "2: ref = $$ref\n");
 
 	TRIAGE Where in the parser are the tokens handled? Suspect he'd have to use HTML::Parser directly.
 
-23439 	as_XML can output invalid attribute names
-
-	FIXED
-
 24407 	</p> w/o a previous <p> ends the treebuild...
 
 	TRIAGE Invalid HTML breaks parse.
-
-24947 	can we get an option to HTML::TreeBuilder to not decode entities?
-
-	FIXED
-
-26282 	document and improve secret _element_class feature
-
-	TRIAGE I think this is for sub-classing?
-
-26436 	as_trimmed_text in HTML::Element does not trim &nbsp;
-
-	FIXED Updated doc to specify this is correct behaviour.
 
 26938 	as_XML doesn't encode enough characters, specifically CR and LF
 
@@ -88,10 +41,6 @@ print(STDERR "2: ref = $$ref\n");
 27288 	as_HTML() for frameset html code produces implicit <body> tag
 
 	CLOSE body is valid there. Needs to turn off implicit tags if he doesn't want them.
-
-28204 	replace_with doesn't set parent link [PATCH]
-
-	FIXED
 
 28404 	tests fail when PERL_UNICODE is set
 
@@ -113,10 +62,6 @@ print(STDERR "2: ref = $$ref\n");
 
 	TRIAGE Suggest fix breaks sub classing, need a better fix.
 
-36247 	HTML::Element broken when passing a subclassed object to
-
-	FIXED
-
 37537 	Implementation of as_HTML makes it effectively impossible to subclass
 
 	TRIAGE
@@ -124,14 +69,6 @@ print(STDERR "2: ref = $$ref\n");
 38398 	TreeBuilder can broke tree with correct nesting
 
 	TRIAGE invalid HTML breaks parsing.
-
-41739 	The method as_HTML() should not append a newline to its output
-
-	FIXED
-
-41806 	radio buttons may emit invalid xml
-
-	FIXED by 49932
 
 41945 	cpan(1) install fails on OS X
 
@@ -146,10 +83,6 @@ print(STDERR "2: ref = $$ref\n");
 
 	TRIAGE Can't duplicate.
 
-45495 	HTML::Element::replace_with does not set $_->{'_parent'}
-
-	FIXED
-
 46219 	Debugger dies on parse()
 
 	TRIAGE Can't duplicate.
@@ -157,10 +90,6 @@ print(STDERR "2: ref = $$ref\n");
 48344 	Documentation for tree/element traversal is conflicting/confusing
 
 	TRIAGE
-
-49932 	close tag missing from optionally empty XML tags
-
-	FIXED
 
 53658 	HTML::Element::as_text collapses internal whitespace
 
@@ -170,16 +99,4 @@ print(STDERR "2: ref = $$ref\n");
 53926 	Bug in HTML::TreeBuilder - <link> inside <ol> not parsed
 
 	TRIAGE Invalid HTML breaks parsing.
-
-55835 	as_XML can create invalid escapes
-
-	FIXED Didn't use supplied patch as it escaped already escaped entities.
-
-55836 	[PATCH] Fix spelling errors
-
-	FIXED
-
-55848 	HTML::AsSubs is missing <span> tag
-
-	FIXED
 

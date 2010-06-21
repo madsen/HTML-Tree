@@ -1,6 +1,6 @@
 Changelog for HTML-Tree
 
-3.24_1 Fri Apr 16 11:09:31 AET 2010
+3.24_1    Mon Jun 21 11:09:31 AET 2010
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * Changes to entity encoding from ord values to XML entities
       may break tests expecting &#00; style encoding.
@@ -48,7 +48,7 @@ Changelog for HTML-Tree
       as_html so an empty string doesn't encode entites, instead of
       blaming the behavior on HTML::Entities.  (RT 18571)
 
-3.22 	Sat Nov 11 21:23:22 CST 2006
+3.22    Sat Nov 11 21:23:22 CST 2006
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * HTML::Element::as_XML now only escapes five characters, instead
       of escaping everything but alphanumerics and spaces.  This is
@@ -75,7 +75,7 @@ Changelog for HTML-Tree
       Mark-Jason Dominus for catching it.  (RT 18569)
     
 
-3.21	Sun Aug  6 19:10:00 CDT 2006
+3.21    Sun Aug  6 19:10:00 CDT 2006
     [FIXES]
     * Updated HTML::Parser requirement to 3.46 to fix a bug in
       tag-rendering.t, noted in RT 20816 and 19796.  Thanks to 

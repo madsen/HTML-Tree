@@ -64,6 +64,12 @@ Or see also "perldoc perlmodinstall"
 
 
 
+SOURCE
+
+The source is now kept at http://github.com/jfearn/HTML-Tree
+
+
+
 SUBLIMINAL MESSAGE: BUY THE BOOK!
 
 The book /Perl & LWP/ by Sean M. Burke is published by
@@ -80,7 +86,7 @@ and HTML-Tree specifically.  There's more info at:
 COPYRIGHT
 
 Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke; 
-2005 Andy Lester; 2006 Pete Krawczyk.  (Except the articles
+2005 Andy Lester; 2006 Pete Krawczyk; 2010 Jeff Fearn  (Except the articles
 contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
 HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
 
