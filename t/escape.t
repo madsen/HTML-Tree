@@ -25,33 +25,35 @@ BEGIN {
         'x < 3' => 'x &lt; 3',
         '< 3 >' => '&lt; 3 &gt;',
         "he's"  => "he&apos;s",
-        "he’s" => "he’s",   # MS "smart" quotes don't get escaped (single)
+## MS "smart" quotes don't get escaped (single)
+        "he’s"  => "he’s",
         '"his"' => '&quot;his&quot;',
-        '‘his’' =>
-            '‘his’',        # MS "smart" quotes don't get escaped (single)
-        '“his”' =>
-            '“his”',        # MS "smart" quotes don't get escaped (double)
+## MS "smart" quotes don't get escaped (single)
+        '‘his’' => '‘his’',
+## MS "smart" quotes don't get escaped (double)
+        '“his”'           => '“his”',
         '1&2'             => '1&amp;2',
         '1&#38;2'         => '1&#38;2',
         '1&amp;2'         => '1&amp;2',
         '1&amp 2'         => '1&amp;amp 2',
         '1&#38 2'         => '1&amp;#38 2',
         'abc'             => 'abc',
-        'número'         => 'número',
+        'número'          => 'número',
         '&dArr;'          => '&dArr;',
         '&OElig;'         => '&OElig;',
         '&sup2;'          => '&sup2;',
         '&no\go;'         => '&amp;no\go;',
         '&amp;foo;'       => '&amp;foo;',
         '&amp;foo; &bar;' => '&amp;foo; &bar;',
+## RT 18568
         'This &#x17f;oftware has &#383;ome bugs' =>
-            'This &#x17f;oftware has &#383;ome bugs',    # RT 18568
+            'This &#x17f;oftware has &#383;ome bugs',
     );
 
     $tests = keys(%translations) + 1;
 }
 
-use Test::More tests => $tests + 1;
+use Test::More tests => $tests + 4;
 
 BEGIN {
 
@@ -70,7 +72,16 @@ foreach my $orig ( keys %translations ) {
 my $test_orig = '&amp;foo; &bar;';
 my $test_str  = $test_orig;
 HTML::Element::_xml_escape($test_str);
+is( $test_str, $test_orig, "Multiple runs 1" );
 HTML::Element::_xml_escape($test_str);
+is( $test_str, $test_orig, "Multiple runs 2" );
 HTML::Element::_xml_escape($test_str);
-is( $test_str, $test_orig, "Multiple runs" );
+is( $test_str, $test_orig, "Multiple runs 3" );
+
+# test default path, always encode '&'
+$HTML::Element::encoded_content = 0;
+$test_str  = $test_orig;
+my $test_expected = '&amp;amp;foo; &amp;bar;';
+HTML::Element::_xml_escape($test_str);
+is( $test_str, $test_orig, "Default encode" );
 

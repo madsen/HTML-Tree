@@ -21,6 +21,7 @@ $VERSION = '3.24';
 
 # This contorls encoding entities on output.
 # When set entities won't be re-encoded.
+# Defaulting off because parser defaults to unencoding entities
 our $encoded_content = 0;
 
 use vars qw($html_uc $Debug $ID_COUNTER %list_type_to_sub);
@@ -1819,19 +1820,21 @@ sub as_XML {
     join( '', @xml, "\n" );
 }
 
-sub _xml_escape {        # DESTRUCTIVE (a.k.a. "in-place")
-     # Five required escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax
-     # We allow & if it's part of a valid escape already: http://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
+sub _xml_escape {
+
+    # DESTRUCTIVE (a.k.a. "in-place")
+    # Five required escapes: http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax
+    # We allow & if it's part of a valid escape already: http://www.w3.org/TR/2006/REC-xml11-20060816/#sec-references
     foreach my $x (@_) {
-## TODO add a switch to change behaviour.
+
         # In strings with no encoded entities all & should be encoded.
         if ($encoded_content) {
             $x
-                =~ s/&(?!                        # An ampersand that isn't followed by...
-		        (\#\d+; |                 # A hash mark, digits and semicolon, or
-		        \#x[\da-f]+; |            # A hash mark, "x", hex digits and semicolon, or
-		        $START_CHAR$NAME_CHAR+; ) # A valid unicode entity name and semicolon
-           )/&amp;/gx;    # Needs to be escaped to amp
+                =~ s/&(?!                 # An ampersand that isn't followed by...
+                (\#\d+; |                 # A hash mark, digits and semicolon, or
+                \#x[\da-f]+; |            # A hash mark, "x", hex digits and semicolon, or
+                $START_CHAR$NAME_CHAR+; ) # A valid unicode entity name and semicolon
+           )/&amp;/gx;                    # Needs to be escaped to amp
         }
         else {
             $x =~ s/&/&amp;/g;
