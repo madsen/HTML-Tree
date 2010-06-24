@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Module::Build;
+use 5.008;
 
 my $class = Module::Build->subclass(
     class => 'My::Builder',
@@ -26,6 +27,7 @@ my $builder = $class->new(
     requires => {
         'HTML::Parser' => 3.46,
         'HTML::Tagset' => 3.02,
+        'perl'         => 5.008001,
     },
     add_to_cleanup => [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],
     script_files   => ['htmltree'],
