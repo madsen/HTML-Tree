@@ -10,7 +10,7 @@ else {
         -severity => 5,
 ## This check fails to detect a package is modifying
 ## objects of it's own class when passing objects in an array
-        -exclude  => ['ProhibitAccessOfPrivateData']
+        -exclude => ['ProhibitAccessOfPrivateData']
     );
 }
 
