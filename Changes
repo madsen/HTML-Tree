@@ -3,6 +3,7 @@ Changelog for HTML-Tree
 3.23_2    Mon Aug 02 2010
     * Added extra_chars options to as_trimmed_text RT #26436
     * Added catch for broken table tags RT #59980
+    * Replace parentheses for constants. RT #58880
 
 3.23_1    Mon Jun 21 11:09:31 AET 2010
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
