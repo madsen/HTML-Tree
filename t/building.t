@@ -5,7 +5,7 @@ use strict;
 
 #Test that we can build and compare trees
 
-use Test::More tests => 39;
+use Test::More tests => 43;
 
 BEGIN {
     use_ok( "HTML::Element", 1.53 );
@@ -18,7 +18,8 @@ FIRST_BLOCK: {
         [   'body', { 'lang', 'en-JP' },
             'stuff',
             [ 'p', 'um, p < 4!', { 'class' => 'par123' } ],
-            [ 'div', { foo => 'bar' }, ' 1  2  3 ' ],    # at 0.1.2
+            [ 'div', { foo => 'bar' }, ' 1  2  3 ' ],        # at 0.1.2
+            [ 'div', { fu  => 'baa' }, " 1  2 \xA0 3 " ],    # RT #26436 test
             ['hr'],
         ]
     ];
@@ -66,6 +67,16 @@ FIRST_BLOCK: {
     ok( $div->same_as($div) );
     ok( $t1->same_as($t1) );
     ok( not( $div->same_as($t1) ) );
+
+    my $div2 = $t1->find_by_attribute( 'fu', 'baa' );
+    isa_ok( $div2, 'HTML::Element' );
+
+    ### test for RT #26436 user controlled white space
+    is( $div2->as_text(), " 1  2 \xA0 3 ", "Dump element in text format" );
+    is( $div2->as_trimmed_text(),
+        "1 2 \xA0 3", "Dump element in trimmed text format" );
+    is( $div2->as_trimmed_text( extra_chars => '\xA0' ),
+        "1 2 3", "Dump element in trimmed text format" );
 
     my $t2 = HTML::Element->new_from_lol($lol);
     isa_ok( $t2, 'HTML::Element' );

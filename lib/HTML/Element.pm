@@ -1727,7 +1727,8 @@ This is just like as_text(...) except that leading and trailing
 whitespace is deleted, and any internal whitespace is collapsed.
 
 This will not remove hard spaces, unicode spaces, or any other
-non ASCII white space.
+non ASCII white space unless you supplye the extra characters as
+a string argument. e.g. $h->as_trimmed_text(extra_chars => '\xA0')
 
 =cut
 
@@ -1756,11 +1757,15 @@ sub as_text {
     return $text;
 }
 
+# extra_chars added for RT #26436
 sub as_trimmed_text {
-    my $text = shift->as_text(@_);
-    $text =~ s/[\n\r\f\t ]+$//s;
-    $text =~ s/^[\n\r\f\t ]+//s;
-    $text =~ s/[\n\r\f\t ]+/ /g;
+    my ( $this, %options ) = @_;
+    my $text = $this->as_text(%options);
+    my $extra_chars =  $options{'extra_chars'} || '';
+
+    $text =~ s/[\n\r\f\t$extra_chars ]+$//s;
+    $text =~ s/^[\n\r\f\t$extra_chars ]+//s;
+    $text =~ s/[\n\r\f\t$extra_chars ]+/ /g;
     return $text;
 }
 
