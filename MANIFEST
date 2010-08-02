@@ -36,3 +36,4 @@ t/zz_pod-coverage.t
 t/zz_pod.t
 TODO
 META.yml
+Makefile.PL

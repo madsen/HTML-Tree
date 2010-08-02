@@ -4,6 +4,8 @@ Changelog for HTML-Tree
     * Added extra_chars options to as_trimmed_text RT #26436
     * Added catch for broken table tags RT #59980
     * Replace parentheses for constants. RT #58880
+    * Removed build deps Devel::Cover, Test::Pod::Coverage, Test::Perl::Critic. RT #58878
+    * Added create_makefile_pl => 'traditional' to Build.PL RT #58878
 
 3.23_1    Mon Jun 21 11:09:31 AET 2010
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
