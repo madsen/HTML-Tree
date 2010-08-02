@@ -926,7 +926,8 @@ sub warning {
         else {
 
             # the call came from Parser -- just ignore origtext
-            @stop = ();
+            # except in a table ignore unmatched table tags RT #59980
+            @stop = $tag =~ /^t[hdr]\z/ ? 'table' : ();
         }
 
         #my($indent);
