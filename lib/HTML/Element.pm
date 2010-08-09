@@ -1727,7 +1727,7 @@ sub as_HTML {
 
 =head2 $h->as_text()
 
-=head2 $h->as_text(skip_dels => 1)
+=head2 $h->as_text(skip_dels => 1, extra_chars => '\xA0')
 
 Returns a string consisting of only the text parts of the element's
 descendants.

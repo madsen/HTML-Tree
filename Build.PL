@@ -25,7 +25,7 @@ my $builder = $class->new(
     requires => {
         'HTML::Parser' => 3.46,
         'HTML::Tagset' => 3.02,
-        'perl'         => 5.8,
+        'perl'         => '5.8.0',
     },
     add_to_cleanup => [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],
     script_files   => ['htmltree'],
