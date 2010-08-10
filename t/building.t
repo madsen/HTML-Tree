@@ -8,7 +8,7 @@ use strict;
 use Test::More tests => 43;
 
 BEGIN {
-    use_ok( "HTML::Element", 1.53 );
+    use_ok( "HTML::Element" );
 }
 
 FIRST_BLOCK: {

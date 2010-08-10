@@ -1,4 +1,7 @@
 Changelog for HTML-Tree
+3.23_2    Tue Aug 10 2010
+    * Fix critic test exploding if Test::Perl::Critic isn't installed.
+    * Fix annoying message about x.yy_z not being numeric in t/building.t
 
 3.23_2    Mon Aug 02 2010
     * Added extra_chars options to as_trimmed_text RT #26436
