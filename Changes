@@ -1,5 +1,8 @@
 Changelog for HTML-Tree
-3.23_2    Tue Aug 10 2010
+3.23_4    Mon Aug 30 2010
+    * Move attribute name validation to as_XML. RT #60619
+
+3.23_3    Tue Aug 10 2010
     * Fix critic test exploding if Test::Perl::Critic isn't installed.
     * Fix annoying message about x.yy_z not being numeric in t/building.t
 

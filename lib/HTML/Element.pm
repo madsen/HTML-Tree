@@ -6,7 +6,7 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.23_3
+Version 3.23_4
 
 =cut
 
@@ -17,7 +17,7 @@ use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
 use vars qw( $VERSION );
-$VERSION = '3.23_3';
+$VERSION = '3.23_4';
 
 # This contorls encoding entities on output.
 # When set entities won't be re-encoded.
@@ -270,10 +270,6 @@ sub new {
     my $self = bless { _tag => scalar( $class->_fold_case($tag) ) }, $class;
     my ( $attr, $val );
     while ( ( $attr, $val ) = splice( @_, 0, 2 ) ) {
-
-        # '/' means you've hit the end of a short '/>' tag
-        Carp::croak("$tag has an invalid attribute name '$attr' ' $val'")
-            unless ( $attr eq '/' || $self->_valid_name($attr) );
         $val = $attr unless defined $val;
         $self->{ $class->_fold_case($attr) } = $val;
     }
@@ -1812,6 +1808,13 @@ sub as_XML {
             if ( ref $node ) {     # it's an element
                 $tag = $node->{'_tag'};
                 if ($start) {      # on the way in
+
+                    foreach my $attr ( $node->all_attr_names() ) {
+                        Carp::croak(
+                            "$tag has an invalid attribute name '$attr'")
+                            unless ( $self->_valid_name($attr) );
+                    }
+
                     if ( $empty_element_map->{$tag}
                         and !@{ $node->{'_content'} || $nillio } )
                     {
@@ -1821,19 +1824,19 @@ sub as_XML {
                         push( @xml, $node->starttag_XML(undef) );
                     }
                 }
-                else {             # on the way out
+                else {    # on the way out
                     unless ( $empty_element_map->{$tag}
                         and !@{ $node->{'_content'} || $nillio } )
                     {
                         push( @xml, $node->endtag_XML() );
-                    }    # otherwise it will have been an <... /> tag.
+                    }     # otherwise it will have been an <... /> tag.
                 }
             }
-            else {       # it's just text
+            else {        # it's just text
                 _xml_escape($node);
                 push( @xml, $node );
             }
-            1;           # keep traversing
+            1;            # keep traversing
         }
     );
 
