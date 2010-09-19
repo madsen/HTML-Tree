@@ -28,7 +28,6 @@ BEGIN {
     #      $HTML::TreeBuilder::DEBUG = 4}  use HTML::TreeBuilder'
     # and see for yourself (substituting whatever value you want for $DEBUG
     # there).
-## BUGBUG why is this so ugly? why not just a normal sub?
 ## no critic
     if ( defined &DEBUG ) {
 

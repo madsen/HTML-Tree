@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 11;
+use Test::More tests => 12;
 
 BEGIN {
     use_ok("HTML::Element");
@@ -68,4 +68,14 @@ like(
     qr{<a href="example.com">Extra content</a>},
     "A tag in _empty_element_map, with content"
 );
+
+my $text = undef;
+my $input = HTML::Element->new( 'input', type => 'text', value => $text );
+$html = $input->as_HTML;
+like(
+    $html,
+    qr{<input type="text" value="value" />},
+    "Setting an attribute to undef defaults the value to the attribute name"
+);
+
 

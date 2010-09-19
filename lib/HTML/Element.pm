@@ -270,6 +270,7 @@ sub new {
     my $self = bless { _tag => scalar( $class->_fold_case($tag) ) }, $class;
     my ( $attr, $val );
     while ( ( $attr, $val ) = splice( @_, 0, 2 ) ) {
+## RT #42209 why does this default to the attribute name and not remain unset or the empty string?
         $val = $attr unless defined $val;
         $self->{ $class->_fold_case($attr) } = $val;
     }
@@ -1552,6 +1553,12 @@ sub as_HTML {
             sub {
                 ( $node, $start, $depth ) = @_;
                 if ( ref $node ) {      # it's an element
+
+                    # detect bogus classes. RT #35948
+                    $node->isa( $self->element_class )
+                        or Carp::confess( "Object of class "
+                            . ref($node)
+                            . " cannot be processed by HTML::Element" );
 
                     $tag = $node->{'_tag'};
 
