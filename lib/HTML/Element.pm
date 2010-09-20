@@ -1682,6 +1682,13 @@ sub as_HTML {
             sub {
                 ( $node, $start ) = @_;
                 if ( ref $node ) {
+
+                    # detect bogus classes. RT #35948
+                    $node->isa( $self->element_class )
+                        or Carp::confess( "Object of class "
+                            . ref($node)
+                            . " cannot be processed by HTML::Element" );
+
                     $tag = $node->{'_tag'};
                     if ($start) {    # on the way in
                         push( @html, $node->starttag($entities) );
