@@ -6,7 +6,7 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 3.23_4
+Version 4.0
 
 =cut
 
@@ -17,7 +17,7 @@ use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
 use vars qw( $VERSION );
-$VERSION = '3.23_4';
+$VERSION = '4.0';
 
 # This contorls encoding entities on output.
 # When set entities won't be re-encoded.

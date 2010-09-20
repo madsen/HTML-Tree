@@ -1,61 +1,59 @@
 Changelog for HTML-Tree
-3.23_5    Mon Aug 30 2010
-    * Add check for class type to traverse. RT #35948
 
-3.23_4    Mon Aug 30 2010
-    * Move attribute name validation to as_XML. RT #60619
-
-3.23_3    Tue Aug 10 2010
-    * Fix critic test exploding if Test::Perl::Critic isn't installed.
-    * Fix annoying message about x.yy_z not being numeric in t/building.t
-
-3.23_2    Mon Aug 02 2010
-    * Added extra_chars options to as_trimmed_text RT #26436
-    * Added catch for broken table tags RT #59980
-    * Replace parentheses for constants. RT #58880
-    * Removed build deps Devel::Cover, Test::Pod::Coverage, Test::Perl::Critic. RT #58878
-    * Added create_makefile_pl => 'traditional' to Build.PL RT #58878
-
-3.23_1    Mon Jun 21 11:09:31 AET 2010
+4.0    Mon Sep 20 2010
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
-    * Changes to entity encoding from ord values to XML entities
-      may break tests expecting &#00; style encoding.
-    * Attribute names are now validated and invalid names will cause a
-      parse error.
+    * Changes to entity encoding from ord values to XML entities may break
+      tests expecting &#00; style encoding.
+    * Attribute names are now validated in as_XML and invalid names will
+      cause an error.
+
 
     [FIXES]
-    * Optionally empty tags with content now have close tag. (RT 49932 41806)
-    * Added attribute name validation. (RT 23439) 
-    * Added span to @TAGS in AsSubs. (RT 55848)
+    * Optionally empty tags with content now have close tag. (RT #49932 #41806)
+    * Added attribute name validation. (RT #23439) 
+    * Added span to @TAGS in AsSubs. (RT #55848)
     * Changed tag encoding to human readable form, e.g. &gt;, and stopped
-      re-encoding encoded tags (RT 55835)
+      re-encoding encoded tags (RT #55835)
     * Added no_expand_entities option to disable entity decoding when
-      parsing source. (RT 24947)
-    * Fix replace_with not setting parent for an array of content. (RT 28204 45495)
-    * Removed newline being appended to as_HTML output. (RT 41739)
-    * Fix invalid parent for subsclasses. (RT 36247)
-    * Fixed #! line in tests (RT 41945)
+      parsing source. (RT #24947)
+    * Fix replace_with not setting parent for an array of content. 
+      (RT #28204 #45495)
+    * Removed newline being appended to as_HTML output. (RT #41739)
+    * Fix invalid parent for subsclasses. (RT #36247)
+    * Fixed #! line in tests (RT #41945)
     * Switched to Module::Build
     * Fixed Perl::Critic errors
     * Added lots of use strict and use warnings
-    * Fix PERL_UNICODE breaking tests. (RT 28404)
+    * Fix PERL_UNICODE breaking tests. (RT #28404)
+    * Add check for class type to traverse. (RT #35948)
+    * Move attribute name validation to as_XML. (RT #60619)
+    * Fix critic test exploding if Test::Perl::Critic isn't installed.
+    * Fix annoying message about x.yy_z not being numeric in t/building.t
+    * Added extra_chars options to as_trimmed_text (RT #26436)
+    * Added catch for broken table tags (RT #59980)
+    * Replace parentheses for constants. (RT #58880)
+    * Removed build deps Devel::Cover, Test::Pod::Coverage, Test::Perl::Critic.
+      (RT #58878)
+    * Added create_makefile_pl => 'traditional' to Build.PL (RT #58878)
 
     [ENHANCEMENTS]
-    * (Ricardo Signes RT 26282) The secret hack to allow elements to be created from classes other than
-      HTML::Element has been cleaned up and documented for the benefit of
-      TreeBuilder subclasses.  q.v., HTML::TreeBuilder->element_class
-    * Added HTML::Element::encoded_content to control encoding of entities on output.
+    * (Ricardo Signes RT #26282) The secret hack to allow elements to be created
+      from classes other than HTML::Element has been cleaned up and documented
+      for the benefit of TreeBuilder subclasses.
+      q.v., HTML::TreeBuilder->element_class
+    * Added HTML::Element::encoded_content to control encoding of entities on
+      output.
 
    [TESTS]
     * Added test for optionally empty tags, like A.
     * Added test for invalid attribute name.
     * Added more tests for entity parsing.
-    * Add parent test from Christopher J. Madsen. (RT 28204)
-    * Add subclass test. (RT 36247)
+    * Add parent test from Christopher J. Madsen. (RT #28204)
+    * Add subclass test. (RT #36247)
 
     [DOCUMENTATION]
-    * Docs spelling patch from Ansgar Burchardt <ansgar@43-1.org> (RT 55836)
-    * Added definition of white space to as_trimmed_text. (RT 26436)
+    * Docs spelling patch from Ansgar Burchardt <ansgar@43-1.org> (RT #55836)
+    * Added definition of white space to as_trimmed_text. (RT #26436)
 
 3.23    Sun Nov 12 11:09:31 CST 2006
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
