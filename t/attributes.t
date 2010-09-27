@@ -11,7 +11,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 use HTML::TreeBuilder;
 
 my $tb = HTML::TreeBuilder->new();
@@ -32,6 +32,12 @@ like(
     qr|img has an invalid attribute name 'inval!d'|,
     'catch invalid atribute names'
 );
+
+# xhtml
+my $xhtml = HTML::TreeBuilder->new_from_content(q{<img src="foo.gif" />});
+my $img = $xhtml->find_by_tag_name('img');
+like($img->as_XML(), qr{<img src="foo\.gif" />});
+$xhtml = $xhtml->delete;
 
 exit;
 

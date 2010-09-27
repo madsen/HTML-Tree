@@ -1826,7 +1826,7 @@ sub as_XML {
                     foreach my $attr ( $node->all_attr_names() ) {
                         Carp::croak(
                             "$tag has an invalid attribute name '$attr'")
-                            unless ( $self->_valid_name($attr) );
+                            unless ( $attr eq '/' || $self->_valid_name($attr) );
                     }
 
                     if ( $empty_element_map->{$tag}
