@@ -1,4 +1,7 @@
 Changelog for HTML-Tree
+4.1 UNRELEASED
+    [FIXES]
+    * '/' is a valid attribute (pull from tokuhirom)
 
 4.0    Mon Sep 20 2010
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
