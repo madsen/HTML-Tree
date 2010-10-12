@@ -1,7 +1,7 @@
 Changelog for HTML-Tree
 4.1 UNRELEASED
     [FIXES]
-    * '/' is a valid attribute (pull from tokuhirom)
+    * '/' is a valid attribute (pull from tokuhirom) (RT #61809)
     * Change check fo subclasses in as_HTML. (RT #61673)
     * Fix ProhibitThreeArgumentOpen beiong triggered. (RT #61857)
 
