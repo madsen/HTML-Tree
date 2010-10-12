@@ -1554,8 +1554,8 @@ sub as_HTML {
                 ( $node, $start, $depth ) = @_;
                 if ( ref $node ) {      # it's an element
 
-                    # detect bogus classes. RT #35948
-                    $node->isa( $self->element_class )
+                    # detect bogus classes. RT #35948, #61673
+                    $node->can('starttag')
                         or Carp::confess( "Object of class "
                             . ref($node)
                             . " cannot be processed by HTML::Element" );
