@@ -78,6 +78,9 @@ $VERSION = 4.2;
 *HTML::TreeBuilder::isFormElement       = \%HTML::Tagset::isFormElement;
 *HTML::TreeBuilder::p_closure_barriers  = \@HTML::Tagset::p_closure_barriers;
 
+# HTML::Element doesn't have an exporter:
+BEGIN { *_weaken = *HTML::Element::_weaken; }
+
 #==========================================================================
 # Two little shortcut constructors:
 
@@ -744,7 +747,7 @@ sub warning {
                 for ( my $i = 0; $i < @$c; ++$i ) {
                     if ( $c->[$i] eq $body ) {
                         splice( @$c, $i, 0, $self->{'_pos'} = $pos = $e );
-                        $e->{'_parent'} = $self;
+                        _weaken($e->{'_parent'} = $self);
                         $already_inserted = 1;
                         print $indent,
                             " * inserting 'frameset' right before BODY.\n"

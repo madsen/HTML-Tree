@@ -16,6 +16,14 @@ use HTML::Entities ();
 use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
+BEGIN {
+    # Attempt to import _weaken from Scalar::Util,
+    # but don't complain if we can't.
+    { local $@; require Scalar::Util; }
+
+    *_weaken = $Scalar::Util::{weaken} || sub { };
+}
+
 use vars qw( $VERSION );
 $VERSION = 4.2;
 
@@ -277,6 +285,7 @@ sub new {
     if ( $tag eq 'html' ) {
         $self->{'_pos'} = undef;
     }
+    _weaken($self->{'_parent'}) if $self->{'_parent'};
     return $self;
 }
 
@@ -442,7 +451,7 @@ sub parent {
     if (@_) {    # set
         Carp::croak "an element can't be made its own parent"
             if defined $_[0] and ref $_[0] and $self eq $_[0];    # sanity
-        $self->{'_parent'} = $_[0];
+        _weaken($self->{'_parent'} = $_[0]);
     }
     else {
         $self->{'_parent'};                                       # get
@@ -798,11 +807,11 @@ sub push_content {
 
             # magically call new_from_lol
             push @$content, $self->new_from_lol($_);
-            $content->[-1]->{'_parent'} = $self;
+            _weaken($content->[-1]->{'_parent'} = $self);
         }
         elsif ( ref($_) ) {    # insert an element
             $_->detach if $_->{'_parent'};
-            $_->{'_parent'} = $self;
+            _weaken($_->{'_parent'} = $self);
             push( @$content, $_ );
         }
         else {                 # insert text segment
@@ -843,11 +852,11 @@ sub unshift_content {
 
             # magically call new_from_lol
             unshift @$content, $self->new_from_lol($_);
-            $content->[0]->{'_parent'} = $self;
+            _weaken($content->[0]->{'_parent'} = $self);
         }
         elsif ( ref $_ ) {    # insert an element
             $_->detach if $_->{'_parent'};
-            $_->{'_parent'} = $self;
+            _weaken($_->{'_parent'} = $self);
             unshift( @$content, $_ );
         }
         else {                # insert text segment
@@ -898,11 +907,11 @@ sub splice_content {
         foreach my $n (@to_add) {
             if ( ref($n) eq 'ARRAY' ) {
                 $n = $self->new_from_lol($n);
-                $n->{'_parent'} = $self;
+                _weaken($n->{'_parent'} = $self);
             }
             elsif ( ref($n) ) {
                 $n->detach;
-                $n->{'_parent'} = $self;
+                _weaken($n->{'_parent'} = $self);
             }
         }
         @out = splice @$content, $offset, $length, @to_add;
@@ -994,11 +1003,11 @@ sub replace_with {
         }
         elsif ( ref($_) eq 'ARRAY' ) {
             $_ = $self->new_from_lol($_);
-            $_->{'_parent'} = $parent;
+            _weaken($_->{'_parent'} = $parent);
         }
         else {
             $_->detach;
-            $_->{'_parent'} = $parent;
+            _weaken($_->{'_parent'} = $parent);
 
             # each of these are necessary
         }
@@ -1069,7 +1078,7 @@ sub replace_with_content {
     $self->{'_parent'} = undef;    # detach $self from its parent
 
     # Update parentage link, removing from $self's content list
-    for ( splice @$content_r ) { $_->{'_parent'} = $parent if ref $_ }
+    for ( splice @$content_r ) { _weaken($_->{'_parent'} = $parent) if ref $_ }
 
     return $self;                  # note: doesn't destroy it.
 }
@@ -1175,7 +1184,7 @@ sub clone {
         $new->{'_content'}
             = [ ref($it)->clone_list( @{ $it->{'_content'} } ) ];
         for ( @{ $new->{'_content'} } ) {
-            $_->{'_parent'} = $new if ref $_;
+            _weaken($_->{'_parent'} = $new) if ref $_;
         }
     }
 
@@ -3680,7 +3689,7 @@ sub new_from_lol {
             if (@children) {
                 $node->{'_content'} = \@children;
                 foreach my $c (@children) {
-                    $c->{'_parent'} = $node
+                    _weaken($c->{'_parent'} = $node)
                         if ref $c;
                 }
             }
@@ -3688,7 +3697,8 @@ sub new_from_lol {
         else {                            # Do it the clean way...
                                           #print "Done neatly\n";
             while (@attributes) { $node->attr( splice @attributes, 0, 2 ) }
-            $node->push_content( map { $_->{'_parent'} = $node if ref $_; $_ }
+            $node->push_content(
+                  map { _weaken($_->{'_parent'} = $node) if ref $_; $_ }
                     @children )
                 if @children;
         }
