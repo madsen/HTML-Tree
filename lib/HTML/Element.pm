@@ -954,7 +954,7 @@ sub detach_content {
     return splice @$c;
 }
 
-=head2 $h->replace_with( $element_or_text, ... ) 
+=head2 $h->replace_with( $element_or_text, ... )
 
 This replaces C<$h> in its parent's content list with the nodes
 specified.  The element C<$h> (which by then may have no parent)
@@ -1523,11 +1523,11 @@ set to "\t", or some number of spaces, if you specify it).
 If C<\%optional_end_tags> is specified and defined, it should be
 a reference to a hash that holds a true value for every tag name
 whose end tag is optional.  Defaults to
-C<\%HTML::Element::optionalEndTag>, which is an alias to 
+C<\%HTML::Element::optionalEndTag>, which is an alias to
 C<%HTML::Tagset::optionalEndTag>, which, at time of writing, contains
 true values for C<p, li, dt, dd>.  A useful value to pass is an empty
 hashref, C<{}>, which means that no end-tags are optional for this dump.
-Otherwise, possibly consider copying C<%HTML::Tagset::optionalEndTag> to a 
+Otherwise, possibly consider copying C<%HTML::Tagset::optionalEndTag> to a
 hash of your own, adding or deleting values as you like, and passing
 a reference to that hash.
 
@@ -3742,7 +3742,7 @@ $h->as_text.
 
 This undoes the effect of $h->objectify_text.  That is, it takes any
 "~text" pseudo-elements in the tree at/under $h, and deletes each one,
-replacing each with the content of its "text" attribute. 
+replacing each with the content of its "text" attribute.
 
 Note that if $h itself is a "~text" pseudo-element, it will be
 destroyed -- a condition you may need to treat specially in your
@@ -4162,7 +4162,7 @@ otherwise false, or a reference to an (unblessed) array.  The array
 may be empty; but if it has items, they must ALL be either mere
 strings (text segments), or elements.
 
-* The value of an element's _tag attribute should, at least, be a 
+* The value of an element's _tag attribute should, at least, be a
 string of printable characters.
 
 Moreover, bear these rules in mind:
@@ -4176,7 +4176,7 @@ calls the superclass method is not so bad, though.)
 
 =head1 SEE ALSO
 
-L<HTML::Tree>; L<HTML::TreeBuilder>; L<HTML::AsSubs>; L<HTML::Tagset>; 
+L<HTML::Tree>; L<HTML::TreeBuilder>; L<HTML::AsSubs>; L<HTML::Tagset>;
 and, for the morbidly curious, L<HTML::Element::traverse>.
 
 =head1 COPYRIGHT
