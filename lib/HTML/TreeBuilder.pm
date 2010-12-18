@@ -59,7 +59,7 @@ use HTML::Tagset 3.02 ();
 use HTML::Element ();
 use HTML::Parser  ();
 @ISA     = qw(HTML::Element HTML::Parser);
-$VERSION = 4.2;
+$VERSION = '5.00';
 
 # This looks schizoid, I know.
 # It's not that we ARE an element AND a parser.
@@ -77,9 +77,6 @@ $VERSION = 4.2;
 *HTML::TreeBuilder::isTableElement      = \%HTML::Tagset::isTableElement;
 *HTML::TreeBuilder::isFormElement       = \%HTML::Tagset::isFormElement;
 *HTML::TreeBuilder::p_closure_barriers  = \@HTML::Tagset::p_closure_barriers;
-
-# HTML::Element doesn't have an exporter:
-BEGIN { *_weaken = *HTML::Element::_weaken; }
 
 #==========================================================================
 # Two little shortcut constructors:

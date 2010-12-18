@@ -6,31 +6,19 @@ HTML::Element - Class for objects that represent HTML elements
 
 =head1 VERSION
 
-Version 4.2
+Version 5.00
 
 =cut
 
 use strict;
+use warnings;
 use Carp           ();
 use HTML::Entities ();
 use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
-my $using_weaken;
-
-BEGIN {
-    # Attempt to import weaken from Scalar::Util, but don't complain
-    # if we can't.  Also, rename it to _weaken.
-    require Scalar::Util;
-
-    *_weaken = $Scalar::Util::{weaken} || sub { };
-    $using_weaken = !!$Scalar::Util::{weaken};
-}
-
-sub Use_Weak_Refs { $using_weaken }
-
 use vars qw( $VERSION );
-$VERSION = 4.2;
+$VERSION = '5.00';
 
 # This controls encoding entities on output.
 # When set entities won't be re-encoded.
@@ -38,6 +26,33 @@ $VERSION = 4.2;
 our $encoded_content = 0;
 
 use vars qw($html_uc $Debug $ID_COUNTER %list_type_to_sub);
+
+# Set up support for weak references, if possible:
+my $using_weaken;
+
+sub Use_Weak_Refs {
+    my $self_or_class = shift;
+
+    if (@_) {    # set
+        $using_weaken = !! shift; # Normalize boolean value
+        Carp::croak("The installed Scalar::Util lacks support for weak references")
+              if $using_weaken and not defined &Scalar::Util::weaken;
+        # Automatically export to HTML::TreeBuilder as well:
+        no warnings 'redefine';
+        *HTML::Element::_weaken = *HTML::TreeBuilder::_weaken =
+            $using_weaken ? \&Scalar::Util::weaken : sub ($) {};
+    } # end if setting value
+
+    return $using_weaken;
+} # end Use_Weak_Refs
+
+BEGIN {
+    # Attempt to import weaken from Scalar::Util, but don't complain
+    # if we can't.  Also, rename it to _weaken.
+    require Scalar::Util;
+
+    __PACKAGE__->Use_Weak_Refs(defined &Scalar::Util::weaken);
+}
 
 =head1 SYNOPSIS
 

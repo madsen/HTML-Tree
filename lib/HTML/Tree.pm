@@ -6,7 +6,7 @@ HTML::Tree - build and scan parse-trees of HTML
 
 =head1 VERSION
 
-4.2
+5.00
 
 =cut
 
@@ -18,7 +18,7 @@ use strict;
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = 4.2;
+$VERSION = '5.00';
 
 =head1 SYNOPSIS
 
@@ -204,7 +204,7 @@ Former Authors:
 
 =head1 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke; 
+Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke;
 2005 Andy Lester; 2006 Pete Krawczyk.  (Except the articles
 contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
 HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
