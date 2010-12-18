@@ -16,6 +16,7 @@ WriteMakefile
                            'HTML::Tagset' => '3.02',
                            'HTML::Parser' => '3.46',
                            'LWP::UserAgent' => 0,
+                           'Scalar::Util' => 0,
                            'Module::Build' => 0
                          }
         )

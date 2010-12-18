@@ -44,6 +44,7 @@ my $builder = $class->new(
         'HTML::Tagset'    => 3.02,
         'perl'            => '5.8.0',
         'LWP::UserAgent'  => 0,
+        'Scalar::Util'    => 0,
     },
     add_to_cleanup =>
         [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],

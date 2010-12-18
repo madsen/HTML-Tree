@@ -16,13 +16,18 @@ use HTML::Entities ();
 use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
+my $using_weaken;
+
 BEGIN {
-    # Attempt to import _weaken from Scalar::Util,
-    # but don't complain if we can't.
-    { local $@; require Scalar::Util; }
+    # Attempt to import weaken from Scalar::Util, but don't complain
+    # if we can't.  Also, rename it to _weaken.
+    require Scalar::Util;
 
     *_weaken = $Scalar::Util::{weaken} || sub { };
+    $using_weaken = !!$Scalar::Util::{weaken};
 }
+
+sub Use_Weak_Refs { $using_weaken }
 
 use vars qw( $VERSION );
 $VERSION = 4.2;
