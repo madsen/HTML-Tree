@@ -1,4 +1,8 @@
 Changelog for HTML-Tree
+4.2 UNRELEASED
+    [DOCUMENTATION]
+    * Added text and link to "Perl and LWP" book.
+    
 4.1 Mon Oct 25 2010
     [FIXES]
     * '/' is a valid attribute (pull from tokuhirom) (RT #61809)

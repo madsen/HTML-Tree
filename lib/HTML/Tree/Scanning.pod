@@ -18,6 +18,11 @@ Journal> #19 and is copyright 2000 The Perl Journal. It appears
 courtesy of Jon Orwant and The Perl Journal.  This document may be
 distributed under the same terms as Perl itself.
 
+(Note that this is discussed in chapters 6 through 10 of the
+book I<Perl and LWP> L<http://lwp.interglacial.com/> which
+was written after the following documentation, and which is
+available free online.)
+
 =head1 Scanning HTML
 
 -- Sean M. Burke
