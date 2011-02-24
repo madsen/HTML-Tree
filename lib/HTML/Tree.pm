@@ -18,7 +18,7 @@ use strict;
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = '4.1';
+$VERSION = $HTML::TreeBuilder::VERSION;
 
 =head1 SYNOPSIS
 

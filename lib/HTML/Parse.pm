@@ -123,7 +123,7 @@ $WARN           = 0;
 
 require HTML::TreeBuilder;
 
-$VERSION = '2.71';
+$VERSION = $HTML::TreeBuilder::VERSION;
 
 sub parse_html {
     my $p = $_[1];

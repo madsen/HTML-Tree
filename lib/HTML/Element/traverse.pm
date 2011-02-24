@@ -7,7 +7,8 @@ use warnings;
 use strict;
 
 use HTML::Element ();
-$VERSION = $VERSION = $HTML::Element::VERSION;
+use vars qw( $VERSION );
+$VERSION = $HTML::Element::VERSION;
 1;
 
 __END__
