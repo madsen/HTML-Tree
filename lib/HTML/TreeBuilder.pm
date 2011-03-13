@@ -58,7 +58,7 @@ use HTML::Tagset 3.02 ();
 use HTML::Element ();
 use HTML::Parser  ();
 @ISA = qw(HTML::Element HTML::Parser);
-$VERSION = $HTML::Element::VERSION;
+$VERSION = 4.2;
 
 # This looks schizoid, I know.
 # It's not that we ARE an element AND a parser.

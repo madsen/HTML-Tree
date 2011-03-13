@@ -17,7 +17,7 @@ use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
 use vars qw( $VERSION );
-$VERSION = '4.2';
+$VERSION = 4.2;
 
 # This contorls encoding entities on output.
 # When set entities won't be re-encoded.

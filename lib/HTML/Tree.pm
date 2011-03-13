@@ -6,7 +6,7 @@ HTML::Tree - build and scan parse-trees of HTML
 
 =head1 VERSION
 
-4.1
+4.2
 
 =cut
 
@@ -18,7 +18,7 @@ use strict;
 use HTML::TreeBuilder ();
 
 use vars qw( $VERSION );
-$VERSION = $HTML::TreeBuilder::VERSION;
+$VERSION = 4.2;
 
 =head1 SYNOPSIS
 

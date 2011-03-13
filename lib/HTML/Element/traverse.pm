@@ -8,7 +8,7 @@ use strict;
 
 use HTML::Element ();
 use vars qw( $VERSION );
-$VERSION = $HTML::Element::VERSION;
+$VERSION = 4.2;
 1;
 
 __END__
