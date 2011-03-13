@@ -10,7 +10,9 @@ lib/HTML/Tree/AboutObjects.pod
 lib/HTML/Tree/AboutTrees.pod
 lib/HTML/Tree/Scanning.pod
 lib/HTML/TreeBuilder.pm
+Makefile.PL
 MANIFEST
+META.yml
 README
 t/00system.t
 t/assubs.t
@@ -31,9 +33,7 @@ t/split.t
 t/subclass.t
 t/tag-rendering.t
 t/unicode.t
-t/zz_perlcritic.t
-t/zz_pod-coverage.t
-t/zz_pod.t
 TODO
-META.yml
-Makefile.PL
+xt/author/zz_perlcritic.t
+xt/author/zz_pod-coverage.t
+xt/author/zz_pod.t

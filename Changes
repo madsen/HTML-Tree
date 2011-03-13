@@ -3,6 +3,7 @@ Changelog for HTML-Tree
     [FIXES]
     * Tied all $VERSION to HTML::Element to ensure latest package is used
       for all modules. RT #66110
+    * Moved perlcritic tests to xt/author
     [DOCUMENTATION]
     * Added text and link to "Perl and LWP" book.
     
