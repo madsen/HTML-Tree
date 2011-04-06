@@ -55,6 +55,9 @@ sub new_from_content {
     goto &HTML::TreeBuilder::new_from_content;
 }
 
+1;
+__END__
+
 =head1 DESCRIPTION
 
 HTML-Tree is a suite of Perl modules for making parse trees out of
@@ -182,9 +185,16 @@ Terrence Brannon, Gordon Lack, Chris Madsen and Ricardo Signes.
 
 =head1 AUTHOR
 
-Original HTML-Tree author Gisle Aas.  Handed off to Sean M. Burke.
-and Andy Lester.  Currently maintained by Pete Krawczyk
-C<< <petek@cpan.org> >>.
+Current Author:
+	Jeff Fearn C<< <jfearn@cpan.org> >>.
+
+Original HTML-Tree author:
+	Gisle Aas.
+
+Former Authors:
+	Sean M. Burke.
+	Andy Lester.
+	Pete Krawczyk C<< <petek@cpan.org> >>.
 
 =head1 COPYRIGHT
 
@@ -206,4 +216,3 @@ warranty of merchantability or fitness for a particular purpose.
 
 =cut
 
-1;

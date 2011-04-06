@@ -6,7 +6,8 @@ Changelog for HTML-Tree
     * Moved perlcritic tests to xt/author
     [DOCUMENTATION]
     * Added text and link to "Perl and LWP" book.
-    
+    * Fix Authors is all PM files.
+
 4.1 Mon Oct 25 2010
     [FIXES]
     * '/' is a valid attribute (pull from tokuhirom) (RT #61809)

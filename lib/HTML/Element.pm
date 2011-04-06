@@ -4193,9 +4193,16 @@ merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
 
-Currently maintained by Pete Krawczyk C<< <petek@cpan.org> >>
+Current Author:
+	Jeff Fearn C<< <jfearn@cpan.org> >>.
 
-Original authors: Gisle Aas, Sean Burke and Andy Lester.
+Original HTML-Tree author:
+	Gisle Aas.
+
+Former Authors:
+	Sean M. Burke.
+	Andy Lester.
+	Pete Krawczyk C<< <petek@cpan.org> >>.
 
 Thanks to Mark-Jason Dominus for a POD suggestion.
 
