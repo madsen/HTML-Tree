@@ -1,5 +1,5 @@
 Changelog for HTML-Tree
-4.2 UNRELEASED
+4.2
     [FIXES]
     * Tied all $VERSION to HTML::Element to ensure latest package is used
       for all modules. RT #66110
