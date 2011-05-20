@@ -24,6 +24,7 @@ t/clonei.t
 t/construct_tree.t
 t/doctype.t
 t/escape.t
+t/leaktest.t
 t/oldparse.html
 t/oldparse.t
 t/parents.t
