@@ -54,6 +54,18 @@ BEGIN {
     __PACKAGE__->Use_Weak_Refs(defined &Scalar::Util::weaken);
 }
 
+sub import {
+    my $class = shift;
+
+    for (@_) {
+        if (/^-(no_?)?weak$/) {
+            $class->Use_Weak_Refs(not $1);
+        } else {
+            Carp::croak("$_ is not exported by the $class module");
+        }
+    }
+} # end import
+
 =head1 SYNOPSIS
 
     use HTML::Element;
