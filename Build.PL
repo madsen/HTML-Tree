@@ -25,25 +25,29 @@ my $class = Module::Build->subclass(
 );
 
 my $builder = $class->new(
-    module_name       => 'HTML::Tree',
-    license           => 'perl',
-    dist_author       => 'Jeff Fearn <jfearn@cpan.org>',
-    dist_version_from => 'lib/HTML/Element.pm',
-	create_makefile_pl => 'traditional',
-    build_requires    => {
-        'Module::Build'       => 0,
-        'Test::Exception'     => 0,
-        'Test::More'          => 0,
-        'HTML::Parser'        => 3.46,
-        'HTML::Tagset'        => 3.02,
+    module_name        => 'HTML::Tree',
+    license            => 'perl',
+    dist_author        => 'Jeff Fearn <jfearn@cpan.org>',
+    dist_version_from  => 'lib/HTML/Element.pm',
+    create_makefile_pl => 'traditional',
+    build_requires     => {
+        'Module::Build'   => 0,
+        'Test::Exception' => 0,
+        'Test::More'      => 0,
+        'HTML::Parser'    => 3.46,
+        'HTML::Tagset'    => 3.02,
+        'LWP::UserAgent'  => 0,
+        'URI::file'       => 0,
     },
     requires => {
-        'HTML::Parser' => 3.46,
-        'HTML::Tagset' => 3.02,
-        'perl'         => '5.8.0',
+        'HTML::Parser'    => 3.46,
+        'HTML::Tagset'    => 3.02,
+        'perl'            => '5.8.0',
+        'LWP::UserAgent'  => 0,
     },
-    add_to_cleanup => [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],
-    script_files   => ['htmltree'],
+    add_to_cleanup =>
+        [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],
+    script_files => ['htmltree'],
 );
 
 $builder->create_build_script();

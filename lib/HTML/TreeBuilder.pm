@@ -52,12 +52,13 @@ BEGIN {
 
 #---------------------------------------------------------------------------
 
+use LWP::UserAgent;
 use HTML::Entities ();
 use HTML::Tagset 3.02 ();
 
 use HTML::Element ();
 use HTML::Parser  ();
-@ISA = qw(HTML::Element HTML::Parser);
+@ISA     = qw(HTML::Element HTML::Parser);
 $VERSION = 4.2;
 
 # This looks schizoid, I know.
@@ -109,8 +110,21 @@ sub new_from_content {    # from any number of scalars
     return $new;
 }
 
+sub new_from_url {                     # should accept anything that LWP does.
+    my $class = shift;
+    Carp::croak("new_from_url takes only one argument")
+        unless @_ == 1;
+    Carp::croak("new_from_url is a class method only")
+        if ref $class;
+    my $new = $class->new();
+
+    my $fetch_result = LWP::UserAgent->new->get( $_[0] );
+    $new->parse( $fetch_result->content );
+    return $new;
+}
+
 # TODO: document more fully?
-sub parse_content {                    # from any number of scalars
+sub parse_content {    # from any number of scalars
     my $tree = shift;
     my $retval;
     foreach my $whunk (@_) {

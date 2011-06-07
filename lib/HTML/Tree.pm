@@ -55,6 +55,12 @@ sub new_from_content {
     goto &HTML::TreeBuilder::new_from_content;
 }
 
+sub new_from_url {
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new_from_url;
+}
+
 1;
 __END__
 

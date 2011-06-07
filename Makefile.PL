@@ -15,6 +15,7 @@ WriteMakefile
                            'Test::Exception' => 0,
                            'HTML::Tagset' => '3.02',
                            'HTML::Parser' => '3.46',
+                           'LWP::UserAgent' => 0,
                            'Module::Build' => 0
                          }
         )

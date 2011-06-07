@@ -1,9 +1,9 @@
-#!/usr/bin/perl -T
+#!/usr/bin/perl
 
 use warnings;
 use strict;
 
-use Test::More tests => ( 3 + 7 * 8 );
+use Test::More tests => ( 3 + 7 * 10 );
 
 #initial tests + number of tests in test_new_obj() * number of times called
 
@@ -67,6 +67,21 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
     my $parse_content_obj = HTML::Tree->new;
     $parse_content_obj->parse_content($HTML);
     test_new_obj( $parse_content_obj, "new(); parse_content Scalar" );
+}
+
+# URL tests
+{
+    my $file_url = URI->new( "file:" . $TestInput );
+
+    {
+        my $file_obj = HTML::Tree->new_from_url( $file_url->as_string );
+        test_new_obj( $file_obj, "new_from_url Scalar" );
+    }
+
+    {
+        my $file_obj = HTML::Tree->new_from_url($file_url);
+        test_new_obj( $file_obj, "new_from_url Object" );
+    }
 }
 
 # Scalar REF Tests
