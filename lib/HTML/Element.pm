@@ -19,7 +19,7 @@ use integer;    # vroom vroom!
 use vars qw( $VERSION );
 $VERSION = 4.2;
 
-# This contorls encoding entities on output.
+# This controls encoding entities on output.
 # When set entities won't be re-encoded.
 # Defaulting off because parser defaults to unencoding entities
 our $encoded_content = 0;
