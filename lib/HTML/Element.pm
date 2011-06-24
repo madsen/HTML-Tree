@@ -3513,7 +3513,7 @@ the current arrayref
 
 Text segments at the start of any arrayref
 will be considered to specify the name of the element to be
-constructed from the current araryref; all other text segments will
+constructed from the current arrayref; all other text segments will
 be considered to specify text segments as children for the current
 arrayref.
 
