@@ -19,7 +19,7 @@ use integer;    # vroom vroom!
 use vars qw( $VERSION );
 $VERSION = 4.2;
 
-# This contorls encoding entities on output.
+# This controls encoding entities on output.
 # When set entities won't be re-encoded.
 # Defaulting off because parser defaults to unencoding entities
 our $encoded_content = 0;
@@ -3513,7 +3513,7 @@ the current arrayref
 
 Text segments at the start of any arrayref
 will be considered to specify the name of the element to be
-constructed from the current araryref; all other text segments will
+constructed from the current arrayref; all other text segments will
 be considered to specify text segments as children for the current
 arrayref.
 
