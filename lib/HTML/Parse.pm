@@ -70,7 +70,7 @@ false.
 
 =item $HTML::Parse::WARN
 
-Call warn() with an apropriate message for syntax errors.  Default is
+Call warn() with an appropriate message for syntax errors.  Default is
 false.
 
 =back
