@@ -1,0 +1,11 @@
+/.build/
+/_build/
+/blib/
+/Build
+/Build.bat
+Makefile
+/META.*
+/MYMETA.*
+/pm_to_blib
+HTML-Tree-*.tar.gz
+HTML-Tree-*/
