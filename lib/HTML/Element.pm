@@ -37,10 +37,9 @@ sub Use_Weak_Refs {
         $using_weaken = !! shift; # Normalize boolean value
         Carp::croak("The installed Scalar::Util lacks support for weak references")
               if $using_weaken and not defined &Scalar::Util::weaken;
-        # Automatically export to HTML::TreeBuilder as well:
+
         no warnings 'redefine';
-        *HTML::Element::_weaken = *HTML::TreeBuilder::_weaken =
-            $using_weaken ? \&Scalar::Util::weaken : sub ($) {};
+        *_weaken = $using_weaken ? \&Scalar::Util::weaken : sub ($) {};
     } # end if setting value
 
     return $using_weaken;

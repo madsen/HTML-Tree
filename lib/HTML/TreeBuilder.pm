@@ -744,7 +744,7 @@ sub warning {
                 for ( my $i = 0; $i < @$c; ++$i ) {
                     if ( $c->[$i] eq $body ) {
                         splice( @$c, $i, 0, $self->{'_pos'} = $pos = $e );
-                        _weaken($e->{'_parent'} = $self);
+                        HTML::Element::_weaken($e->{'_parent'} = $self);
                         $already_inserted = 1;
                         print $indent,
                             " * inserting 'frameset' right before BODY.\n"
