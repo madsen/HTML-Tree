@@ -737,7 +737,7 @@ sub warning {
            #  insert_element because 1) we don't want it as _pos, but instead
            #  right under $self, and 2), more importantly, that we don't want
            #  this inserted at the /end/ of $self's content_list, but instead
-           #  in the middle of it, specifiaclly right before the body element.
+           #  in the middle of it, specifically right before the body element.
            #
                 my $c    = $self->{'_content'} || die "Contentless root?";
                 my $body = $self->{'_body'}    || die "Where'd my BODY go?";
