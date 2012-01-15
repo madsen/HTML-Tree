@@ -1664,6 +1664,8 @@ HTML::TreeBuilder - Parser that builds a HTML syntax tree
 
 =head1 SYNOPSIS
 
+  use HTML::TreeBuilder 5 -weak; # Ensure weak references in use
+
   foreach my $file_name (@ARGV) {
     my $tree = HTML::TreeBuilder->new; # empty tree
     $tree->parse_file($file_name);
@@ -1673,7 +1675,7 @@ HTML::TreeBuilder - Parser that builds a HTML syntax tree
       $tree->as_HTML, "\n";
 
     # Now that we're done with it, we must destroy it.
-    $tree = $tree->delete;
+    # $tree = $tree->delete; # Not required with weak references
   }
 
 =head1 DESCRIPTION
@@ -1699,11 +1701,10 @@ document into the tree $tree.
 3. do whatever you need to do with the syntax tree, presumably
 involving traversing it looking for some bit of information in it,
 
-4. and finally, when you're done with the tree, call $tree->delete() to
-erase the contents of the tree from memory.  This kind of thing
-usually isn't necessary with most Perl objects, but it's necessary for
-TreeBuilder objects.  See L<HTML::Element|HTML::Element> for a more verbose
-explanation of why this is the case.
+4. previous versions of HTML::TreeBuilder required you to call
+C<< $tree->delete() >> to erase the contents of the tree from memory
+when you're done with the tree.  This is not normally required anymore.
+See L<HTML::Element/"Weak References"> for details.
 
 =head1 METHODS AND ATTRIBUTES
 
@@ -1780,8 +1781,8 @@ Takes the exact same arguments as C<< $root->parse() >>.
 
 =item $root->delete()
 
-[An important method inherited from L<HTML::Element|HTML::Element>, which
-see.]
+[A previously important method inherited from L<HTML::Element|HTML::Element>,
+which see.]
 
 =item $root->elementify()
 

@@ -1,6 +1,8 @@
 Changelog for HTML-Tree
-4.3 UNRELEASED
+5.00   UNRELEASED
     [FIXES]
+    * Use weak references to avoid memory leaks (Christopher J. Madsen)
+      See Weak References in HTML::Element for details.
     * add new_from_url (Using LWP) (David Pottage) (RT #68097)
 
 4.2 Wed 06 Apr 2011

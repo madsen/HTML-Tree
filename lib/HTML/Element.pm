@@ -191,9 +191,40 @@ based on it.
 see Niklaus Wirth's I<Algorithms + Data Structures = Programs> or
 Donald Knuth's I<The Art of Computer Programming, Volume 1>.)
 
+=head2 Weak References
+
+TL;DR summary: S<C<use HTML::TreeBuilder 5 -weak;>> and forget about
+the C<delete> method.
+
+Because HTML::Element stores a reference to the parent element, Perl's
+reference-count garbage collection doesn't work properly with
+HTML::Element trees.  Starting with version 5.00, HTML::Element uses
+weak references (if available) to prevent that problem.  Weak
+references were introduced in Perl 5.6.0, but you also need a version
+of L<Scalar::Util> that provides the C<weaken> function.
+
+Weak references are enabled by default.  If you want to be certain
+they're in use, you can say S<C<use HTML::Element 5 -weak;>>.  You
+must include the version number; previous versions of HTML::Element
+ignored the import list entirely.
+
+To disable weak references, you can say S<C<use HTML::Element -noweak;>>.
+This is a global setting.  B<This feature is deprecated> and is
+provided only as a quick fix for broken code.  If your code does not
+work properly with weak references, you should fix it immediately, as
+weak references may become mandatory in a future version.  Generally,
+all you need to do is keep a reference to the root of the tree until
+you're done working with it.
+
+Because HTML::TreeBuilder is a subclass of HTML::Element, you can also
+import C<-weak> or C<-noweak> from HTML::TreeBuilder: e.g.
+S<C<use HTML::TreeBuilder: 5 -weak;>>.
+
 =cut
 
 $Debug = 0 unless defined $Debug;
+
+=head1 SUBROUTINES
 
 =head2 Version
 
@@ -1114,7 +1145,7 @@ sub replace_with_content {
     return $self;                  # note: doesn't destroy it.
 }
 
-=head2 $h->delete_content()
+=head2 $h->delete_content() destroy_content
 
 Clears the content of C<$h>, calling C<< $h->delete >> for each content
 element.  Compare with C<< $h->detach_content >>.
@@ -1145,22 +1176,16 @@ sub delete_content {
     $_[0];
 }
 
-=head2 $h->delete() destroy destroy_content
+=head2 $h->delete() destroy
 
 Detaches this element from its parent (if it has one) and explicitly
 destroys the element and all its descendants.  The return value is
 undef.
 
-Perl uses garbage collection based on reference counting; when no
-references to a data structure exist, it's implicitly destroyed --
-i.e., when no value anywhere points to a given object anymore, Perl
-knows it can free up the memory that the now-unused object occupies.
-
-But this fails with HTML::Element trees, because a parent element
-always holds references to its children, and its children elements
-hold references to the parent, so no element ever looks like it's
-I<not> in use.  So, to destroy those elements, you need to call
-C<< $h->delete >> on the parent.
+Before version 5.00 of HTML::Element, you had to call C<delete> when
+you were finished with the tree, or your program would leak memory.
+This is no longer necessary if weak references are enabled, see
+L</"Weak References">.
 
 =cut
 
