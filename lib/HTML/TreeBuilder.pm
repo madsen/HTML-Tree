@@ -52,7 +52,6 @@ BEGIN {
 
 #---------------------------------------------------------------------------
 
-use LWP::UserAgent;
 use HTML::Entities ();
 use HTML::Tagset 3.02 ();
 
@@ -118,6 +117,7 @@ sub new_from_url {                     # should accept anything that LWP does.
         if ref $class;
     my $new = $class->new();
 
+    require LWP::UserAgent;
     my $fetch_result = LWP::UserAgent->new->get( $_[0] );
     $new->parse( $fetch_result->content );
     return $new;

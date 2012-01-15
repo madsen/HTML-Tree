@@ -4,6 +4,7 @@ use warnings;
 use strict;
 
 use Test::More tests => ( 3 + 7 * 10 );
+use URI ();
 
 #initial tests + number of tests in test_new_obj() * number of times called
 
