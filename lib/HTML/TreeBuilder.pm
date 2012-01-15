@@ -119,7 +119,7 @@ sub new_from_url {                     # should accept anything that LWP does.
 
     require LWP::UserAgent;
     my $fetch_result = LWP::UserAgent->new->get( $_[0] );
-    $new->parse( $fetch_result->content );
+    $new->parse( $fetch_result->decoded_content );
     return $new;
 }
 

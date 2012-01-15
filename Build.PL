@@ -43,7 +43,7 @@ my $builder = $class->new(
         'HTML::Parser'    => 3.46,
         'HTML::Tagset'    => 3.02,
         'perl'            => '5.8.0',
-        'LWP::UserAgent'  => 0,
+        'LWP::UserAgent'  => 5.802, # HTTP::Message decoded_content method
         'Scalar::Util'    => 0,
     },
     add_to_cleanup =>
