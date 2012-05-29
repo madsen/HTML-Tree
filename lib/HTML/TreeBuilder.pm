@@ -56,7 +56,7 @@ use HTML::Entities ();
 use HTML::Tagset 3.02 ();
 
 use HTML::Element ();
-use HTML::Parser  ();
+use HTML::Parser 3.46 ();
 @ISA     = qw(HTML::Element HTML::Parser);
 $VERSION = '5.00';
 
@@ -118,6 +118,7 @@ sub new_from_url {                     # should accept anything that LWP does.
     my $new = $class->new();
 
     require LWP::UserAgent;
+    LWP::UserAgent->VERSION( 5.802 ); # HTTP::Message decoded_content method
     my $fetch_result = LWP::UserAgent->new->get( $_[0] );
     $new->parse( $fetch_result->decoded_content );
     return $new;

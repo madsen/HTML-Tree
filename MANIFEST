@@ -1,5 +1,12 @@
 Build.PL
 Changes
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+TODO
 htmltree
 lib/HTML/AsSubs.pm
 lib/HTML/Element.pm
@@ -10,10 +17,7 @@ lib/HTML/Tree/AboutObjects.pod
 lib/HTML/Tree/AboutTrees.pod
 lib/HTML/Tree/Scanning.pod
 lib/HTML/TreeBuilder.pm
-Makefile.PL
-MANIFEST
-META.yml
-README
+t/00-all_prereqs.t
 t/00system.t
 t/assubs.t
 t/attributes.t
@@ -30,11 +34,11 @@ t/oldparse.t
 t/parents.t
 t/parse.t
 t/parsefile.t
+t/refloop.t
 t/split.t
 t/subclass.t
 t/tag-rendering.t
 t/unicode.t
-TODO
 xt/author/zz_perlcritic.t
 xt/author/zz_pod-coverage.t
 xt/author/zz_pod.t
