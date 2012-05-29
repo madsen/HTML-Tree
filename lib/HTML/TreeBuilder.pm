@@ -1,5 +1,7 @@
 package HTML::TreeBuilder;
 
+# ABSTRACT: Parser that builds a HTML syntax tree
+
 use warnings;
 use strict;
 use integer;    # vroom vroom!
@@ -1659,10 +1661,6 @@ sub disembowel { $_[0]->guts(1) }
 1;
 
 __END__
-
-=head1 NAME
-
-HTML::TreeBuilder - Parser that builds a HTML syntax tree
 
 =head1 SYNOPSIS
 

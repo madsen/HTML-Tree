@@ -13,7 +13,10 @@
 \bpm_to_blib$
 \bblibdirs$
 ^MANIFEST\.SKIP$
+
+# Avoid Dist::Zilla configuration files.
 dist.ini
+weaver.ini
 
 # Avoid Module::Build generated and utility files.
 \bBuild$

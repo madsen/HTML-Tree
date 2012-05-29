@@ -1,8 +1,6 @@
 package HTML::AsSubs;
 
-=head1 NAME
-
-HTML::AsSubs - functions that construct a HTML syntax tree
+# ABSTRACT: functions that construct a HTML syntax tree
 
 =head1 SYNOPSIS
 

@@ -1,14 +1,6 @@
 package HTML::Tree;
 
-=head1 NAME
-
-HTML::Tree - build and scan parse-trees of HTML
-
-=head1 VERSION
-
-5.00
-
-=cut
+# ABSTRACT: build and scan parse-trees of HTML
 
 # HTML::Tree is basically just a happy alias to HTML::TreeBuilder.
 

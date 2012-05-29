@@ -2,9 +2,7 @@ package HTML::Parse;
 
 use 5.008;
 
-=head1 NAME
-
-HTML::Parse - Deprecated, a wrapper around HTML::TreeBuilder
+#ABSTRACT: Deprecated, a wrapper around HTML::TreeBuilder
 
 =head1 SYNOPSIS
 

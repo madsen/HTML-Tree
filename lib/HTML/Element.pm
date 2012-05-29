@@ -1,14 +1,6 @@
 package HTML::Element;
 
-=head1 NAME
-
-HTML::Element - Class for objects that represent HTML elements
-
-=head1 VERSION
-
-Version 5.00
-
-=cut
+# ABSTRACT: Class for objects that represent HTML elements
 
 use strict;
 use warnings;
