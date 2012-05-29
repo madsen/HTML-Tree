@@ -2052,6 +2052,7 @@ Takes a second argument that is a reference to a formatter.
 sub format {
     my ( $self, $formatter ) = @_;
     unless ( defined $formatter ) {
+        # RECOMMEND PREREQ: HTML::FormatText
         require HTML::FormatText;
         $formatter = HTML::FormatText->new();
     }
