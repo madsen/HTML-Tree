@@ -6,7 +6,7 @@ use warnings;
 use strict;
 use integer;    # vroom vroom!
 use Carp ();
-use vars qw(@ISA $VERSION $DEBUG);
+use vars qw(@ISA $DEBUG);
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
@@ -60,7 +60,6 @@ use HTML::Tagset 3.02 ();
 use HTML::Element ();
 use HTML::Parser 3.46 ();
 @ISA     = qw(HTML::Element HTML::Parser);
-$VERSION = '5.00';
 
 # This looks schizoid, I know.
 # It's not that we ARE an element AND a parser.

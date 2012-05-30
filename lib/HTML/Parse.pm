@@ -111,7 +111,7 @@ Former Authors:
 use warnings;
 use strict;
 
-use vars qw(@ISA $VERSION @EXPORT
+use vars qw(@ISA @EXPORT
     $IMPLICIT_TAGS $IGNORE_UNKNOWN $IGNORE_TEXT $WARN
 );
 
@@ -126,8 +126,6 @@ $IGNORE_TEXT    = 0;
 $WARN           = 0;
 
 require HTML::TreeBuilder;
-
-$VERSION = 4.2;
 
 sub parse_html {
     my $p = $_[1];

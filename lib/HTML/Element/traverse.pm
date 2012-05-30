@@ -9,8 +9,6 @@ use warnings;
 use strict;
 
 use HTML::Element ();
-use vars qw( $VERSION );
-$VERSION = 4.2;
 1;
 
 __END__

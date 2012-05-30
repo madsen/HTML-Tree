@@ -9,15 +9,12 @@ use HTML::Entities ();
 use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
-use vars qw( $VERSION );
-$VERSION = '5.00';
-
 # This controls encoding entities on output.
 # When set entities won't be re-encoded.
 # Defaulting off because parser defaults to unencoding entities
 our $encoded_content = 0;
 
-use vars qw($html_uc $Debug $ID_COUNTER %list_type_to_sub);
+use vars qw($html_uc $Debug $ID_COUNTER $VERSION %list_type_to_sub);
 
 # Set up support for weak references, if possible:
 my $using_weaken;

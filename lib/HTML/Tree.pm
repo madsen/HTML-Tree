@@ -9,9 +9,6 @@ use strict;
 
 use HTML::TreeBuilder ();
 
-use vars qw( $VERSION );
-$VERSION = '5.00';
-
 =head1 SYNOPSIS
 
     use HTML::TreeBuilder;
