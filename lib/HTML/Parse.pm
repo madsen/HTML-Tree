@@ -97,6 +97,7 @@ without any warranty; without even the implied warranty of
 merchantability or fitness for a particular purpose.
 
 =head1 AUTHOR
+
 Current Author:
 	Jeff Fearn C<< <jfearn@cpan.org> >>.
 
