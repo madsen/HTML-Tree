@@ -1,4 +1,6 @@
+## no critic
 package HTML::TreeBuilder;
+## use critic
 
 # ABSTRACT: Parser that builds a HTML syntax tree
 

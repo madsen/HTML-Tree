@@ -1,4 +1,6 @@
+## no critic
 package HTML::Parse;
+## use critic
 
 use 5.008;
 

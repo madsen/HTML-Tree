@@ -1,4 +1,6 @@
+## no critic
 package HTML::AsSubs;
+## use critic
 
 # ABSTRACT: functions that construct a HTML syntax tree
 

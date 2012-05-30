@@ -1,4 +1,6 @@
+## no critic
 package HTML::Element;
+## use critic
 
 # ABSTRACT: Class for objects that represent HTML elements
 

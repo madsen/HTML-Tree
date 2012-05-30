@@ -1,4 +1,6 @@
+## no critic
 package HTML::Tree;
+## use critic
 
 # ABSTRACT: build and scan parse-trees of HTML
 
