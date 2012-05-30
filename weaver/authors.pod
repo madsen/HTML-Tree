@@ -1,0 +1,33 @@
+{{# =head1 AUTHOR }}
+
+=pod
+
+Current maintainers:
+
+=over
+
+=item * Christopher J. Madsen S<C<< <perl AT cjmweb.net> >>>
+
+=item * Jeff Fearn S<C<< <jfearn AT cpan.org> >>>
+
+=back
+
+Original HTML-Tree author:
+
+=over
+
+=item * Gisle Aas
+
+=back
+
+Former maintainers:
+
+=over
+
+=item * Sean M. Burke
+
+=item * Andy Lester
+
+=item * Pete Krawczyk S<C<< <petek AT cpan.org> >>>
+
+=back

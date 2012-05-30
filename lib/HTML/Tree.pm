@@ -180,19 +180,6 @@ patches submitted to HTML::Tree as part of the Phalanx project
 Thanks to the following people for additional patches and documentation:
 Terrence Brannon, Gordon Lack, Chris Madsen and Ricardo Signes.
 
-=head1 AUTHOR
-
-Current Author:
-	Jeff Fearn C<< <jfearn@cpan.org> >>.
-
-Original HTML-Tree author:
-	Gisle Aas.
-
-Former Authors:
-	Sean M. Burke.
-	Andy Lester.
-	Pete Krawczyk C<< <petek@cpan.org> >>.
-
 =head1 COPYRIGHT
 
 Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke;

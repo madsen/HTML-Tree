@@ -15,8 +15,8 @@
 ^MANIFEST\.SKIP$
 
 # Avoid Dist::Zilla configuration files.
-dist.ini
-weaver.ini
+^dist\.ini$
+^weaver\b
 
 # Avoid Module::Build generated and utility files.
 \bBuild$
