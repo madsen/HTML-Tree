@@ -13,8 +13,6 @@ use strict;
 use HTML::Element ();
 1;
 
-__END__
-
 =head1 SYNOPSIS
 
   # $element->traverse is unnecessary and obscure.

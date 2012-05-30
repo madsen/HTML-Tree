@@ -4237,18 +4237,6 @@ calls the superclass method is not so bad, though.)
 L<HTML::Tree>; L<HTML::TreeBuilder>; L<HTML::AsSubs>; L<HTML::Tagset>;
 and, for the morbidly curious, L<HTML::Element::traverse>.
 
-=head1 COPYRIGHT
-
-Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
-2006 Pete Krawczyk, 2010 Jeff Fearn.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
-This program is distributed in the hope that it will be useful, but
-without any warranty; without even the implied warranty of
-merchantability or fitness for a particular purpose.
-
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to Mark-Jason Dominus for a POD suggestion.

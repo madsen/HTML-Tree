@@ -53,7 +53,6 @@ sub new_from_url {
 }
 
 1;
-__END__
 
 =head1 DESCRIPTION
 
@@ -179,24 +178,6 @@ patches submitted to HTML::Tree as part of the Phalanx project
 
 Thanks to the following people for additional patches and documentation:
 Terrence Brannon, Gordon Lack, Chris Madsen and Ricardo Signes.
-
-=head1 COPYRIGHT
-
-Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke;
-2005 Andy Lester; 2006 Pete Krawczyk.  (Except the articles
-contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
-HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
-
-Except for those three TPJ articles, the whole HTML-Tree distribution,
-of which this file is a part, is free software; you can redistribute
-it and/or modify it under the same terms as Perl itself.
-
-Those three TPJ articles may be distributed under the same terms as
-Perl itself.
-
-The programs in this library are distributed in the hope that they
-will be useful, but without any warranty; without even the implied
-warranty of merchantability or fitness for a particular purpose.
 
 =cut
 

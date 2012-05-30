@@ -1661,8 +1661,6 @@ sub disembowel { $_[0]->guts(1) }
 #--------------------------------------------------------------------------
 1;
 
-__END__
-
 =head1 SYNOPSIS
 
   use HTML::TreeBuilder 5 -weak; # Ensure weak references in use
@@ -2144,17 +2142,5 @@ going astray, and how you would prefer that it work instead.
 L<HTML::Tree>; L<HTML::Parser>, L<HTML::Element>, L<HTML::Tagset>
 
 L<HTML::DOMbo>
-
-=head1 COPYRIGHT
-
-Copyright 1995-1998 Gisle Aas, 1999-2004 Sean M. Burke, 2005 Andy Lester,
-2006 Pete Krawczyk, 2010 Jeff Fearn.
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
-
-This program is distributed in the hope that it will be useful, but
-without any warranty; without even the implied warranty of
-merchantability or fitness for a particular purpose.
 
 =cut
