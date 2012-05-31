@@ -22,6 +22,28 @@ use vars qw($html_uc $Debug $ID_COUNTER $VERSION %list_type_to_sub);
 # Set up support for weak references, if possible:
 my $using_weaken;
 
+=head1 CLASS METHODS
+
+=head2 Use_Weak_Refs
+
+  $enabled = HTML::Element->Use_Weak_Refs;
+  HTML::Element->Use_Weak_Refs( $enabled );
+
+This method allows you to check whether weak reference support is
+enabled, and to enable or disable it. For details, see L</"Weak References">.
+C<$enabled> is true if weak references are enabled.
+
+You should not switch this in the middle of your program, and you
+probably shouldn't use it at all.  Existing trees are not affected by
+this method (until you start modifying nodes in them).
+
+Throws an exception if you attempt to enable weak references and your
+Perl or Scalar::Util does not support them.
+
+Disabling weak reference support is deprecated.
+
+=cut
+
 sub Use_Weak_Refs {
     my $self_or_class = shift;
 
