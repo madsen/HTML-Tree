@@ -1,14 +1,14 @@
 
 # This is a .pm just to (try to) make some CPAN document converters
 #  convert it happily as part of the dist's documentation tree.
-## no critic
 package HTML::Element::traverse;
-## use critic
 
 # ABSTRACT: discussion of HTML::Element's traverse method
 
 use warnings;
 use strict;
+
+# VERSION from OurPkgVersion
 
 use HTML::Element ();
 1;

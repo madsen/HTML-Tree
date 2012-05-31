@@ -1,11 +1,12 @@
-## no critic
 package HTML::Element;
-## use critic
 
 # ABSTRACT: Class for objects that represent HTML elements
 
 use strict;
 use warnings;
+
+# VERSION from OurPkgVersion
+
 use Carp           ();
 use HTML::Entities ();
 use HTML::Tagset   ();

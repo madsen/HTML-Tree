@@ -1,6 +1,4 @@
-## no critic
 package HTML::AsSubs;
-## use critic
 
 # ABSTRACT: functions that construct a HTML syntax tree
 
@@ -73,6 +71,8 @@ L<HTML::Element>, L<XML::Generator>
 use warnings;
 use strict;
 use vars qw(@ISA @EXPORT);
+
+# VERSION from OurPkgVersion
 
 require HTML::Element;
 require Exporter;

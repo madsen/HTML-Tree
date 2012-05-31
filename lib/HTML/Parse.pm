@@ -1,6 +1,4 @@
-## no critic
 package HTML::Parse;
-## use critic
 
 use 5.008;
 
@@ -88,6 +86,8 @@ L<HTML::Parser>, L<HTML::TreeBuilder>, L<HTML::Element>
 
 use warnings;
 use strict;
+
+# VERSION from OurPkgVersion
 
 use vars qw(@ISA @EXPORT
     $IMPLICIT_TAGS $IGNORE_UNKNOWN $IGNORE_TEXT $WARN

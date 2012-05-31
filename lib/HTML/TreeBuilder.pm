@@ -1,6 +1,4 @@
-## no critic
 package HTML::TreeBuilder;
-## use critic
 
 # ABSTRACT: Parser that builds a HTML syntax tree
 
@@ -9,6 +7,8 @@ use strict;
 use integer;    # vroom vroom!
 use Carp ();
 use vars qw(@ISA $DEBUG);
+
+# VERSION from OurPkgVersion
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
