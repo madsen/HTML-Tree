@@ -220,11 +220,15 @@ $Debug = 0 unless defined $Debug;
 
 =head2 Version
 
-Why is this a sub?
+This subroutine is deprecated.  Please use the standard VERSION method
+(e.g. C<< HTML::Element->VERSION >>) instead.
 
 =cut
 
-sub Version { $VERSION; }
+sub Version {
+    Carp::carp("Deprecated subroutine HTML::Element::Version called");
+    $VERSION;
+}
 
 my $nillio = [];
 

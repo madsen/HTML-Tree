@@ -1,10 +1,11 @@
 Changelog for HTML-Tree
 
 {{$NEXT}}
-    [ENHANCEMENTS]
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * Use weak references to avoid memory leaks (Christopher J. Madsen)
       See Weak References in HTML::Element for details.
     * add new_from_url (Using LWP) (David Pottage) (RT #68097)
+    * deprecate the Version sub/method.  Use the VERSION method instead.
 
 
 4.2      2011-04-06
