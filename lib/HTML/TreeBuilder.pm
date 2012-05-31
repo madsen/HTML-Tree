@@ -1744,6 +1744,18 @@ call new, and then set options, before calling parse_file).  Example
 usages: HTML::TreeBuilder->new_from_content(@lines), or
 HTML::TreeBuilder->new_from_content($content)
 
+=item $root = HTML::TreeBuilder->new_from_url($url)
+
+This "shortcut" constructor combines constructing a new object (with
+the "new" method, below), loading L<LWP::UserAgent>, fetching the
+specified URL, and calling C<< $new->parse( $response->decoded_content) >>.
+Returns the new object.  Note that this provides no way of setting any
+parse options like store_comments.
+
+You must have installed LWP::UserAgent for this method to work.  LWP
+is not installed automatically, because it's a large set of modules
+and you might not need it.
+
 =item $root = HTML::TreeBuilder->new()
 
 This creates a new HTML::TreeBuilder object.  This method takes no

@@ -99,19 +99,17 @@ third.
 
 Redirects to HTML::TreeBuilder::new
 
-=cut
-
 =head2 new_from_file
 
 Redirects to HTML::TreeBuilder::new_from_file
-
-=cut
 
 =head2 new_from_content
 
 Redirects to HTML::TreeBuilder::new_from_content
 
-=cut
+=head2 new_from_url
+
+Redirects to HTML::TreeBuilder::new_from_url
 
 =head1 SUPPORT
 
