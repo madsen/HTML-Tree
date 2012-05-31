@@ -1,14 +1,18 @@
 Changelog for HTML-Tree
 
 {{$NEXT}}
+   Release by Christopher J. Madsen
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
-    * Use weak references to avoid memory leaks (Christopher J. Madsen)
+    * Use weak references to avoid memory leaks
       See Weak References in HTML::Element for details.
     * add new_from_url (Using LWP) (David Pottage) (RT #68097)
     * deprecate the Version sub/method.  Use the VERSION method instead.
 
 
 4.2      2011-04-06
+   Release by Jeff Fearn
+
     [FIXES]
     * Tied all $VERSION to HTML::Element to ensure latest package is used
       for all modules. RT #66110
@@ -19,6 +23,8 @@ Changelog for HTML-Tree
 
 
 4.1      2010-10-25
+   Release by Jeff Fearn
+
     [FIXES]
     * '/' is a valid attribute (pull from tokuhirom) (RT #61809)
     * Change check fo subclasses in as_HTML. (RT #61673)
@@ -26,6 +32,8 @@ Changelog for HTML-Tree
 
 
 4.0      2010-09-20
+   Release by Jeff Fearn
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * Changes to entity encoding from ord values to XML entities may break
       tests expecting &#00; style encoding.
@@ -82,6 +90,8 @@ Changelog for HTML-Tree
 
 
 3.23     2006-11-12
+   Release by Pete Krawczyk <petek@cpan.org>
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * Mark-Jason Dominus points out that the fix for as_html was not
       proper, and broken behavior should never be codified.  Fixed
@@ -90,6 +100,8 @@ Changelog for HTML-Tree
 
 
 3.22     2006-11-11
+   Release by Pete Krawczyk <petek@cpan.org>
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * HTML::Element::as_XML now only escapes five characters, instead
       of escaping everything but alphanumerics and spaces.  This is
@@ -117,6 +129,8 @@ Changelog for HTML-Tree
 
 
 3.21     2006-08-06
+   Release by Pete Krawczyk <petek@cpan.org>
+
     [FIXES]
     * Updated HTML::Parser requirement to 3.46 to fix a bug in
       tag-rendering.t, noted in RT 20816 and 19796.  Thanks to
@@ -129,11 +143,15 @@ Changelog for HTML-Tree
 
 
 3.20     2006-06-04
+   Release by Andy Lester
+
     No code changes.  Just making sure all notes go to Andy Lester,
     not Sean Burke.
 
 
 3.19_04  2006-02-01
+   Trial Release by Andy Lester
+
     [FIXES]
     * Modified starttag() so that it could render a literal HTML::Element
       correctly. Added a test case for this in tag-rendering.t
@@ -141,12 +159,15 @@ Changelog for HTML-Tree
 
 
 3.19_03  2005-11-25
+   Trial Release by Andy Lester
+
     [THINGS THAT MAY BREAK YOUR CODE]
     * The store_declarations() method has been restored, but defaults
       to true instead of false.
 
 
 3.19_02  2005-11-24
+   Trial Release by Andy Lester
 
     [THINGS THAT MAY BREAK YOUR CODE]
     * The store_declarations() method has been removed.
@@ -166,7 +187,7 @@ Changelog for HTML-Tree
 
 
 3.19_01  2005-11-09
-   Release by Andy Lester
+   Trial Release by Andy Lester
 
    -- No new functionality.  New tests, though!
    Thanks to the Chicago Perl Mongers for their work.
@@ -562,7 +583,7 @@ Changelog for HTML-Tree
    Added a bit of text to HTML::AsSubs to recommend using XML::Generator.
 
 
-0.67.    2000-06-12
+0.67     2000-06-12
    Release by Sean M. Burke  <sburke@cpan.org>
 
    Just changes to HTML::Element...
