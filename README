@@ -1,7 +1,6 @@
-# Time-stamp: "2006-08-06 19:00:00 CDT"
-
-HTML-Tree
----------
+HTML-Tree version {{$version}}, released {{$date}}
+{{ $zilla->is_trial
+   ? "THIS IS A DEVELOPMENT RELEASE FOR TESTING PURPOSES ONLY.\n" : '' }}
 
 This distribution contains a suite of modules for representing,
 creating, and extracting information from HTML syntax trees; there is
@@ -42,31 +41,24 @@ The modules and documentation present in this collection are:
 
 
 
-PREREQUISITES
-
-In order to install and use this package you will need Perl version
-5.004 or better.  You will also need to have an HTML-Parser and
-HTML-Tagset distributions installed.  All of these should be available
-from CPAN.
-
-
-
 INSTALLATION
 
-Just follow the usual procedure:
+To install this module, run the following commands:
 
-   perl Build.PL
-   ./Build
-   ./Build test
-   ./Build install
+{{ $t->build_instructions }}
 
-Or see also "perldoc perlmodinstall"
+
+
+DEPENDENCIES
+
+{{ $t->dependency_list }}
 
 
 
 SOURCE
 
-The source is now kept at http://github.com/jfearn/HTML-Tree
+The source is now kept at {{ $meta{resources}{repository}{web}
+                             // die 'no repo' }}
 
 
 
@@ -85,9 +77,10 @@ and HTML-Tree specifically.  There's more info at:
 
 COPYRIGHT
 
-Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke; 
-2005 Andy Lester; 2006 Pete Krawczyk; 2010 Jeff Fearn  (Except the articles
-contained in HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
+Copyright 1995-1998 Gisle Aas; 1999-2004 Sean M. Burke;
+2005 Andy Lester; 2006 Pete Krawczyk; 2010 Jeff Fearn;
+2012 Christopher J. Madsen (Except the articles contained in
+HTML::Tree::AboutObjects, HTML::Tree::AboutTrees, and
 HTML::Tree::Scanning, which are all copyright 2000 The Perl Journal.)
 
 Except for those three TPJ articles, the whole HTML-Tree distribution,
@@ -100,4 +93,3 @@ Perl itself.
 The programs in this library are distributed in the hope that they
 will be useful, but without any warranty; without even the implied
 warranty of merchantability or fitness for a particular purpose.
-

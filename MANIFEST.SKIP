@@ -13,6 +13,8 @@
 \bpm_to_blib$
 \bblibdirs$
 ^MANIFEST\.SKIP$
+^MYMETA.
+^README\.md
 
 # Avoid Dist::Zilla configuration files.
 ^dist\.ini$
@@ -48,4 +50,3 @@
 \bARC
 \.spec$
 ^lwp-test-
-^MYMETA.yml$
