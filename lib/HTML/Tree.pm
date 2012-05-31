@@ -158,15 +158,10 @@ and HTML-Tree specifically.  There's more info at:
 
 =head1 SOURCE REPOSITORY
 
-HTML::Tree is maintained in Subversion hosted at perl.org.
+HTML-Tree is now maintained using Git.  The main public repository is
+L<< {{ $meta{resources}{repository}{web} // die 'no repo' }} >>.
 
-    http://svn.perl.org/modules/HTML-Tree
-
-The latest development work is always at:
-
-    http://svn.perl.org/modules/HTML-Tree/trunk
-
-Any patches sent should be diffed against this repository.
+The best way to send a patch is to make a pull request there.
 
 =head1 ACKNOWLEDGEMENTS
 
