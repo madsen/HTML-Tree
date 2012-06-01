@@ -208,7 +208,7 @@ Donald Knuth's I<The Art of Computer Programming, Volume 1>.)
 =head2 Weak References
 
 TL;DR summary: S<C<use HTML::TreeBuilder 5 -weak;>> and forget about
-the C<delete> method.
+the C<delete> method (except for pruning a node from a tree).
 
 Because HTML::Element stores a reference to the parent element, Perl's
 reference-count garbage collection doesn't work properly with
