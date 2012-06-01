@@ -11,7 +11,7 @@ my $builder = inc::My_Build->new(
 ##{ $plugin->get_prereqs ##}
     add_to_cleanup =>
         [ 'HTML-Tree-*', 'tmp', 'blib', 'lwp-test-*', 'MANIFEST.bak' ],
-    script_files => ['htmltree'],
+    script_files => 'bin',
 );
 
 $builder->create_build_script();
