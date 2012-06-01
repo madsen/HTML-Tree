@@ -2151,7 +2151,7 @@ going astray, and how you would prefer that it work instead.
 
 =head1 SEE ALSO
 
-L<HTML::Tree>; L<HTML::Parser>, L<HTML::Element>, L<HTML::Tagset>
+L<HTML::Tree>, L<HTML::Parser>, L<HTML::Element>, L<HTML::Tagset>
 
 L<HTML::DOMbo>
 
