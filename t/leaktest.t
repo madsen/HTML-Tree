@@ -9,6 +9,7 @@ use Test::More;
 
 my $leak_trace_loaded;
 
+# RECOMMEND PREREQ: Test::LeakTrace
 BEGIN { $leak_trace_loaded = eval "use Test::LeakTrace; 1" }
 
 plan skip_all => "Test::LeakTrace required for testing memory leaks"
