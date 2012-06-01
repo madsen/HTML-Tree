@@ -3,8 +3,9 @@
 use warnings;
 use strict;
 
-use Test::More tests => ( 3 + 7 * 10 );
-use URI ();
+use constant tests_per_object => 7;
+
+use Test::More tests => ( 3 + 10 * tests_per_object );
 
 #initial tests + number of tests in test_new_obj() * number of times called
 
@@ -72,6 +73,14 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
 
 # URL tests
 {
+  SKIP: {
+    eval {
+        # RECOMMEND PREREQ: URI::file
+        require URI::file;
+        require LWP::UserAgent;
+        1;
+    } or skip "URI::file or LWP::UserAgent not installed", 2 * tests_per_object;
+
     my $file_url = URI->new( "file:" . $TestInput );
 
     {
@@ -83,6 +92,7 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
         my $file_obj = HTML::Tree->new_from_url($file_url);
         test_new_obj( $file_obj, "new_from_url Object" );
     }
+  }
 }
 
 # Scalar REF Tests
