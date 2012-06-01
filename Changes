@@ -44,7 +44,6 @@ Changelog for HTML-Tree
     * Attribute names are now validated in as_XML and invalid names will
       cause an error.
 
-
     [FIXES]
     * Optionally empty tags with content now have close tag. (RT #49932 #41806)
     * Added attribute name validation. (RT #23439)
@@ -292,7 +291,6 @@ Changelog for HTML-Tree
    HTML::TreeBuilder -- added blurb for /Perl & LWP/
    Also added a few tweaks to do better with XHTML parsing.
    Added guts() and disembowel() methods, for parsing document fragments.
-
 
    TODO: desperately need to add tests to t/
 
