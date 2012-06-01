@@ -1,9 +1,9 @@
+use 5.008;
 use strict;
 use warnings;
-use Module::Build;
-use 5.008;
+use inc::My_Build;
 
-my $builder = Module::Build->new(
+my $builder = inc::My_Build->new(
     module_name        => 'HTML::Tree',
     license            => 'perl',
     dist_author        => 'Christopher J. Madsen <perl@cjmweb.net>',

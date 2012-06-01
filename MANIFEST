@@ -7,6 +7,7 @@ META.yml
 README
 TODO
 htmltree
+inc/My_Build.pm
 lib/HTML/AsSubs.pm
 lib/HTML/Element.pm
 lib/HTML/Element/traverse.pm
