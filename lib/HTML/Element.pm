@@ -684,7 +684,7 @@ parsing operations, whose value is whatever HTML::Element element
 at or under C<$h> is currently "open", where C<< $h->insert_element(NEW) >>
 will actually insert a new element.
 
-(This has nothing to do with the Perl function called "pos", for
+(This has nothing to do with the Perl function called C<pos>, for
 controlling where regular expression matching starts.)
 
 If you set C<< $h->pos($element) >>, be sure that C<$element> is
@@ -1572,7 +1572,8 @@ sub delete_ignorable_whitespace {
 Inserts (via push_content) a new element under the element at
 C<< $h->pos() >>.  Then updates C<< $h->pos() >> to point to the inserted
 element, unless $element is a prototypically empty element like
-"br", "hr", "img", etc.  The new C<< $h->pos() >> is returned.  This
+C<< <br> >>, C<< <hr> >>, C<< <img> >>, etc.
+The new C<< $h->pos() >> is returned.  This
 method is useful only if your particular tree task involves setting
 C<< $h->pos() >>.
 
@@ -1923,9 +1924,9 @@ sub as_HTML {
 Returns a string consisting of only the text parts of the element's
 descendants.
 
-Text under 'script' or 'style' elements is never included in what's
-returned.  If C<skip_dels> is true, then text content under "del"
-nodes is not included in what's returned.
+Text under C<< <script> >> or C<< <style> >> elements is never
+included in what's returned.  If C<skip_dels> is true, then text
+content under C<< <del> >> nodes is not included in what's returned.
 
 =for Pod::Coverage
 as_text_trimmed
@@ -2629,13 +2630,13 @@ Returns true if C<$h> has no content, i.e., has no elements or text
 segments under it.  In other words, this returns true if C<$h> is a leaf
 node, AKA a terminal node.  Do not confuse this sense of "empty" with
 another sense that it can have in SGML/HTML/XML terminology, which
-means that the element in question is of the type (like HTML's "hr",
-"br", "img", etc.) that I<can't> have any content.
+means that the element in question is of the type (like HTML's C<< <hr> >>,
+C<< <br> >>, C<< <img> >>, etc.) that I<can't> have any content.
 
-That is, a particular "p" element may happen to have no content, so
+That is, a particular C<< <p> >> element may happen to have no content, so
 $that_p_element->is_empty will be true -- even though the prototypical
-"p" element isn't "empty" (not in the way that the prototypical "hr"
-element is).
+C<< <p> >> element isn't "empty" (not in the way that the prototypical
+C<< <hr> >> element is).
 
 If you think this might make for potentially confusing code, consider
 simply using the clearer exact equivalent:  C<< not($h->content_list) >>.
@@ -3277,7 +3278,7 @@ C<< $h->look_up >> instead scans over the list
    ($h, $h->lineage)
 
 So, for example, this returns all ancestors of C<$h> (possibly including
-C<$h> itself) that are "td" elements with an "align" attribute with a
+C<$h> itself) that are C<< <td> >> elements with an "align" attribute with a
 value of "right" (or "RIGHT", etc.):
 
    $h->look_up("_tag", "td", "align", "right");
@@ -3482,9 +3483,9 @@ elements that have that tag name.  I.e., this method returns:
 
    {
      # Across $h and all descendants...
-     'a'   => [ ...list of all 'a'   elements... ],
-     'em'  => [ ...list of all 'em'  elements... ],
-     'img' => [ ...list of all 'img' elements... ],
+     'a'   => [ ...list of all <a>   elements... ],
+     'em'  => [ ...list of all <em>  elements... ],
+     'img' => [ ...list of all <img> elements... ],
    }
 
 (There are entries in the hash for only those tagnames that occur
@@ -3525,8 +3526,8 @@ sub tagname_map {
   $links_array_ref = $h->extract_links(@wantedTypes);
 
 Returns links found by traversing the element and all of its children
-and looking for attributes (like "href" in an "a" element, or "src" in
-an "img" element) whose values represent links.  The return value is a
+and looking for attributes (like "href" in an C<< <a> >> element, or "src" in
+an C<< <img> >> element) whose values represent links.  The return value is a
 I<reference> to an array.  Each element of the array is reference to
 an array with I<four> items: the link-value, the element that has the
 attribute with that link-value, and the name of that attribute, and
@@ -3539,7 +3540,7 @@ You might specify that you want to extract links from just some kinds
 of elements (instead of the default, which is to extract links from
 I<all> the kinds of elements known to have attributes whose values
 represent links).  For instance, if you want to extract links from
-only "a" and "img" elements, you could code it like this:
+only C<< <a> >> and C<< <img> >> elements, you could code it like this:
 
   for (@{  $e->extract_links('a', 'img')  }) {
       my($link, $element, $attr, $tag) = @$_;
