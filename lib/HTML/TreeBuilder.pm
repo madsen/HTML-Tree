@@ -90,7 +90,8 @@ sub new_from_file {    # or from a FH
     Carp::croak("new_from_file is a class method only")
         if ref $class;
     my $new = $class->new();
-    $new->parse_file( $_[0] );
+    defined $new->parse_file( $_[0] )
+        or Carp::croak("unable to parse file: $!");
     return $new;
 }
 
