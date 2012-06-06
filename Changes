@@ -8,6 +8,9 @@ Changelog for HTML-Tree
       affected methods are: address, deobjectify_text, detach, is_inside,
       & pindex.
 
+    [FIXES]
+    * new_from_url did not call eof after parsing
+
     [DOCUMENTATION]
     * Improve SEE ALSO for HTML::TreeBuilder
     * General documentation cleanup

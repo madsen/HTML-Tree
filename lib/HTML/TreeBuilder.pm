@@ -125,6 +125,7 @@ sub new_from_url {                     # should accept anything that LWP does.
     LWP::UserAgent->VERSION( 5.802 ); # HTTP::Message decoded_content method
     my $fetch_result = LWP::UserAgent->new->get( $_[0] );
     $new->parse( $fetch_result->decoded_content );
+    $new->eof;
     return $new;
 }
 
