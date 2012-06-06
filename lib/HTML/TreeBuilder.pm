@@ -1688,15 +1688,15 @@ source.  The way to use it is to:
 1. start a new (empty) HTML::TreeBuilder object,
 
 2. then use one of the methods from HTML::Parser (presumably with
-$tree->parse_file($filename) for files, or with
-$tree->parse($document_content) and $tree->eof if you've got
+C<< $tree->parse_file($filename) >> for files, or with
+C<< $tree->parse($document_content) >> and C<< $tree->eof >> if you've got
 the content in a string) to parse the HTML
-document into the tree $tree.
+document into the tree C<$tree>.
 
 (You can combine steps 1 and 2 with the "new_from_file" or
 "new_from_content" methods.)
 
-2b. call $root-E<gt>elementify() if you want.
+2b. call C<< $root->elementify() >> if you want.
 
 3. do whatever you need to do with the syntax tree, presumably
 involving traversing it looking for some bit of information in it,
@@ -1706,7 +1706,7 @@ C<< $tree->delete() >> to erase the contents of the tree from memory
 when you're done with the tree.  This is not normally required anymore.
 See L<HTML::Element/"Weak References"> for details.
 
-=head1 METHODS AND ATTRIBUTES
+=head1 METHODS
 
 Objects of this class inherit the methods of both HTML::Parser and
 HTML::Element.  The methods inherited from HTML::Parser are used for
@@ -1717,90 +1717,112 @@ HTML::Element documentation, and also skim the HTML::Parser
 documentation -- probably only its parse and parse_file methods are of
 interest.
 
-Most of the following methods native to HTML::TreeBuilder control how
+=head1 ATTRIBUTES
+
+Most of the following attributes native to HTML::TreeBuilder control how
 parsing takes place; they should be set I<before> you try parsing into
 the given object.  You can set the attributes by passing a TRUE or
-FALSE value as argument.  E.g., $root->implicit_tags returns the current
-setting for the implicit_tags option, $root->implicit_tags(1) turns that
-option on, and $root->implicit_tags(0) turns it off.
+FALSE value as argument.  E.g., C<< $root->implicit_tags >> returns
+the current setting for the C<implicit_tags> option,
+C<< $root->implicit_tags(1) >> turns that option on,
+and C<< $root->implicit_tags(0) >> turns it off.
 
-=over 4
+=method new_from_file
 
-=item $root = HTML::TreeBuilder->new_from_file(...)
+  $root = HTML::TreeBuilder->new_from_file($filename_or_filehandle);
 
 This "shortcut" constructor merely combines constructing a new object
-(with the "new" method, below), and calling $new->parse_file(...) on
+(with the L</new> method, below), and calling C<< $new->parse_file(...) >> on
 it.  Returns the new object.  Note that this provides no way of
-setting any parse options like store_comments (for that, call new, and
-then set options, before calling parse_file).  See the notes (below)
-on parameters to parse_file.
+setting any parse options like C<store_comments> (for that, call C<new>, and
+then set options, before calling C<parse_file>).  See the notes (below)
+on parameters to C<parse_file>.
 
-=item $root = HTML::TreeBuilder->new_from_content(...)
+=method new_from_content
+
+  $root = HTML::TreeBuilder->new_from_content(...);
 
 This "shortcut" constructor merely combines constructing a new object
-(with the "new" method, below), and calling for(...){$new->parse($_)}
-and $new->eof on it.  Returns the new object.  Note that this provides
-no way of setting any parse options like store_comments (for that,
-call new, and then set options, before calling parse_file).  Example
-usages: HTML::TreeBuilder->new_from_content(@lines), or
-HTML::TreeBuilder->new_from_content($content)
+(with the L</new> method, below), and calling C<< for(...){$new->parse($_)} >>
+and C<< $new->eof >> on it.  Returns the new object.  Note that this provides
+no way of setting any parse options like C<store_comments> (for that,
+call C<new>, and then set options, before calling C<parse>).  Example
+usages: C<< HTML::TreeBuilder->new_from_content(@lines) >>, or
+C<< HTML::TreeBuilder->new_from_content($content) >>.
 
-=item $root = HTML::TreeBuilder->new_from_url($url)
+=method new_from_url
+
+  $root = HTML::TreeBuilder->new_from_url($url)
 
 This "shortcut" constructor combines constructing a new object (with
-the "new" method, below), loading L<LWP::UserAgent>, fetching the
-specified URL, and calling C<< $new->parse( $response->decoded_content) >>.
+the L</new> method, below), loading L<LWP::UserAgent>, fetching the
+specified URL, and calling C<< $new->parse( $response->decoded_content) >>
+and C<< $new->eof >> on it.
 Returns the new object.  Note that this provides no way of setting any
-parse options like store_comments.
+parse options like C<store_comments>.
 
 You must have installed LWP::UserAgent for this method to work.  LWP
 is not installed automatically, because it's a large set of modules
 and you might not need it.
 
-=item $root = HTML::TreeBuilder->new()
+=method new
+
+  $root = HTML::TreeBuilder->new();
 
 This creates a new HTML::TreeBuilder object.  This method takes no
 attributes.
 
-=item $root->parse_file(...)
+=method parse_file
+
+ $root->parse_file(...)
 
 [An important method inherited from L<HTML::Parser|HTML::Parser>, which
 see.  Current versions of HTML::Parser can take a filespec, or a
 filehandle object, like *FOO, or some object from class IO::Handle,
 IO::File, IO::Socket) or the like.
 I think you should check that a given file exists I<before> calling
-$root->parse_file($filespec).]
+C<< $root->parse_file($filespec) >>.]
 
-=item $root->parse(...)
+=method parse
+
+  $root->parse(...)
 
 [A important method inherited from L<HTML::Parser|HTML::Parser>, which
-see.  See the note below for $root->eof().]
+see.  See the note below for C<< $root->eof() >>.]
 
-=item $root->eof()
+=method eof
+
+  $root->eof();
 
 This signals that you're finished parsing content into this tree; this
 runs various kinds of crucial cleanup on the tree.  This is called
-I<for you> when you call $root->parse_file(...), but not when
-you call $root->parse(...).  So if you call
-$root->parse(...), then you I<must> call $root->eof()
-once you've finished feeding all the chunks to parse(...), and
+I<for you> when you call C<< $root->parse_file(...) >>, but not when
+you call C<< $root->parse(...) >>.  So if you call
+C<< $root->parse(...) >>, then you I<must> call C<< $root->eof() >>
+once you've finished feeding all the chunks to C<parse(...)>, and
 before you actually start doing anything else with the tree in C<$root>.
 
-=item C<< $root->parse_content(...) >>
+=method parse_content
 
-Basically a happly alias for C<< $root->parse(...); $root->eof >>.
+  $root->parse_content(...);
+
+Basically a handy alias for C<< $root->parse(...); $root->eof >>.
 Takes the exact same arguments as C<< $root->parse() >>.
 
-=item $root->delete()
+=method delete
+
+  $root->delete();
 
 [A previously important method inherited from L<HTML::Element|HTML::Element>,
 which see.]
 
-=item $root->elementify()
+=method elementify
 
-This changes the class of the object in $root from
+  $root->elementify();
+
+This changes the class of the object in C<$root> from
 HTML::TreeBuilder to the class used for all the rest of the elements
-in that tree (generally HTML::Element).  Returns $root.
+in that tree (generally HTML::Element).  Returns C<$root>.
 
 For most purposes, this is unnecessary, but if you call this after
 (after!!)
@@ -1812,14 +1834,15 @@ and I<wreaking havoc>, it'll throw a fatal error -- since C<$root> is
 now an object just of class HTML::Element which has no C<parse_file>
 method.
 
-Note that elementify currently deletes all the private attributes of
-$root except for "_tag", "_parent", "_content", "_pos", and
+Note that C<elementify> currently deletes all the private attributes of
+C<$root> except for "_tag", "_parent", "_content", "_pos", and
 "_implicit".  If anyone requests that I change this to leave in yet
 more private attributes, I might do so, in future versions.
 
-=item @nodes = $root->guts()
+=method guts
 
-=item $parent_for_nodes = $root->guts()
+ @nodes = $root->guts();
+ $parent_for_nodes = $root->guts();
 
 In list context (as in the first case), this method returns the topmost
 non-implicit nodes in a tree.  This is useful when you're parsing HTML
@@ -1831,14 +1854,14 @@ tree for a file consisting of just this:
 
 Then you would get that with C<< @nodes = $root->guts(); >>.
 It so happens that in this case, C<@nodes> will contain just one
-element object, representing the "li" node (with "I like pie!" being
+element object, representing the C<< <li> >> node (with "I like pie!" being
 its text child node).  However, consider if you were parsing this:
 
   <hr>Hooboy!<hr>
 
 In that case, C<< $root->guts() >> would return three items:
-an element object for the first "hr", a text string "Hooboy!", and
-another "hr" element object.
+an element object for the first C<< <hr> >>, a text string "Hooboy!", and
+another C<< <hr> >> element object.
 
 For cases where you want definitely one element (so you can treat it as
 a "document fragment", roughly speaking), call C<guts()> in scalar
@@ -1848,14 +1871,15 @@ have returned exactly one value, and if it would have been an object (as
 opposed to a text string), then that's what C<guts> in scalar context
 will return.  Otherwise, if C<guts()> in list context would have returned
 no values at all, then C<guts()> in scalar context returns undef.  In
-all other cases, C<guts()> in scalar context returns an implicit 'div'
+all other cases, C<guts()> in scalar context returns an implicit C<< <div> >>
 element node, with children consisting of whatever nodes C<guts()>
 in list context would have returned.  Note that that may detach those
 nodes from C<$root>'s tree.
 
-=item @nodes = $root->disembowel()
+=method disembowel
 
-=item $parent_for_nodes = $root->disembowel()
+  @nodes = $root->disembowel();
+  $parent_for_nodes = $root->disembowel();
 
 The C<disembowel()> method works just like the C<guts()> method, except
 that disembowel definitively destroys the tree above the nodes that
@@ -1863,31 +1887,31 @@ are returned.  Usually when you want the guts from a tree, you're just
 going to toss out the rest of the tree anyway, so this saves you the
 bother.  (Remember, "disembowel" means "remove the guts from".)
 
-=item $root->implicit_tags(value)
+=attr implicit_tags
 
 Setting this attribute to true will instruct the parser to try to
 deduce implicit elements and implicit end tags.  If it is false you
 get a parse tree that just reflects the text as it stands, which is
 unlikely to be useful for anything but quick and dirty parsing.
 (In fact, I'd be curious to hear from anyone who finds it useful to
-have implicit_tags set to false.)
+have C<implicit_tags> set to false.)
 Default is true.
 
-Implicit elements have the implicit() attribute set.
+Implicit elements have the L<HTML::Element/implicit> attribute set.
 
-=item $root->implicit_body_p_tag(value)
+=attr implicit_body_p_tag
 
-This controls an aspect of implicit element behavior, if implicit_tags
+This controls an aspect of implicit element behavior, if C<implicit_tags>
 is on:  If a text element (PCDATA) or a phrasal element (such as
-"E<lt>emE<gt>") is to be inserted under "E<lt>bodyE<gt>", two things
-can happen: if implicit_body_p_tag is true, it's placed under a new,
-implicit "E<lt>pE<gt>" tag.  (Past DTDs suggested this was the only
+C<< <em> >>) is to be inserted under C<< <body> >>, two things
+can happen: if C<implicit_body_p_tag> is true, it's placed under a new,
+implicit C<< <p> >> tag.  (Past DTDs suggested this was the only
 correct behavior, and this is how past versions of this module
-behaved.)  But if implicit_body_p_tag is false, nothing is implicated
+behaved.)  But if C<implicit_body_p_tag> is false, nothing is implicated
 -- the PCDATA or phrasal element is simply placed under
-"E<lt>bodyE<gt>".  Default is false.
+C<< <body> >>.  Default is false.
 
-=item $root->no_expand_entities(value)
+=attr no_expand_entities
 
 This attribute controls whether entities are decoded during the initial
 parse of the source. Enable this if you don't want entities decoded to
@@ -1895,19 +1919,19 @@ their character value. e.g. '&amp;' is decoded to '&' by default, but
 will be unchanged if this is enabled.
 Default is false (entities will be decoded.)
 
-=item $root->ignore_unknown(value)
+=attr ignore_unknown
 
 This attribute controls whether unknown tags should be represented as
 elements in the parse tree, or whether they should be ignored.
 Default is true (to ignore unknown tags.)
 
-=item $root->ignore_text(value)
+=attr ignore_text
 
 Do not represent the text content of elements.  This saves space if
 all you want is to examine the structure of the document.  Default is
 false.
 
-=item $root->ignore_ignorable_whitespace(value)
+=attr ignore_ignorable_whitespace
 
 If set to true, TreeBuilder will try to avoid
 creating ignorable whitespace text nodes in the tree.  Default is
@@ -1915,41 +1939,42 @@ true.  (In fact, I'd be interested in hearing if there's ever a case
 where you need this off, or where leaving it on leads to incorrect
 behavior.)
 
-=item $root->no_space_compacting(value)
+=attr no_space_compacting
 
 This determines whether TreeBuilder compacts all whitespace strings
 in the document (well, outside of PRE or TEXTAREA elements), or
 leaves them alone.  Normally (default, value of 0), each string of
 contiguous whitespace in the document is turned into a single space.
-But that's not done if no_space_compacting is set to 1.
+But that's not done if C<no_space_compacting> is set to 1.
 
-Setting no_space_compacting to 1 might be useful if you want
+Setting C<no_space_compacting> to 1 might be useful if you want
 to read in a tree just to make some minor changes to it before
 writing it back out.
 
 This method is experimental.  If you use it, be sure to report
 any problems you might have with it.
 
-=item $root->p_strict(value)
+=attr p_strict
 
 If set to true (and it defaults to false), TreeBuilder will take a
-narrower than normal view of what can be under a "p" element; if it sees
-a non-phrasal element about to be inserted under a "p", it will close that
-"p".  Otherwise it will close p elements only for other "p"'s, headings,
-and "form" (although the latter may be removed in future versions).
+narrower than normal view of what can be under a C<< <p> >> element; if it sees
+a non-phrasal element about to be inserted under a C<< <p> >>, it will
+close that C<< <p> >>.  Otherwise it will close C<< <p> >> elements only for
+other C<< <p> >>'s, headings, and C<< <form> >> (although the latter may be
+removed in future versions).
 
 For example, when going thru this snippet of code,
 
   <p>stuff
   <ul>
 
-TreeBuilder will normally (with C<p_strict> false) put the "ul" element
-under the "p" element.  However, with C<p_strict> set to true, it will
-close the "p" first.
+TreeBuilder will normally (with C<p_strict> false) put the C<< <ul> >> element
+under the C<< <p> >> element.  However, with C<p_strict> set to true, it will
+close the C<< <p> >> first.
 
 In theory, there should be strictness options like this for other/all
-elements besides just "p"; but I treat this as a special case simply
-because of the fact that "p" occurs so frequently and its end-tag is
+elements besides just C<< <p> >>; but I treat this as a special case simply
+because of the fact that C<< <p> >> occurs so frequently and its end-tag is
 omitted so often; and also because application of strictness rules
 at parse-time across all elements often makes tiny errors in HTML
 coding produce drastically bad parse-trees, in my experience.
@@ -1959,18 +1984,18 @@ content-models on all elements, then I suggest that what you want is
 content-model checking as a stage after TreeBuilder has finished
 parsing.
 
-=item $root->store_comments(value)
+=attr store_comments
 
 This determines whether TreeBuilder will normally store comments found
 while parsing content into C<$root>.  Currently, this is off by default.
 
-=item $root->store_declarations(value)
+=attr store_declarations
 
 This determines whether TreeBuilder will normally store markup
 declarations found while parsing content into C<$root>.  This is on
 by default.
 
-=item $root->store_pis(value)
+=attr store_pis
 
 This determines whether TreeBuilder will normally store processing
 instructions found while parsing content into C<$root> -- assuming a
@@ -1978,40 +2003,48 @@ recent version of HTML::Parser (old versions won't parse PIs
 correctly).  Currently, this is off (false) by default.
 
 It is somewhat of a known bug (to be fixed one of these days, if
-anyone needs it?) that PIs in the preamble (before the "html"
-start-tag) end up actually I<under> the "html" element.
+anyone needs it?) that PIs in the preamble (before the C<< <html> >>
+start-tag) end up actually I<under> the C<< <html> >> element.
 
-=item $root->warn(value)
+=attr warn
 
 This determines whether syntax errors during parsing should generate
 warnings, emitted via Perl's C<warn> function.
 
 This is off (false) by default.
 
-=item $h->element_class
+=head1 INTERNAL METHODS
+
+You should not need to call any of the following methods directly.
+
+=method-int element_class
+
+  $classname = $h->element_class;
 
 This method returns the class which will be used for new elements.  It
 defaults to HTML::Element, but can be overridden by subclassing or esoteric
 means best left to those will will read the source and then not complain when
 those esoteric means change.  (Just subclass.)
 
-=item DEBUG
+=sub DEBUG
 
-Are we in Debug mode?
+Are we in Debug mode?  This is a constant subroutine, to allow
+compile-time optimizations.  To control debug mode, set
+C<$HTML::TreeBuilder::DEBUG> I<before> loading HTML::TreeBuilder.
 
-=item comment
+=method-int comment
 
 Accept a "here's a comment" signal from HTML::Parser.
 
-=item declaration
+=method-int declaration
 
 Accept a "here's a markup declaration" signal from HTML::Parser.
 
-=item done
+=method-int done
 
 TODO: document
 
-=item end
+=method-int end
 
 Either: Acccept an end-tag signal from HTML::Parser
 Or: Method for closing currently open elements in some fairly complex
@@ -2019,43 +2052,42 @@ way, as used by other methods in this class.
 
 TODO: Why is this hidden?
 
-=item process
+=method-int process
 
 Accept a "here's a PI" signal from HTML::Parser.
 
-=item start
+=method-int start
 
 Accept a signal from HTML::Parser for start-tags.
 
 TODO: Why is this hidden?
 
-=item stunt
+=method-int stunt
 
 TODO: document
 
-=item stunted
+=method-int stunted
 
 TODO: document
 
-=item text
+=method-int text
 
 Accept a "here's a text token" signal from HTML::Parser.
 
 TODO: Why is this hidden?
 
-=item tighten_up
+=method-int tighten_up
 
 Legacy
 
-Redirects to HTML::Element:: delete_ignorable_whitespace
+Redirects to L<HTML::Element/delete_ignorable_whitespace>.
 
-=item warning
+=method-int warning
 
 Wrapper for CORE::warn
 
 TODO: why not just use carp?
 
-=back
 
 =head1 HTML AND ITS DISCONTENTS
 
@@ -2129,11 +2161,11 @@ parse from a document with framesets.
 * Really bad HTML code will, often as not, make for a somewhat
 objectionable parse tree.  Regrettable, but unavoidably true.
 
-* If you're running with implicit_tags off (God help you!), consider
-that $tree->content_list probably contains the tree or grove from the
-parse, and not $tree itself (which will, oddly enough, be an implicit
-'html' element).  This seems counter-intuitive and problematic; but
-seeing as how almost no HTML ever parses correctly with implicit_tags
+* If you're running with C<implicit_tags> off (God help you!), consider
+that C<< $tree->content_list >> probably contains the tree or grove from the
+parse, and not C<$tree> itself (which will, oddly enough, be an implicit
+C<< <html> >> element).  This seems counter-intuitive and problematic; but
+seeing as how almost no HTML ever parses correctly with C<implicit_tags>
 off, this interface oddity seems the least of your problems.
 
 =head1 BUG REPORTS
@@ -2143,10 +2175,10 @@ should, I ask that you report this to me as a bug.  The first thing
 you should do is copy the document, trim out as much of it as you can
 while still producing the bug in question, and I<then> email me that
 mini-document I<and> the code you're using to parse it, to the HTML::Tree
-bug queue at C<bug-html-tree at rt.cpan.org>.
+bug queue at S<C<< <bug-html-tree at rt.cpan.org> >>>.
 
 Include a note as to how it
-parses (presumably including its $tree->dump output), and then a
+parses (presumably including its C<< $tree->dump >> output), and then a
 I<careful and clear> explanation of where you think the parser is
 going astray, and how you would prefer that it work instead.
 

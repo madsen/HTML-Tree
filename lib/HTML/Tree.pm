@@ -95,21 +95,27 @@ data structures should read just the last article.  Readers without
 that background should read the first, then the second, and then the
 third.
 
-=head2 new
+=head1 METHODS
 
-Redirects to HTML::TreeBuilder::new
+All these methods simply redirect to the corresponding method in
+HTML::TreeBuilder.  It's more efficient to use HTML::TreeBuilder
+directly, and skip loading HTML::Tree at all.
 
-=head2 new_from_file
+=method new
 
-Redirects to HTML::TreeBuilder::new_from_file
+Redirects to L<HTML::TreeBuilder/new>.
 
-=head2 new_from_content
+=method new_from_file
 
-Redirects to HTML::TreeBuilder::new_from_content
+Redirects to L<HTML::TreeBuilder/new_from_file>.
 
-=head2 new_from_url
+=method new_from_content
 
-Redirects to HTML::TreeBuilder::new_from_url
+Redirects to L<HTML::TreeBuilder/new_from_content>.
+
+=method new_from_url
+
+Redirects to L<HTML::TreeBuilder/new_from_url>.
 
 =head1 SUPPORT
 
