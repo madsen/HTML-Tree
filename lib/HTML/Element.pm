@@ -1034,7 +1034,6 @@ sub splice_content {
     my ( $self, $offset, $length, @to_add ) = @_;
     Carp::croak "splice_content requires at least one argument"
         if @_ < 2;    # at least $h->splice_content($offset);
-    return $self unless @_;
 
     my $content = ( $self->{'_content'} ||= [] );
 
@@ -1077,7 +1076,7 @@ its parent are explicitly destroyed.
 
 sub detach {
     my $self = $_[0];
-    return unless ( my $parent = $self->{'_parent'} );
+    return undef unless ( my $parent = $self->{'_parent'} );
     $self->{'_parent'} = undef;
     my $cohort = $parent->{'_content'} || return $parent;
     @$cohort = grep { not( ref($_) and $_ eq $self ) } @$cohort;
@@ -1276,7 +1275,7 @@ sub delete_content {
 
 Detaches this element from its parent (if it has one) and explicitly
 destroys the element and all its descendants.  The return value is
-undef.
+the empty list (or C<undef> in scalar context).
 
 Before version 5.00 of HTML::Element, you had to call C<delete> when
 you were finished with the tree, or your program would leak memory.
@@ -2603,7 +2602,7 @@ the tag names listed.  You can use any mix of elements and tag names.
 
 sub is_inside {
     my $self = shift;
-    return unless @_;    # if no items specified, I guess this is right.
+    return 0 unless @_; # if no items specified, I guess this is right.
 
     my $current = $self;
 
@@ -2667,12 +2666,12 @@ C<< $h->pindex >> returns C<undef>.
 sub pindex {
     my $self = shift;
 
-    my $parent = $self->{'_parent'}    || return;
-    my $pc     = $parent->{'_content'} || return;
+    my $parent = $self->{'_parent'}    || return undef;
+    my $pc     = $parent->{'_content'} || return undef;
     for ( my $i = 0; $i < @$pc; ++$i ) {
         return $i if ref $pc->[$i] and $pc->[$i] eq $self;
     }
-    return;    # we shouldn't ever get here
+    return undef;               # we shouldn't ever get here
 }
 
 #--------------------------------------------------------------------------
@@ -2827,18 +2826,18 @@ sub address {
             shift @stack;
         }
         else {                                   # absolute addressing
-            return unless 0 == shift @stack;   # to pop the initial 0-for-root
+            return undef unless 0 == shift @stack; # pop the initial 0-for-root
             $here = $_[0]->root;
         }
 
         while (@stack) {
-            return
+            return undef
                 unless $here->{'_content'}
                     and @{ $here->{'_content'} } > $stack[0];
 
             # make sure the index isn't too high
             $here = $here->{'_content'}[ shift @stack ];
-            return if @stack and not ref $here;
+            return undef if @stack and not ref $here;
 
             # we hit a text node when we expected a non-terminal element node
         }
@@ -3078,7 +3077,6 @@ sub find_by_attribute {
         return @matching;
     }
     else {
-        return unless @matching;
         return $matching[0];
     }
 }
@@ -3653,7 +3651,6 @@ sub simplify_pres {
 
     undef $sub;
     return;
-
 }
 
 =method-second same_as
@@ -3970,24 +3967,24 @@ sub new_from_lol {
 
     if (wantarray) {
         my (@nodes) = map { ; ( ref($_) eq 'ARRAY' ) ? $sub->($_) : $_ } @_;
-
         # Let text bits pass thru, I guess.  This makes this act more like
         #  unshift_content et al.  Undocumented.
-        undef $sub;
 
+        undef $sub;
         # so it won't be in its own frame, so its refcount can hit 0
+
         return @nodes;
     }
     else {
         Carp::croak "new_from_lol in scalar context needs exactly one lol"
             unless @_ == 1;
         return $_[0] unless ref( $_[0] ) eq 'ARRAY';
-
         # used to be a fatal error.  still undocumented tho.
+
         $node = $sub->( $_[0] );
         undef $sub;
-
         # so it won't be in its own frame, so its refcount can hit 0
+
         return $node;
     }
 }
@@ -4099,7 +4096,7 @@ sub deobjectify_text {
         }
     }
 
-    return;
+    return undef;
 }
 
 =method-second number_lists

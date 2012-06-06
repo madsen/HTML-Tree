@@ -2,9 +2,16 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * Some methods normally returning a scalar could return the empty
+      list in certain circumstances.  This has been corrected.  The
+      affected methods are: address, deobjectify_text, detach, is_inside,
+      & pindex.
+
     [DOCUMENTATION]
     * Improve SEE ALSO for HTML::TreeBuilder
     * General documentation cleanup
+
 
 4.900    2012-06-01
    Trial Release by Christopher J. Madsen

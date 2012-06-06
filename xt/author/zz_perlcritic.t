@@ -12,9 +12,12 @@ else {
     Test::Perl::Critic->import(
         -verbose  => 8,
         -severity => 5,
-## This check fails to detect a package is modifying
-## objects of it's own class when passing objects in an array
-        -exclude => ['ProhibitAccessOfPrivateData']
+        -exclude => [
+          # fails to detect a package is accessing objects of its own class:
+          'ProhibitAccessOfPrivateData',
+          # subs expected to return a scalar *should* "return undef":
+          'ProhibitExplicitReturnUndef',
+        ],
     );
 }
 
