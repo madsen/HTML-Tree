@@ -2151,8 +2151,14 @@ going astray, and how you would prefer that it work instead.
 
 =head1 SEE ALSO
 
-L<HTML::Tree>, L<HTML::Parser>, L<HTML::Element>, L<HTML::Tagset>
+For more information about the HTML-Tree distribution: L<HTML::Tree>.
 
-L<HTML::DOMbo>
+Modules used by HTML::TreeBuilder:
+L<HTML::Parser>, L<HTML::Element>, L<HTML::Tagset>.
+
+For converting between L<XML::DOM::Node>, L<HTML::Element>, and
+L<XML::Element> trees: L<HTML::DOMbo>.
+
+For opening a HTML file with automatic charset detection: L<IO::HTML>.
 
 =cut

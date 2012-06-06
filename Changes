@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [DOCUMENTATION]
+    * improved SEE ALSO for HTML::TreeBuilder
+
 4.900    2012-06-01
    Trial Release by Christopher J. Madsen
 
