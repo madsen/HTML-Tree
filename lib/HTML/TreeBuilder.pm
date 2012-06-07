@@ -6,13 +6,13 @@ use warnings;
 use strict;
 use integer;    # vroom vroom!
 use Carp ();
-use vars qw(@ISA $DEBUG);
 
 # VERSION from OurPkgVersion
 
 #---------------------------------------------------------------------------
 # Make a 'DEBUG' constant...
 
+our $DEBUG; # Must be set BEFORE loading this file
 BEGIN {
 
     # We used to have things like
@@ -61,7 +61,7 @@ use HTML::Tagset 3.02 ();
 
 use HTML::Element ();
 use HTML::Parser 3.46 ();
-@ISA     = qw(HTML::Element HTML::Parser);
+our @ISA = qw(HTML::Element HTML::Parser);
 
 # This looks schizoid, I know.
 # It's not that we ARE an element AND a parser.
@@ -114,19 +114,28 @@ sub new_from_content {    # from any number of scalars
 }
 
 sub new_from_url {                     # should accept anything that LWP does.
+    undef our $lwp_response;
     my $class = shift;
     Carp::croak("new_from_url takes only one argument")
         unless @_ == 1;
     Carp::croak("new_from_url is a class method only")
         if ref $class;
+    my $url = shift;
     my $new = $class->new();
 
     require LWP::UserAgent;
-    # RECOMMEND PREREQ: LWP::UserAgent 5.802
-    LWP::UserAgent->VERSION( 5.802 ); # HTTP::Message decoded_content method
-    my $fetch_result = LWP::UserAgent->new->get( $_[0] );
-    $new->parse( $fetch_result->decoded_content );
+    # RECOMMEND PREREQ: LWP::UserAgent 5.815
+    LWP::UserAgent->VERSION( 5.815 ); # HTTP::Headers content_is_html method
+    $lwp_response = LWP::UserAgent->new->get( $url );
+
+    Carp::croak("GET failed on $url: " . $lwp_response->status_line)
+          unless $lwp_response->is_success;
+    Carp::croak("$url returned " . $lwp_response->content_type . " not HTML")
+          unless $lwp_response->content_is_html;
+
+    $new->parse( $lwp_response->decoded_content );
     $new->eof;
+    undef $lwp_response;        # Processed successfully
     return $new;
 }
 
@@ -1761,6 +1770,11 @@ specified URL, and calling C<< $new->parse( $response->decoded_content) >>
 and C<< $new->eof >> on it.
 Returns the new object.  Note that this provides no way of setting any
 parse options like C<store_comments>.
+
+If LWP is unable to fetch the URL, or the response is not HTML (as
+determined by L<HTTP::Headers/content_is_html>), then C<new_from_url>
+dies, and the HTTP::Response object is found in
+C<$HTML::TreeBuilder::lwp_response>.
 
 You must have installed LWP::UserAgent for this method to work.  LWP
 is not installed automatically, because it's a large set of modules
