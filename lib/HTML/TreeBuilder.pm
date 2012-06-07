@@ -1746,7 +1746,7 @@ This "shortcut" constructor merely combines constructing a new object
 it.  Returns the new object.  Note that this provides no way of
 setting any parse options like C<store_comments> (for that, call C<new>, and
 then set options, before calling C<parse_file>).  See the notes (below)
-on parameters to C<parse_file>.
+on parameters to L</parse_file>.
 
 =method new_from_content
 
@@ -1797,6 +1797,24 @@ filehandle object, like *FOO, or some object from class IO::Handle,
 IO::File, IO::Socket) or the like.
 I think you should check that a given file exists I<before> calling
 C<< $root->parse_file($filespec) >>.]
+
+When you pass a filename to C<parse_file>, HTML::Parser opens it in
+binary mode, which means it's interpreted as Latin-1 (ISO-8859-1).  If
+the file is in another encoding, like UTF-8 or UTF-16, this will not
+do the right thing.
+
+One solution is to open the file yourself using the proper
+C<:encoding> layer, and pass the filehandle to C<parse_file>.  You can
+automate this process by using L<IO::HTML/html_file>, which will use
+the HTML5 encoding sniffing algorithm to automatically determine the
+proper C<:encoding> layer and apply it.
+
+In the next major release of HTML-Tree, I plan to have it use IO::HTML
+automatically.  If you really want your file opened in binary mode,
+you should open it yourself and pass the filehandle to C<parse_file>.
+
+The return value is C<undef> if there's an error opening the file.  In
+that case, the error will be in C<$!>.
 
 =method parse
 

@@ -2,6 +2,11 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [DOCUMENTATION]
+    * Explain that parse_file (and new_from_file) opens files in binary mode
+      BUT THIS IS PLANNED TO CHANGE.
+
+
 4.902    2012-06-06
    Trial Release by Christopher J. Madsen
 
