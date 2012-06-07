@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+4.902    2012-06-06
+   Trial Release by Christopher J. Madsen
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * new_from_url now dies if the request fails or the response is not HTML
 
