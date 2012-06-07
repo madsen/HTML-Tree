@@ -86,12 +86,13 @@ our @ISA = qw(HTML::Element HTML::Parser);
 
 sub new_from_file {    # or from a FH
     my $class = shift;
-    Carp::croak("new_from_file takes only one argument")
-        unless @_ == 1;
+    Carp::croak("new_from_file takes an odd number of arguments")
+        unless @_ % 2;
     Carp::croak("new_from_file is a class method only")
         if ref $class;
-    my $new = $class->new();
-    defined $new->parse_file( $_[0] )
+    my $file = shift;
+    my $new = $class->new(@_);
+    defined $new->parse_file( $file )
         or Carp::croak("unable to parse file: $!");
     return $new;
 }
@@ -117,12 +118,12 @@ sub new_from_content {    # from any number of scalars
 sub new_from_url {                     # should accept anything that LWP does.
     undef our $lwp_response;
     my $class = shift;
-    Carp::croak("new_from_url takes only one argument")
-        unless @_ == 1;
+    Carp::croak("new_from_url takes an odd number of arguments")
+        unless @_ % 2;
     Carp::croak("new_from_url is a class method only")
         if ref $class;
     my $url = shift;
-    my $new = $class->new();
+    my $new = $class->new(@_);
 
     require LWP::UserAgent;
     # RECOMMEND PREREQ: LWP::UserAgent 5.815
@@ -1774,13 +1775,13 @@ and C<< $root->implicit_tags(0) >> turns it off.
 =method new_from_file
 
   $root = HTML::TreeBuilder->new_from_file($filename_or_filehandle);
+  $root = HTML::TreeBuilder->new_from_file($file, attr => $value, ...);
 
 This "shortcut" constructor merely combines constructing a new object
-(with the L</new> method, below), and calling C<< $new->parse_file(...) >> on
-it.  Returns the new object.  Note that this provides no way of
-setting any parse options like C<store_comments> (for that, call C<new>, and
-then set options, before calling C<parse_file>).  See the notes (below)
-on parameters to L</parse_file>.
+(with the L</new> method, below), and calling C<< $new->parse_file($file) >> on
+it.  Returns the new object.  You can set any parse options like
+C<store_comments> by passing key-value pairs after the file argument.
+See the notes (below) on parameters to L</parse_file>.
 
 If HTML::TreeBuilder is unable to read the file, then C<new_from_file>
 dies.  The error can also be found in C<$!>.  (This behavior is new in
@@ -1800,14 +1801,14 @@ C<< HTML::TreeBuilder->new_from_content($content) >>.
 
 =method new_from_url
 
-  $root = HTML::TreeBuilder->new_from_url($url);
+  $root = HTML::TreeBuilder->new_from_url($url, attr => $value, ...);
 
 This "shortcut" constructor combines constructing a new object (with
 the L</new> method, below), loading L<LWP::UserAgent>, fetching the
 specified URL, and calling C<< $new->parse( $response->decoded_content) >>
 and C<< $new->eof >> on it.
-Returns the new object.  Note that this provides no way of setting any
-parse options like C<store_comments>.
+Returns the new object.  You can set any parse options like
+C<store_comments> by passing key-value pairs after the C<$url> argument.
 
 If LWP is unable to fetch the URL, or the response is not HTML (as
 determined by L<HTTP::Headers/content_is_html>), then C<new_from_url>

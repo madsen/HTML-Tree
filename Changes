@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [ENHANCEMENTS]
+    * new_from_file & new_from_url now let you set parsing attributes
+
     [DOCUMENTATION]
     * new actually does take optional attributes
       (It has since at least 3.18, although undocumented, and it did
