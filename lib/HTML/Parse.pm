@@ -89,19 +89,15 @@ use strict;
 
 # VERSION from OurPkgVersion
 
-use vars qw(@ISA @EXPORT
-    $IMPLICIT_TAGS $IGNORE_UNKNOWN $IGNORE_TEXT $WARN
-);
-
 require Exporter;
-@ISA    = qw(Exporter);
-@EXPORT = qw(parse_html parse_htmlfile);
+our @ISA    = qw(Exporter);
+our @EXPORT = qw(parse_html parse_htmlfile);
 
 # Backwards compatability
-$IMPLICIT_TAGS  = 1;
-$IGNORE_UNKNOWN = 1;
-$IGNORE_TEXT    = 0;
-$WARN           = 0;
+our $IMPLICIT_TAGS  = 1;
+our $IGNORE_UNKNOWN = 1;
+our $IGNORE_TEXT    = 0;
+our $WARN           = 0;
 
 require HTML::TreeBuilder;
 

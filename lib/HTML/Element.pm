@@ -17,8 +17,6 @@ use integer;    # vroom vroom!
 # Defaulting off because parser defaults to unencoding entities
 our $encoded_content = 0;
 
-use vars qw($html_uc $Debug $ID_COUNTER $VERSION %list_type_to_sub);
-
 # Set up support for weak references, if possible:
 my $using_weaken;
 
@@ -236,6 +234,7 @@ S<C<use HTML::TreeBuilder: 5 -weak;>>.
 
 =cut
 
+our $Debug;
 $Debug = 0 unless defined $Debug;
 
 #=head1 SUBROUTINES
@@ -295,7 +294,7 @@ sub OK ()           {$OK}
 sub PRUNE_UP ()     {$PRUNE_UP}
 ## use critic
 
-$html_uc = 0;
+our $html_uc = 0;
 
 # set to 1 if you want tag and attribute names from starttag and endtag
 #  to be uc'd
@@ -825,6 +824,7 @@ likely-to-be-unique value, and returned.  (The "f" is for "force".)
 =cut
 
 sub _gensym {
+    our $ID_COUNTER;
     unless ( defined $ID_COUNTER ) {
 
         # start it out...
@@ -4212,7 +4212,7 @@ or MENU elements), and if there are, they are unaffected.
 
 sub _int2int { $_[0] }    # dummy
 
-%list_type_to_sub = (
+our %list_type_to_sub = (
     'I' => \&_int2ROMAN,
     'i' => \&_int2roman,
     'A' => \&_int2LATIN,
