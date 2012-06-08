@@ -12,6 +12,12 @@ use HTML::Entities ();
 use HTML::Tagset   ();
 use integer;    # vroom vroom!
 
+# This controls the character encoding for I/O.
+# HTML::TreeBuilder uses it for parse_file.
+# A value of undef means to auto-detect encoding.
+# The empty string means to use :raw mode (the old default).
+our $default_encoding;
+
 # This controls encoding entities on output.
 # When set entities won't be re-encoded.
 # Defaulting off because parser defaults to unencoding entities
@@ -248,7 +254,7 @@ This subroutine is deprecated.  Please use the standard VERSION method
 
 sub Version {
     Carp::carp("Deprecated subroutine HTML::Element::Version called");
-    $VERSION;
+    our $VERSION;
 }
 
 my $nillio = [];
@@ -653,6 +659,32 @@ working in the future.
 
 sub content_refs_list {
     return \( @{ shift->{'_content'} || return () } );
+}
+
+=method-basic encoding
+
+  $encoding = $h->encoding();
+  $h->encoding($new_encoding);
+
+Returns (optionally sets) the "_encoding" attribute.  This attribute
+is normally found only on the root node, and only if the tree was
+created by passing a filename to C<parse_file> (or C<new_from_file>)
+or the value was set manually.
+
+The value is a string: the name of a Perl encoding understood by
+L<Encode>, with C<:BOM> appended if the file began with a Unicode
+Byte-Order-Mark (U+FEFF).  Common values are C<cp1252> (aka
+Windows-1252, Microsoft's extended version of ISO-8859-1, and the
+default encoding recommended by HTML5 for most locales),
+C<utf-8-strict>, and C<UTF-16LE:BOM>.
+
+There are two special values: the empty string indicates C<:raw> mode,
+and C<undef> indicates that the encoding should be auto-detected.
+
+=cut
+
+sub encoding {
+    return shift->attr( '_encoding', @_ );
 }
 
 =method-basic implicit

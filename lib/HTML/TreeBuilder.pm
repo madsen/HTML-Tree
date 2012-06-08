@@ -7,6 +7,7 @@ use warnings;
 use strict;
 use integer;    # vroom vroom!
 use Carp ();
+use Scalar::Util qw(openhandle);
 
 # VERSION from OurPkgVersion
 
@@ -158,6 +159,41 @@ sub parse_content {    # from any number of scalars
     return $retval;
 }
 
+#---------------------------------------------------------------------
+sub parse_file {
+    my ($self, $file) = @_;
+
+    Carp::croak("parse_file requires file argument") unless defined $file;
+
+    my $fh = openhandle($file);
+    unless (defined $fh) {
+        my $encoding = $self->{_encoding};
+
+        if (not defined $encoding) {
+            require IO::HTML;
+
+            {   local $@;
+                eval {
+                    ($fh, $encoding, my $bom) =
+                        IO::HTML::file_and_encoding($file);
+                    $encoding .= ':BOM' if $bom;
+                };
+            } # end local $@
+            $self->{_encoding} = $encoding;
+        } # end if auto encoding
+        else {
+            $encoding =~ s/:BOM$//;
+            open($fh, (length($encoding) ? "<:encoding($encoding):crlf"
+                                         : "<:raw"),             $file)
+                or undef $fh;
+        }
+
+        return undef unless defined $fh;
+    } # end unless filehandle was passed in
+
+    $self->SUPER::parse_file($fh);
+}
+
 #---------------------------------------------------------------------------
 
 sub new {                               # constructor!
@@ -194,6 +230,7 @@ sub new {                               # constructor!
 
     $self->{'_implicit'} = 1; # to delete, once we find a real open-"html" tag
 
+    $self->{'_encoding'}            = $HTML::Element::default_encoding;
     $self->{'_ignore_unknown'}      = 1;
     $self->{'_ignore_text'}         = 0;
     $self->{'_warn'}                = 0;
@@ -271,6 +308,7 @@ BEGIN {
 
     # Record names of class attributes:
     my %is_attr = map { $_ => 1 } (@attributes, qw(
+      encoding
       ignore_ignorable_whitespace
       no_expand_entities
     ));
@@ -1650,6 +1688,7 @@ sub elementify {
                 and $_ ne '_implicit'
                 and $_ ne '_pos'
                 and $_ ne '_element_class'
+                and $_ ne '_encoding'
             } keys %$self
         };
     bless $self, $to_class;    # Returns the same object we were fed
@@ -1837,20 +1876,21 @@ IO::File, IO::Socket) or the like.
 I think you should check that a given file exists I<before> calling
 C<< $root->parse_file($filespec) >>.]
 
-When you pass a filename to C<parse_file>, HTML::Parser opens it in
-binary mode, which means it's interpreted as Latin-1 (ISO-8859-1).  If
-the file is in another encoding, like UTF-8 or UTF-16, this will not
-do the right thing.
+HTML-Tree 6 changes what happens when you pass a filename to
+C<parse_file>.  In previous versions, the file was opened in binary
+mode, which means it's interpreted as Latin-1 (ISO-8859-1).  If the
+file is in another encoding, like UTF-8 or UTF-16, this did not do
+the right thing.
 
-One solution is to open the file yourself using the proper
-C<:encoding> layer, and pass the filehandle to C<parse_file>.  You can
-automate this process by using L<IO::HTML/html_file>, which will use
-the HTML5 encoding sniffing algorithm to automatically determine the
-proper C<:encoding> layer and apply it.
+In TreeBuilder 6, the file is opened as defined by the TreeBuilder's
+C<encoding> attribute (L<HTML::Element/encoding>).  If not explicitly
+set, it is initialized from C<$HTML::Element::default_encoding> when
+the TreeBuilder is constructed (not when C<parse_file> is called).
 
-In the next major release of HTML-Tree, I plan to have it use IO::HTML
-automatically.  If you really want your file opened in binary mode,
-you should open it yourself and pass the filehandle to C<parse_file>.
+If C<encoding> is C<undef> (the default), TreeBuilder opens the file
+using L<IO::HTML> (which uses the HTML5 encoding sniffing algorithm to
+automatically detect the file's encoding) and sets the C<encoding>
+attribute to the encoding used.
 
 The return value is C<undef> if there's an error opening the file.  In
 that case, the error will be in C<$!>.
@@ -1907,7 +1947,7 @@ now an object just of class HTML::Element which has no C<parse_file>
 method.
 
 Note that C<elementify> currently deletes all the private attributes of
-C<$root> except for "_tag", "_parent", "_content", "_pos", and
+C<$root> except for "_tag", "_parent", "_content", "_encoding", "_pos", and
 "_implicit".  If anyone requests that I change this to leave in yet
 more private attributes, I might do so, in future versions.
 

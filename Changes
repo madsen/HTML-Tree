@@ -2,6 +2,12 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * parse_file (and new_from_file) now try to determine the encoding
+      automatically when given a filename (not a filehandle).  To restore
+      the old behavior, set the new encoding attribute to the empty string.
+      To restore it globally, set $HTML::Element::default_encoding = ''.
+
     [ENHANCEMENTS]
     * new_from_file & new_from_url now let you set parsing attributes
 
