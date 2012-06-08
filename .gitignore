@@ -10,3 +10,4 @@ Makefile
 /releases/
 HTML-Tree-*.tar.gz
 HTML-Tree-*/
+lwp-test-*
