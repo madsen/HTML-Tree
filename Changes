@@ -6,6 +6,11 @@ Changelog for HTML-Tree
     * Explain that parse_file (and new_from_file) opens files in binary mode
       BUT THIS IS PLANNED TO CHANGE.
 
+    [TESTS]
+    * test error handling for new_from_file & new_from_url
+    * remove use_ok from most tests
+      (if the module won't load, the tests can't pass anyway)
+
 
 4.902    2012-06-06
    Trial Release by Christopher J. Madsen

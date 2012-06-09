@@ -5,7 +5,8 @@ use strict;
 
 use constant tests_per_object => 7;
 
-use Test::More tests => ( 4 + 10 * tests_per_object );
+use Test::More tests => ( 5 + 10 * tests_per_object );
+use Test::Fatal qw(exception);
 
 #initial tests + number of tests in test_new_obj() * number of times called
 
@@ -92,29 +93,17 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
         test_new_obj( $file_obj, "new_from_url Object" );
     }
 
-    eval {
-        # RECOMMEND PREREQ: Test::Fatal
-        require Test::Fatal;
-        1;
-    } or skip "Test::Fatal not installed", 2;
-
     like(
-        Test::Fatal::exception(sub {
-            HTML::Tree->new_from_url( "file:t/sample.txt" );
-        }),
+        exception { HTML::Tree->new_from_url( "file:t/sample.txt" ) },
         qr!^file:t/sample\.txt returned text/plain not HTML\b!,
         "opening text/plain URL failed"
     );
 
     like(
-        Test::Fatal::exception(sub {
-            HTML::Tree->new_from_url( "file:t/non_existent.html" );
-        }),
+        exception { HTML::Tree->new_from_url( "file:t/non_existent.html" ) },
         qr!^GET failed on file:t/non_existent\.html: 404 !,
         "opening 404 URL failed"
     );
-
-
   }
 }
 
@@ -147,6 +136,14 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
     $parse_content_obj->parse_content( \$HTMLPart1, $HTMLPart2 );
     test_new_obj( $parse_content_obj, "new(); parse_content List" );
 }
+
+# Nonexistent file test:
+like(
+    exception { HTML::Tree->new_from_file( "t/non_existent.html" ) },
+    qr!^unable to parse file: No such file !,
+    "opening missing file failed"
+);
+
 
 sub test_new_obj {
     my $obj              = shift;
