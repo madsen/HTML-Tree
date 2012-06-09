@@ -35,6 +35,7 @@ t/parents.t
 t/parse.t
 t/parsefile.t
 t/refloop.t
+t/sample.txt
 t/split.t
 t/subclass.t
 t/tag-rendering.t
