@@ -2,11 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 17;
+use Test::More tests => 16;
 
-BEGIN {
-    use_ok('HTML::Parse');
-}
+use HTML::Parse;
 
 # This is a very simple test.  It basically just ensures that the
 # HTML::Parse module is parsed ok by perl and that it will interact

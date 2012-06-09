@@ -5,13 +5,11 @@ use strict;
 
 use constant tests_per_object => 7;
 
-use Test::More tests => ( 5 + 10 * tests_per_object );
+use Test::More tests => ( 4 + 10 * tests_per_object );
 
 #initial tests + number of tests in test_new_obj() * number of times called
 
-BEGIN {
-    use_ok('HTML::Tree');
-}
+use HTML::Tree;
 
 my $obj = new HTML::Tree;
 isa_ok( $obj, "HTML::TreeBuilder" );

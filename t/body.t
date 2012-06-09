@@ -3,11 +3,9 @@
 use warnings;
 use strict;
 
-use Test::More tests => 11;
+use Test::More tests => 10;
 
-BEGIN {
-    use_ok('HTML::TreeBuilder');
-}
+use HTML::TreeBuilder;
 
 EMPTY: {
     my $root = HTML::TreeBuilder->new();

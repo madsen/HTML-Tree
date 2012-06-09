@@ -2,11 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
-BEGIN {
-    use_ok('HTML::TreeBuilder');
-}
+use HTML::TreeBuilder;
 
 print "#Using HTML::TreeBuilder version v$HTML::TreeBuilder::VERSION\n";
 print "#Using HTML::Element version v$HTML::Element::VERSION\n";

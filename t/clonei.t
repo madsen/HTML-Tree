@@ -2,8 +2,8 @@
 
 use warnings;
 use strict;
-use Test::More tests => 4;
-BEGIN { use_ok("HTML::TreeBuilder"); }
+use Test::More tests => 3;
+use HTML::TreeBuilder;
 
 my $t = HTML::TreeBuilder->new;
 $t->parse('stuff <em name="foo">lalal</em>');

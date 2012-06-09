@@ -2,11 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 4;
 
-BEGIN {
-    use_ok("HTML::TreeBuilder");
-}
+use HTML::TreeBuilder;
 
 my $html = <<'EOHTML';
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

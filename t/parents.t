@@ -3,11 +3,9 @@
 use warnings;
 use strict;
 
-use Test::More tests => 124;
+use Test::More tests => 123;
 
-BEGIN {
-    use_ok('HTML::Element');
-}
+use HTML::Element;
 
 #---------------------------------------------------------------------
 # Test whether each child links back to its parent (recursively):

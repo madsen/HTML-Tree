@@ -2,11 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 12;
+use Test::More tests => 11;
 
-BEGIN {
-    use_ok("HTML::Element");
-}
+use HTML::Element;
 
 my $img = HTML::Element->new(
     'img',

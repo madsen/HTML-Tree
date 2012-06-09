@@ -15,9 +15,9 @@ BEGIN { $leak_trace_loaded = eval "use Test::LeakTrace; 1" }
 plan skip_all => "Test::LeakTrace required for testing memory leaks"
     unless $leak_trace_loaded;
 
-plan tests => 21;
+plan tests => 20;
 
-use_ok( "HTML::TreeBuilder" );
+use HTML::TreeBuilder;
 
 my $lacks_weak;
 

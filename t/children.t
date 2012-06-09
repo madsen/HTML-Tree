@@ -5,11 +5,9 @@
 use warnings;
 use strict;
 
-use Test::More tests => 4;
+use Test::More tests => 3;
 
-BEGIN {
-    use_ok('HTML::TreeBuilder');
-}
+use HTML::TreeBuilder;
 
 my $root = HTML::TreeBuilder->new();
 my $escape

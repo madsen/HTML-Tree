@@ -29,14 +29,12 @@ EOT
 
     $notests = length($HTML);    # A test for each char in the test doc
     $notests *= 3;               #  done twice
-    $notests += 4;               #  plus more for the the rest of the tests
+    $notests += 3;               #  plus more for the the rest of the tests
 }
 
 use Test::More tests => $notests;    # Tests
 
-BEGIN {
-    use_ok('HTML::TreeBuilder');
-}
+use HTML::TreeBuilder;
 
 my $h = new HTML::TreeBuilder;
 isa_ok( $h, "HTML::TreeBuilder" );

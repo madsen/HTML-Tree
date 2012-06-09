@@ -53,12 +53,9 @@ BEGIN {
     $tests = keys(%translations) + 1;
 }
 
-use Test::More tests => $tests + 4;
+use Test::More tests => $tests + 3;
 
-BEGIN {
-
-    use_ok('HTML::Element');
-}
+use HTML::Element;
 
 $HTML::Element::encoded_content = 1;
 

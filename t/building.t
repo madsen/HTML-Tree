@@ -5,11 +5,9 @@ use strict;
 
 #Test that we can build and compare trees
 
-use Test::More tests => 43;
+use Test::More tests => 42;
 
-BEGIN {
-    use_ok( "HTML::Element" );
-}
+use HTML::Element;
 
 FIRST_BLOCK: {
     my $lol = [
