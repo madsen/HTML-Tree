@@ -143,6 +143,13 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=HTML-Tree>
 
 L<http://search.cpan.org/dist/HTML-Tree>
 
+=item * Stack Overflow
+
+L<http://stackoverflow.com/questions/tagged/html-tree>
+
+If you have a question about how to use HTML-Tree, Stack Overflow is
+the place to ask it.  Make sure you tag it both C<perl> and C<html-tree>.
+
 =back
 
 =head1 SEE ALSO
