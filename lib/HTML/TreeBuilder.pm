@@ -1748,6 +1748,10 @@ setting any parse options like C<store_comments> (for that, call C<new>, and
 then set options, before calling C<parse_file>).  See the notes (below)
 on parameters to L</parse_file>.
 
+If HTML::TreeBuilder is unable to read the file, then C<new_from_file>
+dies.  The error can also be found in C<$!>.  (This behavior is new in
+HTML-Tree 5. Previous versions returned a tree with only implicit elements.)
+
 =method new_from_content
 
   $root = HTML::TreeBuilder->new_from_content(...);
