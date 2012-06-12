@@ -2,6 +2,31 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.00     2012-06-12
+   Release by Christopher J. Madsen
+
+   There are only some minor documentation changes since 4.903.
+   This is a summary of the most significant changes since 4.2.
+
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * Use weak references to avoid memory leaks
+      See "Weak References" in HTML::Element for details.
+    * new_from_file now dies if the file cannot be opened.  $! records
+      the specific problem.  (Previously, you got a tree with a few
+      implicit elements.)
+    * Some methods normally returning a scalar could return the empty
+      list in certain circumstances.  This has been corrected.  The
+      affected methods are: address, deobjectify_text, detach, is_inside,
+      & pindex.
+    * deprecate the Version sub/method.  Use the VERSION method instead.
+
+    [ENHANCEMENTS]
+    * add new_from_url (Using LWP) (David Pottage) (RT #68097)
+
+    [DOCUMENTATION]
+    * Explain that parse_file (and new_from_file) opens files in binary mode
+      BUT THIS IS PLANNED TO CHANGE.
+
 4.903    2012-06-08
    Trial Release by Christopher J. Madsen
 
