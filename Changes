@@ -2,6 +2,11 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [TESTS]
+    * Force C locale in construct_tree.t (in non-English locales,
+      $! will produce messages in a different language)
+
+
 5.00     2012-06-12
    Release by Christopher J. Madsen
 
@@ -26,6 +31,7 @@ Changelog for HTML-Tree
     [DOCUMENTATION]
     * Explain that parse_file (and new_from_file) opens files in binary mode
       BUT THIS IS PLANNED TO CHANGE.
+
 
 4.903    2012-06-08
    Trial Release by Christopher J. Madsen

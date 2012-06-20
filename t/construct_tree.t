@@ -3,6 +3,9 @@
 use warnings;
 use strict;
 
+# We don't want the error messages produced by $! to be translated:
+BEGIN { $ENV{LANG} = $ENV{LC_MESSAGES} = $ENV{LC_ALL} = "C" }
+
 use constant tests_per_object => 7;
 
 use Test::More tests => ( 5 + 10 * tests_per_object );
