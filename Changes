@@ -5,6 +5,7 @@ Changelog for HTML-Tree
     [TESTS]
     * Force C locale in construct_tree.t (in non-English locales,
       $! will produce messages in a different language)
+    * Add test for preserving whitespace while parsing.
 
 
 5.00     2012-06-12

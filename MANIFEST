@@ -40,6 +40,7 @@ t/split.t
 t/subclass.t
 t/tag-rendering.t
 t/unicode.t
+t/whitespace.t
 xt/author/zz_perlcritic.t
 xt/release/pod-coverage.t
 xt/release/pod-syntax.t
