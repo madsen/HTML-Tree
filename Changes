@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.01     2012-06-20
+   Release by Christopher J. Madsen
+
     [TESTS]
     * Force C locale in construct_tree.t (in non-English locales,
       $! will produce messages in a different language)
