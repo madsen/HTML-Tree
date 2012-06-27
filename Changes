@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.02     2012-06-27
+   Release by Christopher J. Madsen
+
     [TESTS]
     * Do not attempt to check result of $! in construct_tree.t
       (The fix in 5.01 was not successful.)
