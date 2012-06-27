@@ -2,12 +2,17 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [TESTS]
+    * Do not attempt to check result of $! in construct_tree.t
+      (The fix in 5.01 was not successful.)
+
+
 5.01     2012-06-20
    Release by Christopher J. Madsen
 
     [TESTS]
     * Force C locale in construct_tree.t (in non-English locales,
-      $! will produce messages in a different language)
+      $! will produce messages in a different language) (RT #77823)
     * Add test for preserving whitespace while parsing.
 
 

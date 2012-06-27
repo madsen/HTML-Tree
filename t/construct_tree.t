@@ -3,9 +3,6 @@
 use warnings;
 use strict;
 
-# We don't want the error messages produced by $! to be translated:
-BEGIN { $ENV{LANG} = $ENV{LC_MESSAGES} = $ENV{LC_ALL} = "C" }
-
 use constant tests_per_object => 7;
 
 use Test::More tests => ( 5 + 10 * tests_per_object );
@@ -143,7 +140,7 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
 # Nonexistent file test:
 like(
     exception { HTML::Tree->new_from_file( "t/non_existent.html" ) },
-    qr!^unable to parse file: No such file !,
+    qr!^unable to parse file: !,
     "opening missing file failed"
 );
 
