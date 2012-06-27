@@ -2,6 +2,12 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [DOCUMENTATION]
+    * new actually does take optional attributes
+      (It has since at least 3.18, although undocumented, and it did
+       not previously work with ignore_ignorable_whitespace.)
+
+
 5.03     2012-09-22
    Release by Christopher J. Madsen
 

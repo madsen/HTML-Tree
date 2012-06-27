@@ -2,6 +2,7 @@ package HTML::TreeBuilder;
 
 # ABSTRACT: Parser that builds a HTML syntax tree
 
+use 5.008;
 use warnings;
 use strict;
 use integer;    # vroom vroom!
@@ -200,20 +201,26 @@ sub new {                               # constructor!
     $self->{'_store_declarations'}  = 1;
     $self->{'_store_pis'}           = 0;
     $self->{'_p_strict'}            = 0;
-    $self->{'_no_expand_entities'}  = 0;
-
-    # Parse attributes passed in as arguments
-    if (@_) {
-        my %attr = @_;
-        for ( keys %attr ) {
-            $self->{"_$_"} = $attr{$_};
-        }
-    }
-
-    $HTML::Element::encoded_content = $self->{'_no_expand_entities'};
+    $HTML::Element::encoded_content = $self->{'_no_expand_entities'}  = 0;
 
     # rebless to our class
     bless $self, $class;
+
+    # Parse attributes passed in as arguments
+    if (@_) {
+        Carp::croak("new must be passed key => value pairs") if @_ % 2;
+
+        my %attr = @_;
+        my $allowed = $self->_is_attr;
+
+        while (my ($attr, $value) = each %attr ) {
+            if ($allowed->{$attr}) {
+                $self->$attr($value);
+            } else {
+                Carp::carp("Ignoring unknown attribute $attr");
+            }
+        } # end while each $attr
+    } # end if attributes passed to new
 
     $self->{'_element_count'} = 1;
 
@@ -237,22 +244,49 @@ sub _elem                       # universal accessor...
     return $old;
 }
 
-# accessors....
-sub implicit_tags       { shift->_elem( '_implicit_tags',       @_ ); }
-sub implicit_body_p_tag { shift->_elem( '_implicit_body_p_tag', @_ ); }
-sub p_strict            { shift->_elem( '_p_strict',            @_ ); }
-sub no_space_compacting { shift->_elem( '_no_space_compacting', @_ ); }
-sub ignore_unknown      { shift->_elem( '_ignore_unknown',      @_ ); }
-sub ignore_text         { shift->_elem( '_ignore_text',         @_ ); }
-sub ignore_ignorable_whitespace { shift->_elem( '_tighten',            @_ ); }
-sub store_comments              { shift->_elem( '_store_comments',     @_ ); }
-sub store_declarations          { shift->_elem( '_store_declarations', @_ ); }
-sub store_pis                   { shift->_elem( '_store_pis',          @_ ); }
-sub warn                        { shift->_elem( '_warn',               @_ ); }
+BEGIN {
+    my @attributes = qw(
+         implicit_tags
+         implicit_body_p_tag
+         p_strict
+         no_space_compacting
+         ignore_unknown
+         ignore_text
+         store_comments
+         store_declarations
+         store_pis
+         warn
+    );
+
+    # Create accessor methods:
+    my $code = join('', map { "sub $_ { shift->_elem( '_$_', \@_ ); }\n" }
+                            @attributes);
+    my $err;
+    {
+        local $@;
+        $err = $@ || "UNKNOWN ERROR" unless eval "$code 1"; ## no critic
+    }
+    die "$code$err" if $err;
+
+    # Record names of class attributes:
+    my %is_attr = map { $_ => 1 } (@attributes, qw(
+      ignore_ignorable_whitespace
+      no_expand_entities
+    ));
+
+    sub _is_attr { return \%is_attr }
+}
+
+# Custom accessors:
+sub ignore_ignorable_whitespace {
+    shift->_elem( '_tighten', @_ ); # internal name is different
+}
 
 sub no_expand_entities {
-    shift->_elem( '_no_expand_entities', @_ );
-    $HTML::Element::encoded_content = @_;
+    my $self = shift;
+    my $return = $self->_elem( '_no_expand_entities', @_ );
+    $HTML::Element::encoded_content = $self->{_no_expand_entities};
+    $return;
 }
 
 #==========================================================================
@@ -1766,7 +1800,7 @@ C<< HTML::TreeBuilder->new_from_content($content) >>.
 
 =method new_from_url
 
-  $root = HTML::TreeBuilder->new_from_url($url)
+  $root = HTML::TreeBuilder->new_from_url($url);
 
 This "shortcut" constructor combines constructing a new object (with
 the L</new> method, below), loading L<LWP::UserAgent>, fetching the
@@ -1786,10 +1820,10 @@ and you might not need it.
 
 =method new
 
-  $root = HTML::TreeBuilder->new();
+  $root = HTML::TreeBuilder->new(attribute => $value, ...);
 
-This creates a new HTML::TreeBuilder object.  This method takes no
-attributes.
+This creates a new HTML::TreeBuilder object.  You can pass optional
+key-value pairs to set any of the L<attributes|/ATTRIBUTES>.
 
 =method parse_file
 
