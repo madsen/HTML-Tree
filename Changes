@@ -10,6 +10,8 @@ Changelog for HTML-Tree
 
     [ENHANCEMENTS]
     * new_from_file & new_from_url now let you set parsing attributes
+    * Setting the new self_closed_tags attribute to 1 makes TreeBuilder
+      handle XML-style self-closed tags (e.g. <a id="a1" />).
 
     [DOCUMENTATION]
     * new actually does take optional attributes

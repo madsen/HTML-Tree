@@ -235,6 +235,7 @@ sub new {                               # constructor!
     $self->{'_ignore_text'}         = 0;
     $self->{'_warn'}                = 0;
     $self->{'_no_space_compacting'} = 0;
+    $self->{'_self_closed_tags'}    = 0;
     $self->{'_store_comments'}      = 0;
     $self->{'_store_declarations'}  = 1;
     $self->{'_store_pis'}           = 0;
@@ -290,6 +291,7 @@ BEGIN {
          no_space_compacting
          ignore_unknown
          ignore_text
+         self_closed_tags
          store_comments
          store_declarations
          store_pis
@@ -350,6 +352,10 @@ sub warning {
 
         # Accept a signal from HTML::Parser for start-tags.
         my ( $self, $tag, $attr ) = @_;
+
+        my $self_closed = ($self->{'_self_closed_tags'} and
+                           $_[4] =~ m!/[\n\r\f\t ]*>\z!);
+        delete $attr->{'/'} if $self_closed;
 
         # Parser passes more, actually:
         #   $self->start($tag, $attr, $attrseq, $origtext)
@@ -944,7 +950,10 @@ sub warning {
             }
         }
 
-        $self->insert_element($e) unless $already_inserted;
+        unless ($already_inserted) {
+            if ($self_closed) { $self->pos->push_content($e) }
+            else              { $self->insert_element($e)    }
+        }
 
         if (DEBUG) {
             if ( $self->{'_pos'} ) {
@@ -2095,6 +2104,14 @@ If you find that you wish you had an option like this to enforce
 content-models on all elements, then I suggest that what you want is
 content-model checking as a stage after TreeBuilder has finished
 parsing.
+
+=attr self_closed_tags
+
+If set to true, TreeBuilder will support XML-style self-closed tags
+(e.g.  C<< <a id="b1"/> >>.  This means that your elements will not
+have C</> attributes, and TreeBuilder will not put subsequent elements
+inside the self-closed one.  But this I<does not> turn TreeBuilder
+into a true XML parser, and it is off by default.
 
 =attr store_comments
 
