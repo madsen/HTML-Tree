@@ -362,15 +362,16 @@ sub new {
     Carp::croak("No tagname") unless defined $tag and length $tag;
     Carp::croak "\"$tag\" isn't a good tag name!"
         if $tag =~ m/[<>\/\x00-\x20]/;    # minimal sanity, certainly!
-    my $self = bless { _tag => scalar( $class->_fold_case($tag) ) }, $class;
+    my $self = bless { _tag => ($tag = $class->_fold_case($tag) ) }, $class;
+    if ( $tag eq 'html' ) {
+        $self->{'_encoding'} = $default_encoding;
+        $self->{'_pos'} = undef;
+    }
     my ( $attr, $val );
     while ( ( $attr, $val ) = splice( @_, 0, 2 ) ) {
 ## RT #42209 why does this default to the attribute name and not remain unset or the empty string?
         $val = $attr unless defined $val;
         $self->{ $class->_fold_case($attr) } = $val;
-    }
-    if ( $tag eq 'html' ) {
-        $self->{'_pos'} = undef;
     }
     _weaken($self->{'_parent'}) if $self->{'_parent'};
     return $self;
@@ -667,9 +668,9 @@ sub content_refs_list {
   $h->encoding($new_encoding);
 
 Returns (optionally sets) the "_encoding" attribute.  This attribute
-is normally found only on the root node, and only if the tree was
-created by passing a filename to C<parse_file> (or C<new_from_file>)
-or the value was set manually.
+is normally found only on the root C<< <html> >> node.  Its default
+value is taken from C<$HTML::Element::default_encoding>, which is
+C<undef> by default.
 
 The value is a string: the name of a Perl encoding understood by
 L<Encode>, with C<:BOM> appended if the file began with a Unicode

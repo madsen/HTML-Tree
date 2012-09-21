@@ -230,7 +230,6 @@ sub new {                               # constructor!
 
     $self->{'_implicit'} = 1; # to delete, once we find a real open-"html" tag
 
-    $self->{'_encoding'}            = $HTML::Element::default_encoding;
     $self->{'_ignore_unknown'}      = 1;
     $self->{'_ignore_text'}         = 0;
     $self->{'_warn'}                = 0;
