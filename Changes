@@ -18,6 +18,9 @@ Changelog for HTML-Tree
       (It has since at least 3.18, although undocumented, and it did
        not previously work with ignore_ignorable_whitespace.)
 
+    [TESTS]
+    * Add test for self_closed_tags attribute.
+
 
 5.03     2012-09-22
    Release by Christopher J. Madsen
