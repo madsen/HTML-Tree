@@ -126,6 +126,7 @@ Changelog for HTML-Tree
       tests expecting &#00; style encoding.
     * Attribute names are now validated in as_XML and invalid names will
       cause an error.
+    * HTML-Tree now requires at least Perl 5.8.0
 
     [FIXES]
     * Optionally empty tags with content now have close tag. (RT #49932 #41806)
