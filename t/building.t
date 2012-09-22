@@ -17,7 +17,7 @@ FIRST_BLOCK: {
             'stuff',
             [ 'p', 'um, p < 4!', { 'class' => 'par123' } ],
             [ 'div', { foo => 'bar' }, ' 1  2  3 ' ],        # at 0.1.2
-            [ 'div', { fu  => 'baa' }, " 1 &nbsp; 2 \xA0 3 " ],    # RT #26436 test
+            [ 'div', { fu  => 'baa' }, " 1 and 2 \xA0 3 " ], # RT #26436 test
             ['hr'],
         ]
     ];
@@ -70,11 +70,11 @@ FIRST_BLOCK: {
     isa_ok( $div2, 'HTML::Element' );
 
     ### test for RT #26436 user controlled white space
-    is( $div2->as_text(), " 1 &nbsp; 2 \xA0 3 ", "Dump element in text format" );
+    is( $div2->as_text(), " 1 and 2 \xA0 3 ", "Dump element in text format" );
     is( $div2->as_trimmed_text(),
-        "1 &nbsp; 2 \xA0 3", "Dump element in trimmed text format" );
-    is( $div2->as_trimmed_text( extra_chars => '&nbsp;\xA0' ),
-        "1 2 3", "Dump element in trimmed text format" );
+        "1 and 2 \xA0 3", "Dump element in trimmed text format" );
+    is( $div2->as_trimmed_text( extra_chars => 'a-z\xA0' ),
+        "1 2 3", "Dump element in trimmed text format without nbsp or letters");
 
     my $t2 = HTML::Element->new_from_lol($lol);
     isa_ok( $t2, 'HTML::Element' );
