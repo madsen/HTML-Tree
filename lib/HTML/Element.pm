@@ -1919,10 +1919,20 @@ sub as_HTML {
 =method-dump as_text
 
   $s = $h->as_text();
-  $s = $h->as_text(skip_dels => 1, extra_chars => '\xA0');
+  $s = $h->as_text(skip_dels => 1);
 
 Returns a string consisting of only the text parts of the element's
-descendants.
+descendants.  Any whitespace inside the element is included unchanged,
+but whitespace not in the tree is never added.  But remember that
+whitespace may be ignored or compacted by HTML::TreeBuilder during
+parsing (depending on the value of the C<ignore_ignorable_whitespace>
+and C<no_space_compacting> attributes).  Also, since whitespace is
+never added during parsing,
+
+  HTML::TreeBuilder->new_from_content("<p>a</p><p>b</p>")
+                   ->as_text;
+
+returns C<"ab">, not C<"a b"> or C<"a\nb">.
 
 Text under C<< <script> >> or C<< <style> >> elements is never
 included in what's returned.  If C<skip_dels> is true, then text
@@ -1934,6 +1944,7 @@ as_text_trimmed
 =method-dump as_trimmed_text
 
   $s = $h->as_trimmed_text(...);
+  $s = $h->as_trimmed_text(extra_chars => '\xA0'); # remove &nbsp;
   $s = $h->as_text_trimmed(...); # alias
 
 This is just like C<as_text(...)> except that leading and trailing
@@ -1941,7 +1952,10 @@ whitespace is deleted, and any internal whitespace is collapsed.
 
 This will not remove non-breaking spaces, Unicode spaces, or any other
 non-ASCII whitespace unless you supply the extra characters as
-a string argument. e.g. C<< $h->as_trimmed_text(extra_chars => '\xA0') >>
+a string argument (e.g. C<< $h->as_trimmed_text(extra_chars => '\xA0') >>).
+C<extra_chars> may be any string that can appear inside a character
+class, including ranges like C<a-z>, POSIX character classes like
+C<[:alpha:]>, and character class escapes like C<\p{Zs}>.
 
 =cut
 

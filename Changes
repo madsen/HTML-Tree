@@ -5,6 +5,10 @@ Changelog for HTML-Tree
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * as_HTML no longer indents <textarea> (Tomohiro Hosaka) (RT #70385)
 
+    [DOCUMENTATION]
+    * Explain that as_text never adds whitespace (RT #66498)
+    * Explain what extra_chars can contain for as_trimmed_text.
+
 
 5.02     2012-06-27
    Release by Christopher J. Madsen

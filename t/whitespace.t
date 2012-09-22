@@ -17,7 +17,7 @@ my @tests = (
  "<p>This\xA0has nbsp: \xA0 </p>",
 );
 
-plan tests => scalar @tests;
+plan tests => 1 + scalar @tests;
 
 for my $test (@tests) {
     my $tree = HTML::TreeBuilder->new;
@@ -32,3 +32,11 @@ for my $test (@tests) {
     is($tree->look_down(qw(_tag body))->as_HTML('<>&', undef, {}),
        "<body>$test</body>", $name);
 } # end for each $test in @tests
+
+RT_66498: {
+    is( HTML::TreeBuilder->new_from_content("<p>a</p><p>b</p>")
+                         ->as_text,
+        "ab",
+        "parsing does not add whitespace"
+    );
+}

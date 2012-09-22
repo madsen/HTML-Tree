@@ -5,7 +5,7 @@ use strict;
 
 #Test that we can build and compare trees
 
-use Test::More tests => 42;
+use Test::More tests => 43;
 
 use HTML::Element;
 
@@ -75,6 +75,8 @@ FIRST_BLOCK: {
         "1 and 2 \xA0 3", "Dump element in trimmed text format" );
     is( $div2->as_trimmed_text( extra_chars => 'a-z\xA0' ),
         "1 2 3", "Dump element in trimmed text format without nbsp or letters");
+    is( $div2->as_trimmed_text( extra_chars => '[:alpha:]' ),
+        "1 2 \xA0 3", "Dump element in trimmed text format without letters");
 
     my $t2 = HTML::Element->new_from_lol($lol);
     isa_ok( $t2, 'HTML::Element' );
