@@ -2,6 +2,10 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
+    * as_HTML no longer indents <textarea> (Tomohiro Hosaka) (RT #70385)
+
+
 5.02     2012-06-27
    Release by Christopher J. Madsen
 

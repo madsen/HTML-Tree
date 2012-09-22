@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 10;
+use Test::More tests => 18;
 
 use HTML::TreeBuilder;
 
@@ -86,4 +86,29 @@ RT_18571: {
     is( $html->as_HTML("\0"),
         "<html><head></head><body><b>\$self->escape</b></body></html>" )
         ;    # 3.22 compatability
+}
+
+sub has_no_content
+{
+    my ($html, $name, $tag) = @_;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+
+    is( ok( $html =~ m!(<$tag>.*</$tag>)!s, "$name contains <$tag>" )
+        ? $1 : undef,
+        "<$tag></$tag>", "$name <$tag> contains nothing" );
+} # end has_no_content
+
+RT_70385: {
+    my $root     = HTML::TreeBuilder->new();
+    my $html     = $root->parse_content(
+      "<html><head></head><body><pre></pre><textarea></textarea></body></html>"
+    );
+    my $unindented = $html->as_HTML;
+    my $indented   = $html->as_HTML(undef, "  ");
+
+    has_no_content($unindented, qw(unindented pre));
+    has_no_content($unindented, qw(unindented textarea));
+    has_no_content($indented,   qw(indented   pre));
+    has_no_content($indented,   qw(indented   textarea));
 }
