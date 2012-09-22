@@ -1764,7 +1764,7 @@ sub as_HTML {
                         $last_tag_tightenable = $this_tag_tightenable;
 
                         ++$nonindentable_ancestors
-                            if $tag eq 'pre'
+                            if $tag eq 'pre' or $tag eq 'textarea'
                                 or $HTML::Tagset::isCDATA_Parent{$tag};
 
                     }
@@ -1775,7 +1775,7 @@ sub as_HTML {
                     {
 
                         # on the way out
-                        if (   $tag eq 'pre'
+                        if (   $tag eq 'pre' or $tag eq 'textarea'
                             or $HTML::Tagset::isCDATA_Parent{$tag} )
                         {
                             --$nonindentable_ancestors;
