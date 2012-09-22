@@ -1988,7 +1988,8 @@ sub as_text {
 sub as_trimmed_text {
     my ( $this, %options ) = @_;
     my $text = $this->as_text(%options);
-    my $extra_chars = $options{'extra_chars'} || '';
+    my $extra_chars = defined $options{'extra_chars'}
+                        ? $options{'extra_chars'} : '';
 
     $text =~ s/[\n\r\f\t$extra_chars ]+$//s;
     $text =~ s/^[\n\r\f\t$extra_chars ]+//s;

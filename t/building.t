@@ -5,7 +5,7 @@ use strict;
 
 #Test that we can build and compare trees
 
-use Test::More tests => 43;
+use Test::More tests => 46;
 
 use HTML::Element;
 
@@ -142,3 +142,11 @@ NORMALIZED: {
     ok( not grep( 'bar', $t1->all_external_attr() ) );
     $t1->delete;
 }    # TEST2
+
+EXTRA_CHARS_IS_FALSE: {
+    my $h = HTML::Element->new_from_lol([p => '1  2 0  4']);
+    is( $h->as_text, '1  2 0  4', "Dump p in text format" );
+    is( $h->as_trimmed_text, '1 2 0 4', "Dump p in trimmed format" );
+    is( $h->as_trimmed_text(extra_chars => '0'), '1 2 4',
+        "Dump p in trimmed format without 0" );
+}
