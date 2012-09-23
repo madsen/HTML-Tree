@@ -17,6 +17,7 @@ Changelog for HTML-Tree
     * new actually does take optional attributes
       (It has since at least 3.18, although undocumented, and it did
        not previously work with ignore_ignorable_whitespace.)
+    * methods & attributes added in version 4.0 or later are now marked
 
     [TESTS]
     * Add test for self_closed_tags attribute.

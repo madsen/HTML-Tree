@@ -1754,6 +1754,11 @@ sub disembowel { $_[0]->guts(1) }
 #--------------------------------------------------------------------------
 1;
 
+=head1 VERSION
+
+Methods & attributes introduced in version 4.0 or later are marked
+with the version that introduced them like this: C<(v4.0)>.
+
 =head1 SYNOPSIS
 
   use HTML::TreeBuilder 5 -weak; # Ensure weak references in use
@@ -1850,6 +1855,7 @@ C<< HTML::TreeBuilder->new_from_content($content) >>.
 
   $root = HTML::TreeBuilder->new_from_url($url, attr => $value, ...);
 
+C<(v5.00)>
 This "shortcut" constructor combines constructing a new object (with
 the L</new> method, below), loading L<LWP::UserAgent>, fetching the
 specified URL, and calling C<< $new->parse( $response->decoded_content) >>
@@ -2106,6 +2112,7 @@ parsing.
 
 =attr self_closed_tags
 
+C<(v6.00)>
 If set to true, TreeBuilder will support XML-style self-closed tags
 (e.g.  C<< <a id="b1"/> >>.  This means that your elements will not
 have C</> attributes, and TreeBuilder will not put subsequent elements

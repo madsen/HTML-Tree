@@ -83,6 +83,11 @@ sub import {
     }
 } # end import
 
+=head1 VERSION
+
+Methods introduced in version 4.0 or later are marked with the version
+that introduced them like this: C<(v4.0)>.
+
 =head1 SYNOPSIS
 
     use HTML::Element;
@@ -667,6 +672,7 @@ sub content_refs_list {
   $encoding = $h->encoding();
   $h->encoding($new_encoding);
 
+C<(v6.00)>
 Returns (optionally sets) the "_encoding" attribute.  This attribute
 is normally found only on the root C<< <html> >> node.  Its default
 value is taken from C<$HTML::Element::default_encoding>, which is
@@ -4440,6 +4446,7 @@ sub _valid_name {
 
   $classname = $h->element_class();
 
+C<(v4.0)>
 This method returns the class which will be used for new elements.  It
 defaults to HTML::Element, but can be overridden by subclassing or esoteric
 means best left to those will will read the source and then not complain when
