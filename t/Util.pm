@@ -23,9 +23,38 @@ use warnings;
 
 use Exporter ();
 our @ISA = qw(Exporter);
-our @EXPORT = qw(xml);
+our @EXPORT = qw(text xml);
+our @EXPORT_OK = qw(get_element);
 
 #=====================================================================
+# Select an element for testing:
+#
+# get_element($elt);        # Returns $elt
+# get_element(id => $tree); # Finds element with id "id" in $tree
+
+sub get_element
+{
+    my $elt = shift;
+
+    $elt = shift->look_down(id => $elt) unless ref $elt;
+
+    $elt;
+} # end get_element
+
+#---------------------------------------------------------------------
+# Extract text from an element for testing:
+#
+# text($elt);
+# text(id => $tree); # Finds element with id "id" in $tree
+
+sub text
+{
+    my $elt = &get_element or return undef;
+
+    $elt->as_text;
+} # end text
+
+#---------------------------------------------------------------------
 # Convert an element to XML for testing:
 #
 # xml($elt);
@@ -33,11 +62,7 @@ our @EXPORT = qw(xml);
 
 sub xml
 {
-    my $elt = shift;
-
-    $elt = shift->look_down(id => $elt) unless ref $elt;
-
-    return undef unless $elt;
+    my $elt = &get_element or return undef;
 
     my $text = $elt->as_XML;
 

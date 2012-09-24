@@ -5,10 +5,13 @@
 # Test automatic encoding detection for parse_file
 #---------------------------------------------------------------------
 
+use 5.008;
 use strict;
 use warnings;
+use utf8;
 
-use Test::More;
+use Test::More 0.88;            # done_testing
+use t::Util;
 
 use Encode qw(find_encoding);
 use HTML::TreeBuilder;
@@ -21,7 +24,7 @@ my @encodings = qw(
     UTF-16LE:BOM
 );
 
-plan tests => 5 * @encodings;
+plan tests => 21 + 5 * @encodings;
 
 my $tempfile = "lwp-test-$$";
 
@@ -67,3 +70,79 @@ END HTML
 }
 
 unlink($tempfile);
+
+#---------------------------------------------------------------------
+# Try reading t/sample.html in various ways:
+
+my $test_fn = 't/sample.html';
+
+{ # Auto-detect encoding:
+    my $html = HTML::TreeBuilder->new_from_file($test_fn);
+
+    is(text(nbsp   => $html), 'This is nbsp:  ',     'auto-detect nbsp');
+    is(text(eacute => $html), 'This is e-acute: éé', 'auto-detect eacute');
+    is(text(mdash  => $html), 'This is mdash: ——',   'auto-detect mdash');
+}
+
+{ # Explicitly specify correct encoding:
+    my $html = HTML::TreeBuilder->new_from_file($test_fn, encoding => 'UTF-8');
+
+    is(text(nbsp   => $html), 'This is nbsp:  ',     'UTF-8 nbsp');
+    is(text(eacute => $html), 'This is e-acute: éé', 'UTF-8 eacute');
+    is(text(mdash  => $html), 'This is mdash: ——',   'UTF-8 mdash');
+}
+
+{ # Explicitly specify incorrect encoding:
+    my $html = HTML::TreeBuilder->new_from_file($test_fn,
+                                                encoding => 'latin-1');
+
+
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",       'latin-1 nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",   'latin-1 eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—", 'latin-1 mdash');
+}
+
+{ # Explicitly specify :raw encoding:
+    local $^W; # Make HTML::Parser shut up; we're doing it wrong on purpose
+    my $html = HTML::TreeBuilder->new_from_file($test_fn, encoding => '');
+
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",       'raw nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",   'raw eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—", 'raw mdash');
+}
+
+{ # Set correct encoding as default:
+    local $HTML::Element::default_encoding = 'UTF-8';
+    my $html = HTML::TreeBuilder->new_from_file($test_fn);
+
+    is(text(nbsp   => $html), 'This is nbsp:  ',     'default UTF-8 nbsp');
+    is(text(eacute => $html), 'This is e-acute: éé', 'default UTF-8 eacute');
+    is(text(mdash  => $html), 'This is mdash: ——',   'default UTF-8 mdash');
+}
+
+{ # Set incorrect encoding as default:
+    local $HTML::Element::default_encoding = 'latin-1';
+    my $html = HTML::TreeBuilder->new_from_file($test_fn);
+
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",
+       'default latin-1 nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",
+       'default latin-1 eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—",
+       'default latin-1 mdash');
+}
+
+{ # Set :raw encoding as default:
+    local $^W; # Make HTML::Parser shut up; we're doing it wrong on purpose
+    local $HTML::Element::default_encoding = '';
+    my $html = HTML::TreeBuilder->new_from_file($test_fn);
+
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",
+       'default raw nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",
+       'default raw eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—",
+       'default raw mdash');
+}
+
+done_testing;

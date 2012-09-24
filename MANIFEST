@@ -37,6 +37,7 @@ t/parents.t
 t/parse.t
 t/parsefile.t
 t/refloop.t
+t/sample.html
 t/sample.txt
 t/sample.xhtml
 t/self-closed.t
