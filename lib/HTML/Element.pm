@@ -201,14 +201,31 @@ not an aspect of any particular object, but is emergent from the
 relatedness attributes (_parent and _content) of these element-objects
 and from how you use them to get from element to element.
 
+=head2 Traversing a tree
+
 While you could access the content of a tree by writing code that says
 "access the 'src' attribute of the root's I<first> child's I<seventh>
 child's I<third> child", you're more likely to have to scan the contents
 of a tree, looking for whatever nodes, or kinds of nodes, you want to
 do something with.  The most straightforward way to look over a tree
-is to "traverse" it; an HTML::Element method (C<< $h->traverse >>) is
-provided for this purpose; and several other HTML::Element methods are
-based on it.
+is to "traverse" it.  The simplest way to do that is with a recursive
+function:
+
+    sub process_tree {
+      my ($elt) = @_;
+      # Pre-order code using $elt goes here
+      process_tree($_) for $elt->child_nodes; # requires v6.00
+      # Post-order code using $elt goes here
+    } # end process_tree
+
+The L</child_nodes> method was introduced in HTML-Tree 6.00.  For
+compatibility with earlier versions, you can use
+
+    for my $e ($elt->content_list) { process_tree($e) if ref $e }
+
+instead.  HTML::Element also provides a L</traverse> method that
+handles the recursion for you, but at the expense of code that's less
+clear, and its use is now discouraged.
 
 (For everything you ever wanted to know about trees, and then some,
 see Niklaus Wirth's I<Algorithms + Data Structures = Programs> or
@@ -4352,7 +4369,7 @@ the tree in memory was properly constructed); and it I<should> be
 impossible for you to produce an insane tree just thru reasonable
 use of normal documented structure-modifying methods.  But if you're
 constructing your own trees, and your program is going into infinite
-loops as during calls to traverse() or any of the secondary
+loops as during calls to C<traverse()> or any of the secondary
 structural methods, as part of debugging, consider calling
 C<has_insane_linkage> on the tree.
 
@@ -4490,7 +4507,7 @@ See L</"Weak References">.
 
 * There's almost nothing to stop you from making a "tree" with
 cyclicities (loops) in it, which could, for example, make the
-traverse method go into an infinite loop.  So don't make
+C<traverse> method go into an infinite loop.  So don't make
 cyclicities!  (If all you're doing is parsing HTML files,
 and looking at the resulting trees, this will never be a problem
 for you.)

@@ -19,6 +19,7 @@ Changelog for HTML-Tree
       (It has since at least 3.18, although undocumented, and it did
        not previously work with ignore_ignorable_whitespace.)
     * methods & attributes added in version 4.0 or later are now marked
+    * don't recommend the traverse method; give recursive example (RT #48344)
 
     [TESTS]
     * Add test for self_closed_tags attribute.
