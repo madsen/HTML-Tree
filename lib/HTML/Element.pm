@@ -560,6 +560,27 @@ sub parent {
     }
 }
 
+=method-basic child_nodes
+
+  @child_objects = $h->child_nodes();
+  $num_child_objects = $h->child_nodes();
+
+C<(v6.00)>
+This is just like C<content_list>, except that it returns only
+objects, not text segments.  (If you've called C<objectify_text>, the
+C<~text> nodes I<are> included.)
+
+It is exactly equivalent to
+S<C<< grep { ref $_ } $h->content_list >>>,
+including returning the object count in scalar context.
+
+=cut
+
+sub child_nodes
+{
+    grep { ref $_ } @{ shift->{'_content'} or return(wantarray ? () : 0) };
+} # end child_nodes
+
 =method-basic content_list
 
   @content = $h->content_list();

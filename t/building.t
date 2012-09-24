@@ -5,7 +5,9 @@ use strict;
 
 #Test that we can build and compare trees
 
-use Test::More tests => 46;
+use Test::More 0.88;            # done_testing
+
+plan tests => 52;
 
 use HTML::Element;
 
@@ -150,3 +152,17 @@ EXTRA_CHARS_IS_FALSE: {
     is( $h->as_trimmed_text(extra_chars => '0'), '1 2 4',
         "Dump p in trimmed format without 0" );
 }
+
+CHILD_NODES: {
+    my $h = HTML::Element->new('p');
+    is( $h->content, undef, 'node has no content');
+    is_deeply( [ $h->child_nodes ], [], 'empty node in list context');
+    is( scalar $h->child_nodes,     0,  'empty node in scalar context');
+    $h->push_content(['span'], 'hello', ['i']);
+    is( scalar $h->content_list, 3, 'node now has 3 children');
+    is_deeply( [ $h->child_nodes ], [ grep { ref $_ } $h->content_list ],
+               'child_nodes in list context');
+    is( scalar $h->child_nodes,     2,         'child_nodes in scalar context');
+}
+
+done_testing;
