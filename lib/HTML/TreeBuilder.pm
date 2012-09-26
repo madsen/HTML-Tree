@@ -116,6 +116,18 @@ sub new_from_content {    # from any number of scalars
     return $new;
 }
 
+sub new_from_string {    # from a single scalar (plus options)
+    my $class = shift;
+    Carp::croak("new_from_string takes an odd number of arguments")
+        unless @_ % 2;
+    Carp::croak("new_from_string is a class method only")
+        if ref $class;
+    my $string = shift;
+    my $new = $class->new(@_);
+    $new->parse_content($string);
+    return $new;
+}
+
 sub new_from_url {                     # should accept anything that LWP does.
     undef our $lwp_response;
     my $class = shift;
@@ -1830,7 +1842,7 @@ and C<< $root->implicit_tags(0) >> turns it off.
   $root = HTML::TreeBuilder->new_from_file($file, attr => $value, ...);
 
 This "shortcut" constructor merely combines constructing a new object
-(with the L</new> method, below), and calling C<< $new->parse_file($file) >> on
+(with the L</new> method, below), and calling C<< $root->parse_file($file) >> on
 it.  Returns the new object.  You can set any parse options like
 C<store_comments> by passing key-value pairs after the file argument.
 See the notes (below) on parameters to L</parse_file>.
@@ -1844,12 +1856,23 @@ HTML-Tree 5. Previous versions returned a tree with only implicit elements.)
   $root = HTML::TreeBuilder->new_from_content(...);
 
 This "shortcut" constructor merely combines constructing a new object
-(with the L</new> method, below), and calling C<< for(...){$new->parse($_)} >>
-and C<< $new->eof >> on it.  Returns the new object.  Note that this provides
+(with the L</new> method, below), and calling C<< for(...){$root->parse($_)} >>
+and C<< $root->eof >> on it.  Returns the new object.  Note that this provides
 no way of setting any parse options like C<store_comments> (for that,
-call C<new>, and then set options, before calling C<parse>).  Example
-usages: C<< HTML::TreeBuilder->new_from_content(@lines) >>, or
-C<< HTML::TreeBuilder->new_from_content($content) >>.
+use the C<new_from_string> constructor instead).
+
+=method new_from_string
+
+  $root = HTML::TreeBuilder->new_from_string($string);
+  $root = HTML::TreeBuilder->new_from_string($string, attr => $value);
+
+C<(v6.00)>
+This "shortcut" constructor merely combines constructing a new object
+(with the L</new> method, below), and calling
+C<< $root->parse_content($string) >> on it.  Despite the name,
+C<$string> can be any value accepted by L</parse_content>.  Returns
+the new object.  You can set any parse options like C<store_comments>
+by passing key-value pairs after the C<$string> argument.
 
 =method new_from_url
 
@@ -1858,8 +1881,8 @@ C<< HTML::TreeBuilder->new_from_content($content) >>.
 C<(v5.00)>
 This "shortcut" constructor combines constructing a new object (with
 the L</new> method, below), loading L<LWP::UserAgent>, fetching the
-specified URL, and calling C<< $new->parse( $response->decoded_content) >>
-and C<< $new->eof >> on it.
+specified URL, and calling C<< $root->parse( $response->decoded_content) >>
+and C<< $root->eof >> on it.
 Returns the new object.  You can set any parse options like
 C<store_comments> by passing key-value pairs after the C<$url> argument.
 
@@ -1932,8 +1955,9 @@ before you actually start doing anything else with the tree in C<$root>.
 
   $root->parse_content(...);
 
-Basically a handy alias for C<< $root->parse(...); $root->eof >>.
-Takes the exact same arguments as C<< $root->parse() >>.
+Basically a handy alias for S<C<< $root->parse($_) for (...); $root->eof >>>.
+Takes the exact same arguments as C<< $root->parse() >>, except that
+it also accepts string references (which are automatically dereferenced).
 
 =method delete
 

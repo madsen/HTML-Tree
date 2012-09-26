@@ -46,6 +46,12 @@ sub new_from_content {
     goto &HTML::TreeBuilder::new_from_content;
 }
 
+sub new_from_string {
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new_from_string;
+}
+
 sub new_from_url {
     shift;
     unshift @_, 'HTML::TreeBuilder';
@@ -112,6 +118,10 @@ Redirects to L<HTML::TreeBuilder/new_from_file>.
 =method new_from_content
 
 Redirects to L<HTML::TreeBuilder/new_from_content>.
+
+=method new_from_string
+
+Redirects to L<HTML::TreeBuilder/new_from_string>.
 
 =method new_from_url
 
