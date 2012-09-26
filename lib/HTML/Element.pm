@@ -2463,8 +2463,6 @@ sub endtag_XML {
 # of them, actually: one for content-listrefs, one for indexes of
 # current position in each of those).
 
-my $NIL = [];
-
 sub traverse {
     my ( $start, $callback, $ignore_text ) = @_;
 
@@ -2624,7 +2622,7 @@ sub traverse {
 
              # push a dummy empty content list just to trigger a post callback
                         unshift @I, -1;
-                        unshift @C, $NIL;
+                        unshift @C, $nillio;
                     }
                     next;
                 }
@@ -2669,7 +2667,7 @@ sub traverse {
             )
         {
             unshift @I, -1;
-            unshift @C, $content_r || $NIL;
+            unshift @C, $content_r || $nillio;
 
             #print $this->{'_tag'}, " ($this) adds content_r ", $C[0], "\n";
         }
