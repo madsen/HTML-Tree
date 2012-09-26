@@ -20,12 +20,11 @@ my @tests = (
 plan tests => 1 + scalar @tests;
 
 for my $test (@tests) {
-    my $tree = HTML::TreeBuilder->new;
-
-    $tree->ignore_ignorable_whitespace(0);
-    $tree->no_space_compacting(1);
-
-    $tree->parse_content($test);
+    my $tree = HTML::TreeBuilder->new_from_string(
+      $test,
+      ignore_ignorable_whitespace => 0,
+      no_space_compacting         => 1,
+    );
 
     my ($name) = ($test =~ /^(.*)/);
 
