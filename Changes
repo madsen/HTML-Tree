@@ -12,6 +12,8 @@ Changelog for HTML-Tree
     * new_from_file & new_from_url now let you set parsing attributes
     * New shortcut constructor new_from_string is like new_from_content,
       but allows you to set parsing attributes
+    * New shortcut constructor new_from_http for constructing a tree
+      from the content of a HTTP::Message (or subclass like HTTP::Response)
     * Setting the new self_closed_tags attribute to 1 makes TreeBuilder
       handle XML-style self-closed tags (e.g. <a id="a1" />)
     * New child_nodes method makes for simpler recursion

@@ -58,6 +58,12 @@ sub new_from_url {
     goto &HTML::TreeBuilder::new_from_url;
 }
 
+sub new_from_http {
+    shift;
+    unshift @_, 'HTML::TreeBuilder';
+    goto &HTML::TreeBuilder::new_from_http;
+}
+
 1;
 
 =head1 DESCRIPTION
@@ -126,6 +132,10 @@ Redirects to L<HTML::TreeBuilder/new_from_string>.
 =method new_from_url
 
 Redirects to L<HTML::TreeBuilder/new_from_url>.
+
+=method new_from_http
+
+Redirects to L<HTML::TreeBuilder/new_from_http>.
 
 =head1 SUPPORT
 

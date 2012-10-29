@@ -136,7 +136,6 @@ sub new_from_url {                     # should accept anything that LWP does.
     Carp::croak("new_from_url is a class method only")
         if ref $class;
     my $url = shift;
-    my $new = $class->new(@_);
 
     require LWP::UserAgent;
     # RECOMMEND PREREQ: LWP::UserAgent 5.815
@@ -148,9 +147,49 @@ sub new_from_url {                     # should accept anything that LWP does.
     Carp::croak("$url returned " . $lwp_response->content_type . " not HTML")
           unless $lwp_response->content_is_html;
 
-    $new->parse( $lwp_response->decoded_content );
-    $new->eof;
+    my $new = $class->new_from_http($lwp_response, @_);
+
     undef $lwp_response;        # Processed successfully
+    return $new;
+}
+
+sub new_from_http { # from a HTTP::Message (or subclass)
+    my $class = shift;
+    Carp::croak("new_from_http takes an odd number of arguments")
+        unless @_ % 2;
+    Carp::croak("new_from_http is a class method only")
+        if ref $class;
+    my $message = shift;
+    my $new = $class->new(@_);
+
+    my $cref;
+
+    my %opt = @_;
+    if (defined $opt{encoding}) {
+        # User-specified charset:
+        my $charset = ($opt{encoding} || 'none');
+        $charset =~ s/:BOM\z//;
+        $cref = $message->decoded_content(ref => 1, charset => $charset);
+    } else {
+        # Auto-detect charset:
+        my $charset = $message->content_charset || 'cp1252';
+        $cref = $message->decoded_content(ref => 1, charset => $charset);
+        if ($charset eq 'none') {
+            $charset = '';
+        } else {
+            require Encode;
+            if (my $encoding = Encode::find_encoding($charset)) {
+                $charset = $encoding->name; # canonical name
+                $charset .= ':BOM' if $$cref =~ /^\x{FeFF}/;
+            } else {
+                undef $charset; # Encode doesn't recognize it
+            }
+        }
+        $new->{_encoding} = $charset;
+    } # end else auto-detect charset
+
+    $new->parse( $$cref );
+    $new->eof;
     return $new;
 }
 
@@ -1864,7 +1903,7 @@ use the C<new_from_string> constructor instead).
 =method new_from_string
 
   $root = HTML::TreeBuilder->new_from_string($string);
-  $root = HTML::TreeBuilder->new_from_string($string, attr => $value);
+  $root = HTML::TreeBuilder->new_from_string($string, attr => $value, ...);
 
 C<(v6.00)>
 This "shortcut" constructor merely combines constructing a new object
@@ -1881,10 +1920,10 @@ by passing key-value pairs after the C<$string> argument.
 C<(v5.00)>
 This "shortcut" constructor combines constructing a new object (with
 the L</new> method, below), loading L<LWP::UserAgent>, fetching the
-specified URL, and calling C<< $root->parse( $response->decoded_content) >>
-and C<< $root->eof >> on it.
-Returns the new object.  You can set any parse options like
-C<store_comments> by passing key-value pairs after the C<$url> argument.
+specified URL, validating the response, and passing it to the
+C<new_from_http> constructor.  Returns the new
+object.  You can set any parse options like C<store_comments> by
+passing key-value pairs after the C<$url> argument.
 
 If LWP is unable to fetch the URL, or the response is not HTML (as
 determined by L<HTTP::Headers/content_is_html>), then C<new_from_url>
@@ -1894,6 +1933,26 @@ C<$HTML::TreeBuilder::lwp_response>.
 You must have installed LWP::UserAgent for this method to work.  LWP
 is not installed automatically, because it's a large set of modules
 and you might not need it.
+
+=method new_from_http
+
+  $root = HTML::TreeBuilder->new_from_http($msg, attr => $value, ...);
+
+C<(v6.00)>
+This "shortcut" constructor combines constructing a new object (with
+the L</new> method, below), decoding the content from a
+L<HTTP::Message> object (or a subclass like L<HTTP::Response>), and
+parsing the response content.  Returns the new object.  You can set
+any parse options like C<store_comments> by passing key-value pairs
+after the C<$msg> argument.
+
+It gets the charset from the HTTP::Message object and sets the
+C<encoding> attribute accordingly.  If you specify an encoding in the
+parameter list, that encoding overrides the one indicated by the
+HTTP::Message.
+
+Unlike C<new_from_url>, this does not check the status code or content
+type of the message before attempting to parse it.
 
 =method new
 
