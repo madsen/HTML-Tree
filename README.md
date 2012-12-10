@@ -6,6 +6,33 @@ HTML-Tree is a suite of Perl modules for representing, creating, and extracting 
 This is a Git repository where development of HTML-Tree takes place.  For more information, visit [HTML-Tree on CPAN](http://search.cpan.org/dist/HTML-Tree/).
 
 
+How to build HTML-Tree from this repo
+-------------------------------------
+
+The files in this repository need to be processed through
+[Dist::Zilla](http://dzil.org) in order to produce a distribution
+suitable for uploading to CPAN or installing on your machine.  To do
+that:
+
+1. Install Dist::Zilla
+
+        cpanm Dist::Zilla
+
+2. Install the dzil plugins used by HTML-Tree
+
+        cd /path/to/your/HTML-Tree
+        dzil authordeps --missing | cpanm
+
+This example uses [cpanm](http://search.cpan.org/perldoc?cpanm)
+because it allows you to pipe a list of module names into it, but you
+don't have to use cpanm if you prefer another method of installing modules.
+
+Then you can build a distribution with `dzil build`, build a
+distribution and run its tests with `dzil test`, or build a
+distribution and automatically upload it to CPAN with `dzil release`.
+
+To learn more about Dist::Zilla, read [its tutorial](http://dzil.org/tutorial/start.html).
+
 
 Copyright and License
 =====================
