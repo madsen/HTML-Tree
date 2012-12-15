@@ -24,7 +24,7 @@ use warnings;
 use Exporter ();
 our @ISA = qw(Exporter);
 our @EXPORT = qw(text xml);
-our @EXPORT_OK = qw(get_element);
+our @EXPORT_OK = qw(get_element slurp);
 
 #=====================================================================
 # Select an element for testing:
@@ -40,6 +40,24 @@ sub get_element
 
     $elt;
 } # end get_element
+
+#---------------------------------------------------------------------
+# Slurp a file in :raw mode:
+#
+# slurp($fn);
+
+sub slurp
+{
+    my $fn = shift;
+
+    local $/;
+
+    open(my $in, '<:raw', $fn) or die "Reading $fn: $!";
+    my $text = <$in>;
+    close $in;
+
+    return $text;
+} # end slurp
 
 #---------------------------------------------------------------------
 # Extract text from an element for testing:

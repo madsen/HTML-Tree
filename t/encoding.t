@@ -11,9 +11,9 @@ use warnings;
 use utf8;
 
 use Test::More 0.88;            # done_testing
-use t::Util;
+use t::Util qw(slurp text);
 
-use Encode qw(find_encoding);
+use Encode qw(encode find_encoding);
 use HTML::TreeBuilder;
 
 my @encodings = qw(
@@ -24,22 +24,26 @@ my @encodings = qw(
     UTF-16LE:BOM
 );
 
-plan tests => 21 + 5 * @encodings;
+plan tests => 22 + 6 * @encodings;
 
 my $tempfile = "lwp-test-$$";
 
-foreach my $encoding (@encodings) {
-    my ($layer, $bom) = split /:/, $encoding;
+SKIP: {
+    skip("Encode 2.21 needed for these tests", 6 * @encodings)
+        unless eval { Encode->VERSION(2.21); 1 }; # need mime_name
 
-    my $charset = find_encoding($layer)->mime_name;
+    foreach my $encoding (@encodings) {
+        my ($layer, $bom) = split /:/, $encoding;
 
-    open(my $out, ">:encoding($layer)", $tempfile)
-        or die "Can't open $tempfile ($layer): $!";
+        my $charset = find_encoding($layer)->mime_name;
 
-    my $mdash = ($layer =~ /^utf/i ? "\x{2014}" : "&mdash;");
+        open(my $out, ">:raw:encoding($layer)", $tempfile)
+            or die "Can't open $tempfile ($layer): $!";
 
-    print $out "\x{FeFF}" if $bom;
-    print $out <<"END HTML";
+        my $mdash = ($layer =~ /^utf/i ? "\x{2014}" : "&mdash;");
+
+        print $out "\x{FeFF}" if $bom;
+        print $out <<"END HTML";
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,22 +58,32 @@ foreach my $encoding (@encodings) {
 </html>
 END HTML
 
-    close $out;
+        close $out;
 
-    my $html = HTML::TreeBuilder->new_from_file($tempfile);
+        my $html = HTML::TreeBuilder->new_from_file($tempfile);
 
-    isa_ok($html, 'HTML::TreeBuilder', "$encoding loaded");
+        isa_ok($html, 'HTML::TreeBuilder', "$encoding loaded");
 
-    is($html->encoding, $encoding, "$encoding encoding");
+        is($html->encoding, $encoding, "$encoding encoding");
 
-    my @p = $html->look_down(qw(_tag p));
+        my @p = $html->look_down(qw(_tag p));
 
-    is($p[0]->as_text, "This is nbsp:\xA0\xA0", "$encoding p0");
-    is($p[1]->as_text, "This is e-acute: \xE9\xE9", "$encoding p1");
-    is($p[2]->as_text, "This is mdash: \x{2014}\x{2014}", "$encoding p2");
-}
+        is($p[0]->as_text, "This is nbsp:\xA0\xA0", "$encoding p0");
+        is($p[1]->as_text, "This is e-acute: \xE9\xE9", "$encoding p1");
+        is($p[2]->as_text, "This is mdash: \x{2014}\x{2014}", "$encoding p2");
 
-unlink($tempfile);
+        my $text = "Hello: é—World\n";
+
+        $out = $html->openw($tempfile);
+        print $out $text;
+        close $out;
+
+        $text = "\x{FeFF}$text" if $bom;
+
+        is(slurp($tempfile), encode($layer, $text),
+           "Correct output for $encoding");
+    }
+} # end SKIP unless Encode 2.21
 
 #---------------------------------------------------------------------
 # Try reading t/sample.html in various ways:
@@ -144,5 +158,25 @@ my $test_fn = 't/sample.html';
     is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—",
        'default raw mdash');
 }
+
+{ # Try applying :crlf to filehandle returned by openw
+    my $out = HTML::Element->openw($tempfile, 'UTF-16LE:BOM');
+
+    binmode $out, ':crlf';
+
+    my $text = "Hello, world\nLine 2\n";
+
+    print $out $text;
+
+    close $out;
+
+    $text = "\x{FeFF}$text";
+    $text =~ s/\n/\r\n/g;
+
+    is(slurp($tempfile), encode('UTF-16LE', $text),
+       "Applying :crlf after openw works");
+}
+
+unlink($tempfile);
 
 done_testing;
