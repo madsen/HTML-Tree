@@ -27,6 +27,7 @@ Changelog for HTML-Tree
 
     [TESTS]
     * Add test for self_closed_tags attribute.
+    * Clarify skip message in construct_tree.t (RT #81371)
 
 
 5.03     2012-09-22

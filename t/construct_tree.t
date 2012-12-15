@@ -83,7 +83,7 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
         require URI::file;
         require LWP::UserAgent;
         1;
-    } or skip("URI::file or LWP::UserAgent not installed",
+    } or skip("both URI::file and LWP::UserAgent needed for these tests",
               3 + 3 * tests_per_object);
 
     my $file_url = URI->new( "file:" . $TestInput );
