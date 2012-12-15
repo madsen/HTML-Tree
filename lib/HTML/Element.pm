@@ -726,6 +726,9 @@ C<utf-8-strict>, and C<UTF-16LE:BOM>.
 There are two special values: the empty string indicates C<:raw> mode,
 and C<undef> indicates that the encoding should be auto-detected.
 
+You can use the L</openw> or L</encode_fh> methods to open an output
+file with the same encoding.
+
 =cut
 
 sub encoding {
@@ -1759,6 +1762,79 @@ sub dump {
         }
     }
 }
+
+=method-dump openw
+
+  $filehandle = $h->openw($filename);
+  $filehandle = HTML::Element->openw($filename, $encoding);
+
+C<(v6.00)>
+Opens C<$filename> for writing, calls L</encode_fh> on the resulting
+C<$filehandle>, and returns the C<$filehandle>.  If C<$encoding> is
+omitted, it defaults to C<< $h->encoding >>.  May be called as a class
+method if you supply C<$encoding> as a parameter.
+
+Throws an exception if the file cannot be opened for any reason,
+or if C<$encoding> is C<undef>.
+
+=cut
+
+sub openw
+{
+    my $self     = shift;
+    my $filename = shift;
+    my $encoding = (@_ ? shift : $self->encoding);
+
+    Carp::croak("No encoding specified") unless defined $encoding;
+
+    open(my $filehandle, '>', $filename)
+      or Carp::croak("Unable to open $filename for writing: $!");
+
+    return $self->encode_fh($filehandle, $encoding);
+} # end openw
+
+=method-dump encode_fh
+
+  $h->encode_fh($filehandle);
+  HTML::Element->encode_fh($filehandle, $encoding);
+
+C<(v6.00)>
+Applies C<$encoding> to C<$filehandle> and returns C<$filehandle>.  If
+C<$encoding> is omitted, it defaults to C<< $h->encoding >>.  May be
+called as a class method if you supply C<$encoding> as a parameter.
+
+C<$encoding> may be any valid value for the L<_encoding|/encoding> attribute,
+except C<undef>.
+
+If C<$encoding> ends with C<:BOM>, then C<\x{FEFF}> is printed to
+C<$filehandle> after the encoding is set.
+
+Throws an exception if the encoding cannot be applied for any reason,
+or if C<$encoding> is C<undef>.
+
+=cut
+
+sub encode_fh
+{
+    my $self       = shift;
+    my $filehandle = shift;
+    my $encoding   = (@_ ? shift : $self->encoding);
+
+    Carp::croak("No encoding specified") unless defined $encoding;
+
+    my $bom = ($encoding =~ s/:BOM\z//);
+
+    $encoding = (length($encoding) ? ":encoding($encoding)" : ':raw');
+
+    binmode($filehandle, $encoding)
+      or Carp::croak("Unable to set $encoding on filehandle: $!");
+
+    print $filehandle "\x{FeFF}"
+        or Carp::croak("Error printing BOM to filehandle: $!")
+            if $bom;
+
+    return $filehandle;
+} # end encode_fh
 
 =method-dump as_HTML
 

@@ -17,6 +17,8 @@ Changelog for HTML-Tree
     * Setting the new self_closed_tags attribute to 1 makes TreeBuilder
       handle XML-style self-closed tags (e.g. <a id="a1" />)
     * New child_nodes method makes for simpler recursion
+    * New openw and encode_fh methods for writing a file with the
+      correct encoding
 
     [DOCUMENTATION]
     * new actually does take optional attributes
