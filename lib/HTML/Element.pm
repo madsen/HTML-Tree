@@ -1774,6 +1774,10 @@ C<$filehandle>, and returns the C<$filehandle>.  If C<$encoding> is
 omitted, it defaults to C<< $h->encoding >>.  May be called as a class
 method if you supply C<$encoding> as a parameter.
 
+The C<$filehandle> will not have the C<:crlf> layer applied, even on
+platforms where it normally is on by default.  If you want C<:crlf>,
+apply it after calling C<openw> (with S<C<binmode $filehandle, ':crlf'>>).
+
 Throws an exception if the file cannot be opened for any reason,
 or if C<$encoding> is C<undef>.
 
@@ -1787,7 +1791,7 @@ sub openw
 
     Carp::croak("No encoding specified") unless defined $encoding;
 
-    open(my $filehandle, '>', $filename)
+    open(my $filehandle, '>:raw', $filename)
       or Carp::croak("Unable to open $filename for writing: $!");
 
     return $self->encode_fh($filehandle, $encoding);
@@ -1802,6 +1806,12 @@ C<(v6.00)>
 Applies C<$encoding> to C<$filehandle> and returns C<$filehandle>.  If
 C<$encoding> is omitted, it defaults to C<< $h->encoding >>.  May be
 called as a class method if you supply C<$encoding> as a parameter.
+
+C<$filehandle> should probably have been opened in C<:raw> mode.
+Applying a UTF-16 encoding on top of the C<:crlf> layer will produce
+invalid output.  On Windows, C<:crlf> is applied by default unless you
+specify C<:raw>.  If you want C<:crlf>, you should apply it after
+calling C<encode_fh>.
 
 C<$encoding> may be any valid value for the L<_encoding|/encoding> attribute,
 except C<undef>.
