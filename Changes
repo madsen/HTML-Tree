@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.900    2012-12-15
+   Trial Release by Christopher J. Madsen
+
     [THINGS THAT MAY BREAK YOUR CODE OR TESTS]
     * parse_file (and new_from_file) now try to determine the encoding
       automatically when given a filename (not a filehandle).  To restore
