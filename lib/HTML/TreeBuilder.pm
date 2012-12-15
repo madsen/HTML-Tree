@@ -1810,6 +1810,11 @@ sub disembowel { $_[0]->guts(1) }
 Methods & attributes introduced in version 4.0 or later are marked
 with the version that introduced them like this: C<(v4.0)>.
 
+B<WARNING:> Methods marked C<(v6.00)> are not yet stable.  The API for
+handling encoding might change.  if you have comments or suggestions
+on the new API, please write to the LWP mailing list at
+S<C<< <libwww AT perl DOT org> >>>.
+
 =head1 SYNOPSIS
 
   use HTML::TreeBuilder 5 -weak; # Ensure weak references in use
