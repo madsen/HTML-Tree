@@ -2101,6 +2101,11 @@ are returned.  Usually when you want the guts from a tree, you're just
 going to toss out the rest of the tree anyway, so this saves you the
 bother.  (Remember, "disembowel" means "remove the guts from".)
 
+=attr encoding
+
+Indicates the character set used by the HTML file.
+See L<HTML::Element/encoding>.
+
 =attr implicit_tags
 
 Setting this attribute to true will instruct the parser to try to
