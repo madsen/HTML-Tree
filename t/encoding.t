@@ -111,18 +111,18 @@ my $test_fn = 't/sample.html';
                                                 encoding => 'latin-1');
 
 
-    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",       'latin-1 nbsp');
-    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",   'latin-1 eacute');
-    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—", 'latin-1 mdash');
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0\xA0",       'latin-1 nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9\xE9",   'latin-1 eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94\x{2014}", 'latin-1 mdash');
 }
 
 { # Explicitly specify :raw encoding:
     local $^W; # Make HTML::Parser shut up; we're doing it wrong on purpose
     my $html = HTML::TreeBuilder->new_from_file($test_fn, encoding => '');
 
-    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",       'raw nbsp');
-    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",   'raw eacute');
-    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—", 'raw mdash');
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0\xA0",       'raw nbsp');
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9\xE9",   'raw eacute');
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94\x{2014}", 'raw mdash');
 }
 
 { # Set correct encoding as default:
@@ -138,11 +138,11 @@ my $test_fn = 't/sample.html';
     local $HTML::Element::default_encoding = 'latin-1';
     my $html = HTML::TreeBuilder->new_from_file($test_fn);
 
-    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0\xA0",
        'default latin-1 nbsp');
-    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9\xE9",
        'default latin-1 eacute');
-    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—",
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94\x{2014}",
        'default latin-1 mdash');
 }
 
@@ -151,11 +151,11 @@ my $test_fn = 't/sample.html';
     local $HTML::Element::default_encoding = '';
     my $html = HTML::TreeBuilder->new_from_file($test_fn);
 
-    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0 ",
+    is(text(nbsp   => $html), "This is nbsp:\xC2\xA0\xA0",
        'default raw nbsp');
-    is(text(eacute => $html), "This is e-acute: \xC3\xA9é",
+    is(text(eacute => $html), "This is e-acute: \xC3\xA9\xE9",
        'default raw eacute');
-    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94—",
+    is(text(mdash  => $html), "This is mdash: \xE2\x80\x94\x{2014}",
        'default raw mdash');
 }
 
