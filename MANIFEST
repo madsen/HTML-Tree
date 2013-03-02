@@ -28,6 +28,7 @@ t/children.t
 t/clonei.t
 t/construct_tree.t
 t/doctype.t
+t/dump.t
 t/encoding.t
 t/escape.t
 t/leaktest.t
