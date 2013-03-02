@@ -2000,8 +2000,8 @@ that case, the error will be in C<$!>.
 
   $root->parse(...)
 
-[A important method inherited from L<HTML::Parser|HTML::Parser>, which
-see.  See the note below for C<< $root->eof() >>.]
+[An important method inherited from L<HTML::Parser>, which
+see.  You must call C<< $root->eof() >> after calling this method.]
 
 =method eof
 

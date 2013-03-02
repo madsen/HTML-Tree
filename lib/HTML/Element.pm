@@ -1654,13 +1654,13 @@ sub delete_ignorable_whitespace {
 
   $h->insert_element($element, $implicit);
 
-Inserts (via push_content) a new element under the element at
+Inserts (via C<push_content>) a new element under the element at
 C<< $h->pos() >>.  Then updates C<< $h->pos() >> to point to the inserted
 element, unless $element is a prototypically empty element like
 C<< <br> >>, C<< <hr> >>, C<< <img> >>, etc.
 The new C<< $h->pos() >> is returned.  This
 method is useful only if your particular tree task involves setting
-C<< $h->pos() >>.
+C<< $h->pos() >>.  Otherwise, you should just use L</push_content>.
 
 =cut
 
@@ -1812,11 +1812,12 @@ Applies C<$encoding> to C<$filehandle> and returns C<$filehandle>.  If
 C<$encoding> is omitted, it defaults to C<< $h->encoding >>.  May be
 called as a class method if you supply C<$encoding> as a parameter.
 
-C<$filehandle> should probably have been opened in C<:raw> mode.
-Applying a UTF-16 encoding on top of the C<:crlf> layer will produce
-invalid output.  On Windows, C<:crlf> is applied by default unless you
-specify C<:raw>.  If you want C<:crlf>, you should apply it after
-calling C<encode_fh>.
+C<$filehandle> should probably have been opened in C<:raw> mode,
+especially if you might use an encoding that's not ASCII-compatible
+(e.g. UTF-16).  Applying a UTF-16 encoding on top of the C<:crlf>
+layer will produce invalid output.  On Windows, C<:crlf> is applied by
+default when you open a file unless you specify C<:raw>.  If you want
+C<:crlf>, you should apply it after calling C<encode_fh>.
 
 C<$encoding> may be any valid value for the L<_encoding|/encoding> attribute,
 except C<undef>.
