@@ -1987,11 +1987,14 @@ In TreeBuilder 6, the file is opened as defined by the TreeBuilder's
 C<encoding> attribute (L<HTML::Element/encoding>).  If not explicitly
 set, it is initialized from C<$HTML::Element::default_encoding> when
 the TreeBuilder is constructed (not when C<parse_file> is called).
+C<$HTML::Element::default_encoding> itself defaults to the value
+of C<$ENV{PERL_HTML_TREE_ENCODING}> when HTML::Element is loaded.
 
 If C<encoding> is C<undef> (the default), TreeBuilder opens the file
 using L<IO::HTML> (which uses the HTML5 encoding sniffing algorithm to
 automatically detect the file's encoding) and sets the C<encoding>
-attribute to the encoding used.
+attribute to the encoding used.  To restore the previous behavior of
+opening files in binary mode, set C<encoding> to the empty string.
 
 The return value is C<undef> if there's an error opening the file.  In
 that case, the error will be in C<$!>.

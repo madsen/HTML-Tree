@@ -23,6 +23,9 @@ use Module::Build ();
 
 our @ISA = ('Module::Build');
 
+# We don't want tests to be affected by the environment:
+delete $ENV{PERL_HTML_TREE_ENCODING};
+
 #=====================================================================
 
 sub prereq_failures
