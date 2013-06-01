@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.903    2013-06-01
+   Trial Release by Christopher J. Madsen
+
     [ENHANCEMENTS]
     * $HTML::Element::default_encoding gets its default value from
       $ENV{PERL_HTML_TREE_ENCODING}, so you can restore the old behavior
