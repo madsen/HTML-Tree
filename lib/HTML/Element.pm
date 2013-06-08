@@ -2144,7 +2144,7 @@ sub as_text {
     my $text = '';
     while (@pile) {
         if ( !defined( $pile[0] ) ) {    # undef!
-                                         # no-op
+            shift @pile;                 # how did that get in here?
         }
         elsif ( !ref( $pile[0] ) ) {     # text bit!  save it!
             $text .= shift @pile;
