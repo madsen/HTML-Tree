@@ -11,7 +11,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 3;
+use Test::More tests => 5;
 use HTML::TreeBuilder;
 
 my $tb = HTML::TreeBuilder->new();
@@ -32,6 +32,12 @@ like(
     qr|img has an invalid attribute name 'inval!d'|,
     'catch invalid atribute names'
 );
+
+# short attribute name (RT 86566)
+$html = HTML::Element->new_from_lol([p => { x => "abc"}]);
+
+like(eval { $html->as_XML }, qr{\Q<p x="abc">}, "allow 1-char attribute names");
+is($@, '', "no error from 1-char attribute name");
 
 # xhtml
 my $xhtml = HTML::TreeBuilder->new_from_content(q{<img src="foo.gif" />});

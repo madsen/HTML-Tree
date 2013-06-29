@@ -2250,7 +2250,7 @@ sub _xml_escape {
                 =~ s/&(?!                 # An ampersand that isn't followed by...
                 (\#\d+; |                 # A hash mark, digits and semicolon, or
                 \#x[\da-f]+; |            # A hash mark, "x", hex digits and semicolon, or
-                $START_CHAR$NAME_CHAR+; ) # A valid unicode entity name and semicolon
+                $START_CHAR$NAME_CHAR*; ) # A valid unicode entity name and semicolon
            )/&amp;/gx;    # Needs to be escaped to amp
         }
         else {
@@ -4571,7 +4571,7 @@ sub _valid_name {
     my $attr = shift
         or Carp::croak("sub valid_name requires an attribute name");
 
-    return (0) unless ( $attr =~ /^$START_CHAR$NAME_CHAR+$/ );
+    return (0) unless ( $attr =~ /^$START_CHAR$NAME_CHAR*$/ );
 
     return (1);
 }
