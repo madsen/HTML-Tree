@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.905    2013-06-29
+   Trial Release by Christopher J. Madsen
+
     [FIXES]
     * as_XML would not allow single-character attribute names (RT #86566)
 
