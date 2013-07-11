@@ -1873,7 +1873,7 @@ characters are encoded as HTML entities.  See L<HTML::Entities> for
 details.  If passed an empty string, no entities are encoded.
 
 If $indent_char is specified and defined, the HTML to be output is
-intented, using the string you specify (which you probably should
+indented, using the string you specify (which you probably should
 set to "\t", or some number of spaces, if you specify it).
 
 If C<\%optional_end_tags> is specified and defined, it should be
@@ -2977,7 +2977,7 @@ then you're there -- then that node's address is "0.2.10.0".
 
 As a bit of a special case, the address of the root is simply "0".
 
-I forsee this being used mainly for debugging, but you may
+I foresee this being used mainly for debugging, but you may
 find your own uses for it.
 
   $element_or_text = $h->address($address);
@@ -4075,7 +4075,7 @@ sub new_from_lol {
 
         my $tag_name = 'null';
 
-        # Recursion in in here:
+        # Recursion in here:
         for ( my $i = 0; $i < @$lol; ++$i ) {    # Iterate over children
             if ( ref( $lol->[$i] ) eq 'ARRAY' )
             {    # subtree: most common thing in loltree
@@ -4583,7 +4583,7 @@ sub _valid_name {
 C<(v4.0)>
 This method returns the class which will be used for new elements.  It
 defaults to HTML::Element, but can be overridden by subclassing or esoteric
-means best left to those will will read the source and then not complain when
+means best left to those that will read the source and then not complain when
 those esoteric means change.  (Just subclass.)
 
 =cut
