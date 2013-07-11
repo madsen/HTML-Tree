@@ -1,4 +1,3 @@
-
 #Time-stamp: "2001-02-23 20:07:25 MST" -*-Text-*-
 # This document contains text in Perl "POD" format.
 # Use a POD viewer like perldoc or perlman to render it.
@@ -166,7 +165,7 @@ Once you have an object (more later on exactly what that is), you can
 use the other kind of method call syntax, the syntax for B<object method>
 calls.  Calling object methods is just like class methods, except
 that instead of the ClassName as the special argument,
-you use an expression that yeilds an "object".  Usually this is
+you use an expression that yields an "object".  Usually this is
 just a scalar variable that you earlier captured the
 output of the constructor in.  Object method calls look like this:
 
@@ -375,7 +374,7 @@ Footnote: You may I<also> have been learning about references, in which
 case you're ready to hear that object values are just a kind of
 reference, except that they reflect the class that created thing they point
 to, instead of merely being a plain old array reference, hash reference,
-etc.  I<If> this makes makes sense to you, and you want to know more
+etc.  I<If> this makes sense to you, and you want to know more
 about how objects are implemented in Perl, have a look at the
 C<perltoot> man page. 
 
@@ -565,7 +564,7 @@ written to a file.  When it's restored later, its attributes will be
 accessible as normal.  But in the unlikely case that the loan object was
 saved in mid-calculation, the calculation may not be resumable.  This is
 because of the way that that I<particular> class does its calculations,
-but similar limitations may occur with objects from other classses.
+but similar limitations may occur with objects from other classes.
 
 But often, even I<wanting> to save an object is basically wrong -- what would
 saving an ftp I<session> even mean?  Saving the hostname, username, and
