@@ -40,7 +40,7 @@ BEGIN {
     }
     elsif ( $] < 5.00404 ) {
 
-        # Grudgingly accomodate ancient (pre-constant) versions.
+        # Grudgingly accommodate ancient (pre-constant) versions.
         eval 'sub DEBUG { $Debug } ';
     }
     elsif ( !$DEBUG ) {
@@ -490,7 +490,7 @@ sub warning {
             # Now maybe do a little dance to enforce P-strictness.
             # This seems like it should be integrated with the big
             # "ALL HOPE..." block, further below, but that doesn't
-            # seem feasable.
+            # seem feasible.
             if (    $self->{'_p_strict'}
                 and $HTML::TreeBuilder::isKnown{$tag}
                 and not $HTML::Tagset::is_Possible_Strict_P_Content{$tag} )
@@ -1074,7 +1074,7 @@ sub warning {
 
         my $ptag = ( my $p = $self->{'_pos'} || $self )->{'_tag'};
 
-        # $p and $ptag are sort-of stratch
+        # $p and $ptag are sort-of scratch
 
         if ( ref($tag) ) {
 
@@ -1253,7 +1253,7 @@ sub warning {
     #      and $children->[-1] =~ m<^\s+$>s # last node is all-WS
     #      and
     #        (
-    #         # has a tightable parent:
+    #         # has a tightenable parent:
     #         $HTML::TreeBuilder::canTighten{ $e_tag }
     #         or
     #          ( # has a tightenable left sibling:
@@ -2254,7 +2254,7 @@ You should not need to call any of the following methods directly.
 
 This method returns the class which will be used for new elements.  It
 defaults to HTML::Element, but can be overridden by subclassing or esoteric
-means best left to those will will read the source and then not complain when
+means best left to those that will read the source and then not complain when
 those esoteric means change.  (Just subclass.)
 
 =sub DEBUG
