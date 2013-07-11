@@ -57,7 +57,7 @@ Implicit elements have the implicit() attribute set.
 
 =item $HTML::Parse::IGNORE_UNKNOWN
 
-This variable contols whether unknow tags should be represented as
+This variable controls whether unknown tags should be represented as
 elements in the parse tree.  Default is true.
 
 =item $HTML::Parse::IGNORE_TEXT
@@ -93,7 +93,7 @@ require Exporter;
 our @ISA    = qw(Exporter);
 our @EXPORT = qw(parse_html parse_htmlfile);
 
-# Backwards compatability
+# Backwards compatibility
 our $IMPLICIT_TAGS  = 1;
 our $IGNORE_UNKNOWN = 1;
 our $IGNORE_TEXT    = 0;
