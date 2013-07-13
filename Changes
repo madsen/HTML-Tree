@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [DOCUMENTATION]
+    * typo fixes supplied by David Steinbrunner (GitHub #1)
+
 5.905    2013-06-29
    Trial Release by Christopher J. Madsen
 
