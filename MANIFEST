@@ -31,6 +31,7 @@ t/doctype.t
 t/dump.t
 t/encoding.t
 t/escape.t
+t/implicit-tags-off.t
 t/leaktest.t
 t/oldparse.html
 t/oldparse.t

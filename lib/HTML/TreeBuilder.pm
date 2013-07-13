@@ -2120,6 +2120,11 @@ have C<implicit_tags> set to false.)
 Default is true.
 
 Implicit elements have the L<HTML::Element/implicit> attribute set.
+If you set C<implicit_tags> to false, the resulting tree will have
+exactly one implicit element: the root C<< <html> >> tag.  That
+element will contain whatever tags you parsed, which might include an
+explicit C<< <html> >> tag (if there was one).  If you want just the
+parsed content, use C<< $tree->content_list >>.
 
 =attr implicit_body_p_tag
 
