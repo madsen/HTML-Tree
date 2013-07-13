@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.906    2013-07-13
+   Trial Release by Christopher J. Madsen
+
     [DOCUMENTATION]
     * Explain that implicit_tags => 0 still returns implicit <html> (RT #86062)
     * typo fixes supplied by David Steinbrunner (GitHub #1)
