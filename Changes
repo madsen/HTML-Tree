@@ -2,6 +2,8 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.907    2013-09-13  Trial Release by Christopher J. Madsen
+
     [ENHANCEMENTS]
     - New content_as_HTML & content_as_XML methods in HTML::Element
 
