@@ -2404,6 +2404,81 @@ sub as_Lisp_form {
     return join '', @out;
 }
 
+=method-dump as_lol
+
+  $a = $h->as_lol();
+
+Returns an arrayref representation of the passed element, in the same
+format that L</new_from_lol> expects: a reference to an array
+containing the tag name as a string, a hash reference describing the
+attributes of the element, and the children of the element (recursively);
+in that order.
+
+Children which are elements themselves become array references, while
+text children become simple text strings.
+
+Note that while L</new_from_lol> can take any number of attribute hashrefs,
+in any position of the array, this method always places all attributes
+in a single hash reference as the second element of the array.
+This mimics the relative positions of attributes and children in actual HTML.
+
+If an element has no attributes, no attribute hashref is created. It is easy
+enough to test for this case, however, since the hashref would have to appear
+in second position in the array.
+
+Example:
+
+  <a href="/index.html"><b>Next &gt;&gt;</b> Home</a>
+  ->
+  ['a', { href => '/index.html'}, ['b', 'Next >>'], ' Home'];
+
+=cut
+
+sub as_lol {
+    my ( $self ) = @_;
+
+    # The contents will be lols as well, or text strings
+    # Yes, even comments, processing instructions and the like.
+    my @contents = map {
+        ref($_) ? $_->as_lol() : $_;
+    } @{$self->{_content} || []};
+
+    # The attributes are those keys of %$self without a special
+    # name:
+    my @real_keys = grep {
+       $_ ne '_tag' and $_ ne '_name' and $_ ne '_content' and $_ ne '_parent'
+    } keys %$self;
+
+    # Copy via hash (ref) slicing
+    my %attributes = ();
+    @attributes{@real_keys} = @{$self}{@real_keys};
+
+    # The finished lol
+    return [
+        $self->{_tag},
+        (@real_keys ? (\%attributes) : ()),
+        @contents,
+    ];
+}
+
+=method-dump content_as_lol
+
+  @a = $h->content_as_lol();
+
+Returns the contents of an element as a list of array references or strings,
+depending on whether each content is an element or plain text.
+Note that an element can have 0 or more children; C<@a> might even be empty.
+
+=cut
+
+sub content_as_lol {
+    my ( $self ) = @_;
+    my $lol = $self->as_lol();
+    shift @$lol; # tag
+    shift @$lol if ref($lol->[0]) eq 'HASH'; # attributes
+    return @$lol; # children, if any
+}
+
 =method-dump format
 
   $s = $h->format; # use HTML::FormatText
