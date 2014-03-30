@@ -2617,7 +2617,7 @@ sub starttag_XML {
             $name = $self->{'text'};
         }
         $name =~ s/--/-&#45;/g;    # can't have double --'s in XML comments
-        return "<!-- $name -->";
+        return "<!--$name-->";
     }
 
     my $tag = "<$name";

@@ -29,6 +29,7 @@ t/body.t
 t/building.t
 t/children.t
 t/clonei.t
+t/comment.t
 t/construct_tree.t
 t/doctype.t
 t/dump.t
