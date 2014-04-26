@@ -21,6 +21,7 @@ t/00-all_prereqs.t
 t/00system.t
 t/Util.pm
 t/as-html.t
+t/as-lol.t
 t/as-xml.t
 t/assubs.t
 t/attributes.t

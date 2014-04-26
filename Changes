@@ -2,6 +2,10 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [ENHANCEMENTS]
+    - New as_lol & content_as_lol methods in HTML::Element
+      (Ben Deutsch, GitHub #2)
+
 5.907    2013-09-13  Trial Release by Christopher J. Madsen
 
     [ENHANCEMENTS]
