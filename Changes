@@ -6,6 +6,9 @@ Changelog for HTML-Tree
     - New as_lol & content_as_lol methods in HTML::Element
       (Ben Deutsch, GitHub #2)
 
+    [FIXES]
+    - as_XML inserted extra whitespace in comments (Tomaž Solc, RT #94311)
+
 5.907    2013-09-13  Trial Release by Christopher J. Madsen
 
     [ENHANCEMENTS]
