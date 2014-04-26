@@ -2408,6 +2408,7 @@ sub as_Lisp_form {
 
   $a = $h->as_lol();
 
+C<(v6.00)>
 Returns an arrayref representation of the passed element, in the same
 format that L</new_from_lol> expects: a reference to an array
 containing the tag name as a string, a hash reference describing the
@@ -2465,6 +2466,7 @@ sub as_lol {
 
   @a = $h->content_as_lol();
 
+C<(v6.00)>
 Returns the contents of an element as a list of array references or strings,
 depending on whether each content is an element or plain text.
 Note that an element can have 0 or more children; C<@a> might even be empty.
