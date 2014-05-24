@@ -2,6 +2,8 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+5.909    2014-05-24  Trial Release by Christopher J. Madsen
+
     [TESTS]
     - Skip LWP::UserAgent tests if the version installed is too old
     - Change 00system.t to use diag so the output is visible
