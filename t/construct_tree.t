@@ -82,8 +82,9 @@ is( $HTMLPart1 . $HTMLPart2, $HTML, "split \$HTML correctly" );
         # RECOMMEND PREREQ: URI::file
         require URI::file;
         require LWP::UserAgent;
+        LWP::UserAgent->VERSION(5.815);
         1;
-    } or skip("both URI::file and LWP::UserAgent needed for these tests",
+    } or skip("both URI::file and LWP::UserAgent 5.815 needed for these tests",
               3 + 3 * tests_per_object);
 
     my $file_url = URI->new( "file:" . $TestInput );

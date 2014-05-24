@@ -2,6 +2,9 @@ Changelog for HTML-Tree
 
 {{$NEXT}}
 
+    [TESTS]
+    - Skip LWP::UserAgent tests if the version installed is too old
+
 5.908    2014-05-17  Trial Release by Christopher J. Madsen
 
     [ENHANCEMENTS]
